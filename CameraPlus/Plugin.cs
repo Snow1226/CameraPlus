@@ -6,17 +6,18 @@ using IPA;
 using IPA.Loader;
 using IPALogger = IPA.Logging.Logger;
 using LogLevel = IPA.Logging.Logger.Level;
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace CameraPlus
 {
-    public class Plugin : IBeatSaberPlugin
+    [Plugin(RuntimeOptions.SingleStartInit)]
+    public class Plugin
     {
         private bool _init;
-        private HarmonyInstance _harmony;
+        private Harmony _harmony;
 
         public Action<Scene, Scene> ActiveSceneChanged;
         public ConcurrentDictionary<string, CameraPlusInstance> Cameras = new ConcurrentDictionary<string, CameraPlusInstance>();
@@ -25,19 +26,22 @@ namespace CameraPlus
         public static string Name => "CameraPlus";
         public static string MainCamera => "cameraplus";
 
+        [Init]
         public void Init(IPALogger logger)
         {
             Logger.log = logger;
             Logger.Log("Logger prepared", LogLevel.Debug);
+            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
+        [OnStart]
         public void OnApplicationStart()
         {
             if (_init) return;
             _init = true;
             Instance = this;
 
-            _harmony = HarmonyInstance.Create("com.brian91292.beatsaber.cameraplus");
+            _harmony = new Harmony("com.brian91292.beatsaber.cameraplus");
             try
             {
                 _harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -83,24 +87,10 @@ namespace CameraPlus
             }
         }
 
+        [OnStart]
         public void OnApplicationQuit()
         {
             _harmony.UnpatchAll("com.brian91292.beatsaber.cameraplus");
-        }
-
-        public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode) { }
-        public void OnSceneUnloaded(Scene scene) { }
-        public void OnUpdate() { }
-
-        public void OnFixedUpdate()
-        {
-            // Fix the cursor when the user resizes the main camera to be smaller than the canvas size and they hover over the black portion of the canvas
-            if (CameraPlusBehaviour.currentCursor != CameraPlusBehaviour.CursorType.None && !CameraPlusBehaviour.anyInstanceBusy && 
-                CameraPlusBehaviour.wasWithinBorder && CameraPlusBehaviour.GetTopmostInstanceAtCursorPos() == null)
-            {
-                CameraPlusBehaviour.SetCursor(CameraPlusBehaviour.CursorType.None);
-                CameraPlusBehaviour.wasWithinBorder = false;
-            }
         }
     }
 }

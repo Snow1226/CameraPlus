@@ -15,13 +15,9 @@ namespace CameraPlus
     {
         public override bool Init(CameraPlusBehaviour cameraPlus)
         {
-            if (Utils.IsModInstalled("SongLoaderPlugin"))
-            {
-                _cameraPlus = cameraPlus;
-                Plugin.Instance.ActiveSceneChanged += OnActiveSceneChanged;
-                return true;
-            }
-            return false;
+            _cameraPlus = cameraPlus;
+            Plugin.Instance.ActiveSceneChanged += OnActiveSceneChanged;
+            return true;
         }
         
         public override void OnActiveSceneChanged(Scene from, Scene to)
@@ -272,7 +268,7 @@ namespace CameraPlus
 
         public static void CreateExampleScript()
         {
-            string path = Path.Combine(BeatSaber.UserDataPath, Plugin.Name, "Scripts");
+            string path = Path.Combine(UnityGame.UserDataPath, Plugin.Name, "Scripts");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             string defaultScript = Path.Combine(path, "ExampleMovementScript.json");

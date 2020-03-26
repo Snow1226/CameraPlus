@@ -49,25 +49,5 @@ namespace CameraPlus
         {
             return (numberToCheck >= bottom && numberToCheck <= top);
         }
-
-        public static bool IsModInstalled(string modName)
-        {
-            Logger.Log($"Looking in BSIPA for {modName}.", LogLevel.Debug);
-            foreach (PluginLoader.PluginInfo p in PluginManager.AllPlugins)
-            {
-                if (p.Metadata.Name == modName || p.Metadata.Id == modName)
-                    return true;
-            }
-
-            Logger.Log($"{modName} not found in BSIPA. Looking through the legacy list instead...", LogLevel.Debug);
-            foreach (IPlugin p in PluginManager.Plugins)
-            {
-                if (p.Name == modName)
-                    return true;
-            }
-
-            Logger.Log($"{modName} was not found.", LogLevel.Debug);
-            return false;
-        }
     }
 }

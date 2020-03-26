@@ -18,7 +18,7 @@ namespace CameraPlus
         
         public static void AddNewCamera(string cameraName, Config CopyConfig = null, bool meme = false)
         {
-            string path = Path.Combine(BeatSaber.UserDataPath, Plugin.Name, $"{cameraName}.cfg");
+            string path = Path.Combine(UnityGame.UserDataPath, Plugin.Name, $"{cameraName}.cfg");
             if (!File.Exists(path))
             {
                 // Try to copy their old config file into the new camera location
@@ -141,9 +141,9 @@ namespace CameraPlus
         {
             try
             {
-                if (!Directory.Exists(Path.Combine(BeatSaber.UserDataPath, Plugin.Name)))
-                    Directory.CreateDirectory(Path.Combine(BeatSaber.UserDataPath, Plugin.Name));
-                string[] files = Directory.GetFiles(Path.Combine(BeatSaber.UserDataPath, Plugin.Name));
+                if (!Directory.Exists(Path.Combine(UnityGame.UserDataPath, Plugin.Name)))
+                    Directory.CreateDirectory(Path.Combine(UnityGame.UserDataPath, Plugin.Name));
+                string[] files = Directory.GetFiles(Path.Combine(UnityGame.UserDataPath, Plugin.Name));
                 foreach (string filePath in files)
                 {
                     string fileName = Path.GetFileName(filePath);

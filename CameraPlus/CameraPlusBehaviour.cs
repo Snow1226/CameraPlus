@@ -1087,5 +1087,15 @@ namespace CameraPlus
             _menuStrip.Items.Add(_extrasMenu);
             */
         }
+
+        private void FixedUpdate() {
+            // Fix the cursor when the user resizes the main camera to be smaller than the canvas size and they hover over the black portion of the canvas
+            if (CameraPlusBehaviour.currentCursor != CameraPlusBehaviour.CursorType.None && !CameraPlusBehaviour.anyInstanceBusy && 
+                CameraPlusBehaviour.wasWithinBorder && CameraPlusBehaviour.GetTopmostInstanceAtCursorPos() == null)
+            {
+                CameraPlusBehaviour.SetCursor(CameraPlusBehaviour.CursorType.None);
+                CameraPlusBehaviour.wasWithinBorder = false;
+            }
+        }
     }
 }
