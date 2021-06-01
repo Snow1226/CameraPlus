@@ -181,6 +181,7 @@
     <Compile Include="Behaviours\ScreenCameraBehaviour.cs" />
     <Compile Include="UI\BehaviourScriptEdit.cs" />
     <Compile Include="UI\MenuCamera2.cs" />
+    <Compile Include="UI\MenuGreenScreen.cs" />
     <Compile Include="UI\MenuDisplayObject.cs" />
     <Compile Include="UI\MenuExternalLink.cs" />
     <Compile Include="UI\MenuLayout.cs" />

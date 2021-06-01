@@ -71,6 +71,13 @@ namespace CameraPlus.Configuration
         public int VMCProtocolPort = 39540;
         //public int maxFps = 90;
 
+        // Greenscreen Settings
+        public string GreenScreenMode = "off";
+        public bool GreenScreenSaber = true;
+        public bool GreenScreenNotes = false;
+        public bool GreenScreenAvatar = true;
+        public string GreenScreenDebri = "link";
+
         public event Action<Config> ConfigChangedEvent;
 
         private readonly FileSystemWatcher _configWatcher;

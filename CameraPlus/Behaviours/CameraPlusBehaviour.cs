@@ -35,6 +35,7 @@ namespace CameraPlus.Behaviours
         protected const int AlwaysVisible = 10;
         protected const int NoteLayer = 8;
         protected const int CustomNoteLayer = 24;
+        protected const int SaberLayer = 12;
 
         public bool ThirdPerson
         {
@@ -745,6 +746,74 @@ namespace CameraPlus.Behaviours
         internal virtual void SetCullingMask()
         {
             int builder = Camera.main.cullingMask;
+
+            Debug.Log("Greenscreen Mode: " + Config.GreenScreenMode);
+            _cam.backgroundColor = Color.black;
+            _cam.clearFlags = CameraClearFlags.Color;
+
+            if (Config.GreenScreenMode != "off")
+            {
+                builder = 0;
+                if (Config.GreenScreenMode == "transparent")
+                {
+                    _cam.backgroundColor = Color.clear;
+                } else if(Config.GreenScreenMode == "greenscreen")
+                {
+                    _cam.backgroundColor = Color.green;
+                }
+
+                if (Config.GreenScreenAvatar)
+                {
+                    if (Config.thirdPerson || Config.use360Camera)
+                    {
+                        builder |= 1 << OnlyInThirdPerson;
+                        builder &= ~(1 << OnlyInFirstPerson);
+                    }
+                    else
+                    {
+                        builder |= 1 << OnlyInFirstPerson;
+                        builder &= ~(1 << OnlyInThirdPerson);
+                    }
+                    builder |= 1 << AlwaysVisible;
+                }
+                else
+                {
+                    builder &= ~(1 << OnlyInThirdPerson);
+                    builder &= ~(1 << OnlyInFirstPerson);
+                    builder &= ~(1 << AlwaysVisible);
+                }
+                if (Config.GreenScreenDebri != "link")
+                {
+                    if (Config.GreenScreenDebri == "show")
+                        builder |= (1 << NotesDebriLayer);
+                    else
+                        builder &= ~(1 << NotesDebriLayer);
+                }
+                if (Config.GreenScreenNotes)
+                {
+                    builder &= ~(1 << CustomNoteLayer);
+                    builder |= 1 << NoteLayer;
+                }
+                else
+                {
+                    builder &= ~(1 << CustomNoteLayer);
+                    builder &= ~(1 << NoteLayer);
+                }
+                if (Config.GreenScreenSaber)
+                {
+                    builder |= 1 << SaberLayer;
+                } else
+                {
+                    builder &= ~(1 << SaberLayer);
+                }
+
+                _cam.cullingMask = builder;
+                return;
+            }
+
+            _cam.clearFlags = CameraClearFlags.SolidColor;
+            _cam.backgroundColor = Color.black;
+
             if (Config.transparentWalls)
                 builder &= ~(1 << TransparentWallsPatch.WallLayerMask);
             else

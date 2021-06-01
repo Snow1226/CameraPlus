@@ -16,7 +16,8 @@ namespace CameraPlus.UI
             Profile,
             MovementScript,
             Camera2Converter,
-            ExternalLink
+            ExternalLink,
+            GreenScreen
         }
         internal Vector2 menuPos
         {
@@ -47,6 +48,7 @@ namespace CameraPlus.UI
         private MenuMovementScript menuMovementScript;
         private MenuCamera2 menuCamera2Converter;
         private MenuExternalLink menuExternalLink;
+        private MenuGreenScreen menuGreenScreen;
 
         public void EnableMenu(Vector2 mousePos, CameraPlusBehaviour parentBehaviour)
         {
@@ -65,6 +67,7 @@ namespace CameraPlus.UI
             menuMovementScript = new MenuMovementScript();
             menuCamera2Converter = new MenuCamera2();
             menuExternalLink = new MenuExternalLink();
+            menuGreenScreen = new MenuGreenScreen();
 
             if (this.parentBehaviour.Config.LockScreen)
                 texture = CustomUtils.LoadTextureFromResources("CameraPlus.Resources.Lock.png");
@@ -220,6 +223,8 @@ namespace CameraPlus.UI
                         MenuMode = MenuState.Layout;
                     if (GUI.Button(new Rect(menuPos.x + 5, menuPos.y + 295, 145, 40), new GUIContent("Multiplayer")))
                         MenuMode = MenuState.Multiplayer;
+                    if (GUI.Button(new Rect(menuPos.x + 150, menuPos.y + 295, 145, 40), new GUIContent("Greenscreen Mode")))
+                        MenuMode = MenuState.GreenScreen;
                     if (GUI.Button(new Rect(menuPos.x + 5, menuPos.y + 340, 145, 40), new GUIContent("Profile Saver")))
                         MenuMode = MenuState.Profile;
                     if (GUI.Button(new Rect(menuPos.x + 150, menuPos.y + 340, 145, 40), new GUIContent("MovementScript")))
@@ -258,6 +263,8 @@ namespace CameraPlus.UI
                     menuLayout.DiplayMenu(parentBehaviour, this, menuPos);
                 else if (MenuMode == MenuState.Multiplayer)
                     menuMultiplayer.DiplayMenu(parentBehaviour, this, menuPos);
+                else if (MenuMode == MenuState.GreenScreen)
+                    menuGreenScreen.DisplayMenu(parentBehaviour, this, menuPos);
                 else if (MenuMode == MenuState.Profile)
                     menuProfile.DiplayMenu(parentBehaviour, this, menuPos);
                 else if (MenuMode == MenuState.MovementScript)
