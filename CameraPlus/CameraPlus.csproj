@@ -174,6 +174,7 @@
     <Compile Include="Camera2Utils\Camera2ConfigExporter.cs" />
     <Compile Include="Camera2Utils\Camera2Scenes.cs" />
     <Compile Include="Behaviours\CameraMovement.cs" />
+    <Compile Include="Configuration\CameraConfigJson.cs" />
     <Compile Include="Configuration\MovementScriptJson.cs" />
     <Compile Include="Behaviours\CameraMoverPointer.cs" />
     <Compile Include="Behaviours\CameraPlusBehaviour.cs" />
