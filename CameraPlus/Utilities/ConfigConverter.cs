@@ -16,15 +16,29 @@ namespace CameraPlus.Utilities
         {
             PreviousConfig previousConfig;
             CameraConfig cameraConfig;
+#if DEBUG
+            // ここでDirectoryNameを取得すると作ろうとしているDirectoryの名前を取得してしまうため、
+            // 本来作ろうとしているDirectoryの一個上までしかDirectoryが作られない。
+            Logger.Debug(Path.GetDirectoryName(previousPath));
+            Logger.Debug(previousPath);
+#endif
+            // Directory作っちゃダメ？
+            // ここでreturnしちゃうとDefaultConfigConverterでフォルダないなってて詰む
+            if (!Directory.Exists(previousPath))
+                Directory.CreateDirectory(previousPath);
 
-            if (!Directory.Exists(Path.GetDirectoryName(previousPath)))
-                return;
-
-            if (!Directory.Exists(Path.GetDirectoryName(profilePath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(profilePath));
-
-            if (!Directory.Exists(Path.GetDirectoryName(backupPath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(backupPath));
+#if DEBUG
+            Logger.Debug(Path.GetDirectoryName(profilePath));
+            Logger.Debug(profilePath);
+#endif
+            if (!Directory.Exists(profilePath))
+                Directory.CreateDirectory(profilePath);
+#if DEBUG
+            Logger.Debug(Path.GetDirectoryName(backupPath));
+            Logger.Debug(backupPath);
+#endif
+            if (!Directory.Exists(backupPath))
+                Directory.CreateDirectory(backupPath);
 
             DirectoryInfo dir = new DirectoryInfo(previousPath);
             foreach(var dirInfo in dir.GetDirectories())
