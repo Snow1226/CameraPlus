@@ -1,3 +1,6 @@
+# v7.0.0 backport
+- for game version 1.29.1  
+
 # v7.0.0 Changes
 - Support game version 1.30.2  
 - The camera preview can now be detached from the cube and fixed in place.  
