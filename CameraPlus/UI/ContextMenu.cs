@@ -996,6 +996,7 @@ namespace CameraPlus.UI
                         {
                             CameraUtilities.ProfileChange(_profileNameList[_selectedProfile]);
                             _configList = CameraUtilities.CameraSettingList(Plugin.cameraController.CurrentProfile);
+                            Plugin.cameraController.CloseContextMenu();
                         }
 
                         if(MenuUI.ToggleSwitch(0, 18, "Load profile on scene change", PluginConfig.Instance.ProfileSceneChange, 12, 2, 1.5f))
