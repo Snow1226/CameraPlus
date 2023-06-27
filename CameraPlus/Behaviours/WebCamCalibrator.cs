@@ -50,7 +50,7 @@ namespace CameraPlus.Behaviours
         {
             if (_vrPointer != null)
             {
-                if (_vrPointer.lastSelectedVrController.triggerValue > 0.9f)
+                if (_vrPointer.vrController.triggerValue > 0.9f)
                 {
                     _vrControllerTriggerd = true;
                     if (_triggerTime == 0)
@@ -66,24 +66,24 @@ namespace CameraPlus.Behaviours
                         case CalState.None:
                             break;
                         case CalState.WebCamPosition:
-                            _camPosition = _vrPointer.lastSelectedVrController.transform.position;
+                            _camPosition = _vrPointer.vrController.transform.position;
                             _state = CalState.CenterPosition;
                             _targetBehaviour.ThirdPersonPos = _camPosition;
                             _targetBehaviour.Config.Position = _camPosition;
                             CalibratorCenter();
                             break;
                         case CalState.CenterPosition:
-                            _centerPosition = _vrPointer.lastSelectedVrController.transform.position;
+                            _centerPosition = _vrPointer.vrController.transform.position;
                             _state = CalState.LeftPosition;
                             CalibratorLeft();
                             break;
                         case CalState.LeftPosition:
-                            _leftPosition = _vrPointer.lastSelectedVrController.transform.position;
+                            _leftPosition = _vrPointer.vrController.transform.position;
                             _state = CalState.RightPosition;
                             CalibratorRight();
                             break;
                         case CalState.RightPosition:
-                            _rightPosition = _vrPointer.lastSelectedVrController.transform.position;
+                            _rightPosition = _vrPointer.vrController.transform.position;
 
                             _state = CalState.None;
 

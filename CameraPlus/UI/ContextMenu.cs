@@ -6,7 +6,6 @@ using CameraPlus.Utilities;
 using CameraPlus.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
-using UniVRM10;
 
 namespace CameraPlus.UI
 {
@@ -46,8 +45,7 @@ namespace CameraPlus.UI
         {
             DoF,
             Wipe,
-            Outline,
-            Glitch
+            Outline
         }
 
         private bool _showMenu;
@@ -957,29 +955,6 @@ namespace CameraPlus.UI
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Right";
                                 if (MenuUI.ToggleButton(6, 22, "Bottom to Top", _cameraPlus.Config.WipeType == "Bottom", 4, 2))
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Bottom";
-                                break;
-                            case EffectSettingState.Glitch:
-                                if (MenuUI.ToggleSwitch(0, 3, "Glitch", _cameraPlus.Config.GlitchEnable, 6, 2, 1.5f))
-                                    _cameraPlus.Config.GlitchEnable = _cameraPlus.effectElements.enableGlitch = !_cameraPlus.Config.GlitchEnable;
-                                float[] glitchValue = _cameraPlus.Config.GlitchValue;
-                                MenuUI.Label(0, 6, "Line speed", 6, 2);
-                                if (MenuUI.DoubleSpinBox(0, 8, ref glitchValue[0], 0.1f, 1, 0, 10, 1, 6, 2))
-                                    _cameraPlus.Config.GlitchLineSpeed = _cameraPlus.effectElements.glitchLineSpeed = glitchValue[0];
-                                MenuUI.Label(6, 6, "Line size", 6, 2);
-                                if (MenuUI.DoubleSpinBox(6, 8, ref glitchValue[1], 0.01f, 0.1f, 0, 1, 2, 6, 2))
-                                    _cameraPlus.Config.GlitchLineSize = _cameraPlus.effectElements.glitchLineSize = glitchValue[1];
-                                MenuUI.Label(0, 10, "Color gap", 6, 2);
-                                if (MenuUI.DoubleSpinBox(0, 12, ref glitchValue[2], 0.01f, 0.1f, 0, 1, 2, 6, 2))
-                                    _cameraPlus.Config.GlitchColorGap = _cameraPlus.effectElements.glitchColorGap = glitchValue[2];
-                                MenuUI.Label(0, 14, "Frame rate", 6, 2);
-                                if (MenuUI.SpinBox(0, 16, ref glitchValue[3], 1, 0, 30, 0, 6, 2))
-                                    _cameraPlus.Config.GlitchFrameRate = _cameraPlus.effectElements.glitchFrameRate = glitchValue[3];
-                                MenuUI.Label(6, 14, "Frequency", 6, 2);
-                                if (MenuUI.DoubleSpinBox(6, 16, ref glitchValue[4], 0.01f, 0.1f, 0, 1, 2, 6, 2))
-                                    _cameraPlus.Config.GlitchFrequency = _cameraPlus.effectElements.glitchFrequency = glitchValue[4];
-                                MenuUI.Label(0, 18, "Scale", 6, 2);
-                                if (MenuUI.SpinBox(0, 20, ref glitchValue[5], 1, 1, 10, 0, 6, 2))
-                                    _cameraPlus.Config.GlitchScale = _cameraPlus.effectElements.glitchScale = glitchValue[5];
                                 break;
                         }
                         if (MenuUI.Button(0, 32, "Back top menu", 12, 2))

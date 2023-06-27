@@ -32,15 +32,11 @@ Shader "BeatSaber/BlitCopyWithDepth" {
             struct appdata_t {
                 float4 vertex : POSITION;
                 float2 texcoord : TEXCOORD0;
-
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f {
                 float4 vertex : SV_POSITION;
                 float2 texcoord : TEXCOORD0;
-
-                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             bool IsVRCamera() {
@@ -53,11 +49,6 @@ Shader "BeatSaber/BlitCopyWithDepth" {
             v2f vert(appdata_t v)
             {
                 v2f o;
-
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_INITIALIZE_OUTPUT(v2f, o);
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 if(_IsVRCameraOnly == 1)
                     o.vertex.xyz *= IsVRCamera();

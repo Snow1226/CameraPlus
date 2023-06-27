@@ -27,11 +27,11 @@
 	sampler2D _MainTex;
 	float4 _MainTex_TexelSize;
 	sampler2D _BlurTex;
+	sampler2D _CameraDepthTexture;
 	float4 _offsets;
 	float _focalDistance;
 	float _nearBlurScale;
 	float _farBlurScale;
-	UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
 
 	v2f_blur vert_blur(appdata_img v)
 	{

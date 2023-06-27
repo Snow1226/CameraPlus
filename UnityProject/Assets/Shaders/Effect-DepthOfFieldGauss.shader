@@ -24,10 +24,10 @@
     sampler2D _MainTex;
     float4 _MainTex_ST;
     float4 _MainTex_TexelSize;
+    sampler2D _CameraDepthTexture;
     float _FocusDistance;
     float _FocusRange;
     float _BlurRadius;
-     UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
 
     VertexOutput vert (VertexInput v)
     {
