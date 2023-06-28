@@ -6,7 +6,6 @@ using CameraPlus.Utilities;
 using CameraPlus.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
-using UniVRM10;
 
 namespace CameraPlus.UI
 {
