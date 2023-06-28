@@ -433,10 +433,10 @@ namespace CameraPlus.Behaviours
                     {
                         turnToTarget = Camera.main.transform;
                         turnToTarget.transform.position += turnToHeadOffset;
-                        var direction = turnToTarget.position - transform.position;
+                        var direction = turnToTarget.position - _cam.transform.position;
                         var lookRotation = Quaternion.LookRotation(direction);
                         if (turnToHeadHorizontal)
-                            _cam.transform.localEulerAngles = new Vector3(_cam.transform.eulerAngles.x,lookRotation.eulerAngles.y, _cam.transform.eulerAngles.z);
+                            _cam.transform.localEulerAngles = new Vector3(_cam.transform.eulerAngles.x, lookRotation.eulerAngles.y, _cam.transform.eulerAngles.z);
                         else
                             _cam.transform.localRotation = lookRotation;
                         //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Config.cameraExtensions.rotationSmooth);

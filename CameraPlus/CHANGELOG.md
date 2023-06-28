@@ -1,4 +1,5 @@
 # v7.0.1 backport
+- Fix turn to head bug.  
 - Added sub-window movement in MovementScript.  
 - Fixed a bug that limited movementscript camera position.  
 - Misoperation prevention in profile load.  
