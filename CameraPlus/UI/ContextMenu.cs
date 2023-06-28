@@ -6,6 +6,7 @@ using CameraPlus.Utilities;
 using CameraPlus.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using UniVRM10;
 
 namespace CameraPlus.UI
 {
@@ -45,7 +46,8 @@ namespace CameraPlus.UI
         {
             DoF,
             Wipe,
-            Outline
+            Outline,
+            Glitch
         }
 
         private bool _showMenu;
@@ -129,13 +131,13 @@ namespace CameraPlus.UI
             if (!this) return;
             this.enabled = false;
             _showMenu = false;
-            if(_cameraPlus && !_cameraPlus._isCameraDestroyed)
+            if (_cameraPlus && !_cameraPlus._isCameraDestroyed)
                 _cameraPlus?.Config.Save();
         }
 
         private int SelectedListNumber(string[] list, string selectedName)
         {
-            for(int i=0; i<list.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 if (list[i] == selectedName)
                     return i;
@@ -229,7 +231,7 @@ namespace CameraPlus.UI
                         _selectedConfig = MenuUI.SelectionGrid(0, 27, _selectedConfig, ref _currentConfigPage, _configList, Path.GetFileName(_cameraPlus.Config.FilePath), 4, 12);
                         if (MenuUI.Button(4, 27, "Change\ntarget\nconfig", 2, 5))
                         {
-                            foreach(var c in Plugin.cameraController.Cameras.Values)
+                            foreach (var c in Plugin.cameraController.Cameras.Values)
                             {
                                 if (c.gameObject.activeInHierarchy && Path.GetFileName(c.Config.FilePath) == _configList[_selectedConfig])
                                     _cameraPlus = c;
@@ -305,10 +307,10 @@ namespace CameraPlus.UI
                                 var nearClip = _cameraPlus.Config.cameraExtensions.nearClip;
                                 var neardellta = nearClip >= 100 ? 10 : 1;
                                 if (MenuUI.DoubleSpinBox(0, 21, ref nearClip, 0.1f, neardellta, 0.1f, 1000, 1, 6, 2))
-                                    _cameraPlus.Config.cameraExtensions.nearClip =_cameraPlus._cam.nearClipPlane = nearClip;
+                                    _cameraPlus.Config.cameraExtensions.nearClip = _cameraPlus._cam.nearClipPlane = nearClip;
                                 MenuUI.Label(6, 19, "Far clip plane", 6, 2);
                                 var farClip = _cameraPlus.Config.cameraExtensions.farClip;
-                                var fardelta = farClip >= 100 ? 10 : 1; 
+                                var fardelta = farClip >= 100 ? 10 : 1;
                                 if (MenuUI.DoubleSpinBox(6, 21, ref farClip, 0.1f, fardelta, 0.1f, 1000, 1, 6, 2))
                                     _cameraPlus.Config.cameraExtensions.farClip = _cameraPlus._cam.farClipPlane = farClip;
 
@@ -334,9 +336,9 @@ namespace CameraPlus.UI
                                 if (MenuUI.HorizontalSelection(0, 31, ref _selectedMultiplayerNum, _multiplayerList, 12, 2))
                                     _cameraPlus.Config.multiplayer.targetPlayerNumber = _selectedMultiplayerNum + 1;
                                 MenuUI.Box(0, 33, "Number Extension", 6, 2);
-                                if(MenuUI.Button(6, 33, "<", 2, 2))
+                                if (MenuUI.Button(6, 33, "<", 2, 2))
                                 {
-                                    if(_cameraPlus.Config.multiplayer.targetPlayerNumber > 0)
+                                    if (_cameraPlus.Config.multiplayer.targetPlayerNumber > 0)
                                         _cameraPlus.Config.multiplayer.targetPlayerNumber -= 1;
                                 }
                                 MenuUI.Box(8, 33, _cameraPlus.Config.multiplayer.targetPlayerNumber > 0 ? _cameraPlus.Config.multiplayer.targetPlayerNumber.ToString() : "-", 2, 2);
@@ -497,7 +499,7 @@ namespace CameraPlus.UI
 
                         MenuUI.Label(0, 9, "Cube Scale", 6, 2);
                         var cubeSize = PluginConfig.Instance.CameraCubeSize;
-                        if(MenuUI.SpinBox(0, 11, ref cubeSize, 0.1f, 0.1f, 1, 1, 6, 2))
+                        if (MenuUI.SpinBox(0, 11, ref cubeSize, 0.1f, 0.1f, 1, 1, 6, 2))
                         {
                             PluginConfig.Instance.CameraCubeSize = cubeSize;
                             foreach (CameraPlusBehaviour cam in Plugin.cameraController.Cameras.Values)
@@ -542,7 +544,7 @@ namespace CameraPlus.UI
                                 _amountPosition = float.Parse(_amountPosList[_selectedAmountPosition]);
                             _pos = _cameraPlus.Config.PreviewQuadPositionFloat;
 
-                            if (MenuUI.AxizEdit(0, 26,ref _pos, _amountPosition, 12, 4))
+                            if (MenuUI.AxizEdit(0, 26, ref _pos, _amountPosition, 12, 4))
                             {
                                 _cameraPlus.Config.PreviewQuadPositionFloat = _pos;
                                 _cameraPlus._quad.SetCameraQuadSeparatePosition();
@@ -583,7 +585,8 @@ namespace CameraPlus.UI
                                 MenuUI.Box(0, 5, "Window size", 12, 6);
                                 MenuUI.Label(0, 7, "Width", 6, 2);
                                 var screenWidth = (float)_cameraPlus.Config.screenWidth;
-                                if (MenuUI.DoubleSpinBox(0, 9, ref screenWidth, 1, 20, 1, Screen.width, 0, 6, 2)){
+                                if (MenuUI.DoubleSpinBox(0, 9, ref screenWidth, 1, 20, 1, Screen.width, 0, 6, 2))
+                                {
                                     _cameraPlus.Config.screenWidth = (int)screenWidth;
                                     _cameraPlus.CreateScreenRenderTexture();
                                 }
@@ -598,17 +601,17 @@ namespace CameraPlus.UI
                                 MenuUI.Box(0, 12, "Screen position", 12, 6);
                                 MenuUI.Label(0, 14, "X", 6, 2);
                                 var screenX = (float)_cameraPlus.Config.screenPosX;
-                                if (MenuUI.DoubleSpinBox(0, 16, ref screenX, 1, 20, 1, Screen.width - _cameraPlus.Config.screenWidth, 0, 6, 2))
+                                if (MenuUI.DoubleSpinBox(0, 16, ref screenX, 1, 20, 0, Screen.width - _cameraPlus.Config.screenWidth, 0, 6, 2))
                                 {
                                     _cameraPlus.Config.screenPosX = (int)screenX;
-                                    _cameraPlus.CreateScreenRenderTexture();
+                                    _cameraPlus._screenCamera.SetPosition(new Vector2(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY));
                                 }
                                 MenuUI.Label(6, 14, "Y", 6, 2);
                                 var screenY = (float)_cameraPlus.Config.screenPosY;
-                                if (MenuUI.DoubleSpinBox(6, 16, ref screenY, 1, 20, 1, Screen.height - _cameraPlus.Config.screenHeight, 0, 6, 2))
+                                if (MenuUI.DoubleSpinBox(6, 16, ref screenY, 1, 20, 0, Screen.height - _cameraPlus.Config.screenHeight, 0, 6, 2))
                                 {
-                                    _cameraPlus.Config.screenPosY =(int)screenY;
-                                    _cameraPlus.CreateScreenRenderTexture();
+                                    _cameraPlus.Config.screenPosY = (int)screenY;
+                                    _cameraPlus._screenCamera.SetPosition(new Vector2(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY));
                                 }
 
 
@@ -663,16 +666,16 @@ namespace CameraPlus.UI
 
                                 break;
                             case LayoutState.Template:
-                                if(MenuUI.Button(0,3,"Side by side\n\n for multiplayer\nlayout", 6, 6))
+                                if (MenuUI.Button(0, 3, "Side by side\n\n for multiplayer\nlayout", 6, 6))
                                 {
                                     int count = _configList.Length;
-                                    for(int i = 0; i < count; i++)
+                                    for (int i = 0; i < count; i++)
                                     {
                                         var cam = CameraUtilities.TargetCameraPlus(_configList[i], Plugin.cameraController.CurrentProfile);
-                                        if(cam != null)
+                                        if (cam != null)
                                         {
                                             cam.Config.fitToCanvas = false;
-                                            cam.Config.screenWidth = i==count-1 ? Screen.width - Mathf.CeilToInt(Screen.width / count) * (count-1) : Mathf.CeilToInt(Screen.width / count) ;
+                                            cam.Config.screenWidth = i == count - 1 ? Screen.width - Mathf.CeilToInt(Screen.width / count) * (count - 1) : Mathf.CeilToInt(Screen.width / count);
                                             cam.Config.screenHeight = Screen.height;
                                             cam.Config.screenPosX = Mathf.CeilToInt(Screen.width / count) * i;
                                             cam.Config.screenPosY = 0;
@@ -693,10 +696,10 @@ namespace CameraPlus.UI
                                         if (cam != null)
                                         {
                                             cam.Config.fitToCanvas = false;
-                                            cam.Config.screenWidth = i == col - 1 || i - col == col -1 ? Screen.width - Mathf.CeilToInt(Screen.width / col) * (col - 1) : Mathf.CeilToInt(Screen.width / col);
+                                            cam.Config.screenWidth = i == col - 1 || i - col == col - 1 ? Screen.width - Mathf.CeilToInt(Screen.width / col) * (col - 1) : Mathf.CeilToInt(Screen.width / col);
                                             cam.Config.screenHeight = Screen.height / 2;
                                             cam.Config.screenPosX = Mathf.CeilToInt(Screen.width / col) * (i < col ? i : i - col);
-                                            cam.Config.screenPosY = i < col ? Screen.height / 2 : 0 ;
+                                            cam.Config.screenPosY = i < col ? Screen.height / 2 : 0;
                                             cam.Config.cameraLock.lockScreen = true;
                                             cam.Config.multiplayer.targetPlayerNumber = i;
                                             cam.CreateScreenRenderTexture();
@@ -825,7 +828,7 @@ namespace CameraPlus.UI
                         if (MenuUI.ToggleSwitch(0, 2, "Song specific script", _cameraPlus.Config.movementScript.songSpecificScript, 6, 2, 1.5f))
                             _cameraPlus.Config.movementScript.songSpecificScript = !_cameraPlus.Config.movementScript.songSpecificScript;
 
-                        _selectedScript = MenuUI.SelectionGrid(0, 5, _selectedScript, ref _currentScriptPage, _scriptList, 
+                        _selectedScript = MenuUI.SelectionGrid(0, 5, _selectedScript, ref _currentScriptPage, _scriptList,
                             (_cameraPlus.Config.movementScript.movementScript == string.Empty ? "[ MovementScript Off ]" : Path.GetFileName(_cameraPlus.Config.movementScript.movementScript)), 6, 12);
 
                         if (MenuUI.Button(0, 18, "Set MovementScript", 6, 2))
@@ -859,7 +862,7 @@ namespace CameraPlus.UI
                         switch (_effectState)
                         {
                             case EffectSettingState.DoF:
-                                if(MenuUI.ToggleSwitch(0,3,"Depth of field", _cameraPlus.Config.DoFEnable, 6,2, 1.5f))
+                                if (MenuUI.ToggleSwitch(0, 3, "Depth of field", _cameraPlus.Config.DoFEnable, 6, 2, 1.5f))
                                     _cameraPlus.Config.DoFEnable = _cameraPlus.effectElements.enableDOF = !_cameraPlus.Config.DoFEnable;
                                 if (MenuUI.ToggleSwitch(6, 3, "Use slider", _useSlider, 6, 2, 1.5f))
                                     _useSlider = !_useSlider;
@@ -869,13 +872,13 @@ namespace CameraPlus.UI
 
                                 MenuUI.Box(0, 8, $"Focus distance : {_cameraPlus.effectElements.dofFocusDistance.ToString("F2")}", 12, 4);
                                 var dist = _cameraPlus.Config.DoFFocusDistance;
-                                if (MenuUI.SwitchableSlider(0, 10, ref dist, 0, 100, _useSlider, 12, 2)) 
+                                if (MenuUI.SwitchableSlider(0, 10, ref dist, 0, 100, _useSlider, 12, 2))
                                     _cameraPlus.Config.DoFFocusDistance = _cameraPlus.effectElements.dofFocusDistance = dist;
 
                                 MenuUI.Box(0, 12, $"Focus range : {_cameraPlus.Config.DoFFocusRange.ToString("F2")}", 12, 4);
                                 var rng = _cameraPlus.Config.DoFFocusRange;
                                 if (MenuUI.SwitchableSlider(0, 14, ref rng, 0, 100, _useSlider, 12, 2))
-                                    _cameraPlus.Config.DoFFocusRange= _cameraPlus.effectElements.dofFocusRange = rng;
+                                    _cameraPlus.Config.DoFFocusRange = _cameraPlus.effectElements.dofFocusRange = rng;
 
                                 MenuUI.Box(0, 16, $"Blur size : {_cameraPlus.Config.DoFBlurRadius.ToString("F2")}", 12, 4);
                                 var blur = _cameraPlus.Config.DoFBlurRadius;
@@ -892,7 +895,7 @@ namespace CameraPlus.UI
                                 MenuUI.Label(0, 5, $"Outline Only : {_cameraPlus.Config.OutlineOnly.ToString("F2")}", 6, 2);
                                 var outlineState = _cameraPlus.Config.OutlineOnly;
                                 if (MenuUI.SwitchableSliderShort(0, 7, ref outlineState, 0, 1, _useSlider, 6, 2))
-                                    _cameraPlus.Config.OutlineOnly = _cameraPlus.effectElements.outlineOnly= outlineState;
+                                    _cameraPlus.Config.OutlineOnly = _cameraPlus.effectElements.outlineOnly = outlineState;
 
                                 float[] lineColor = _cameraPlus.Config.OutlineColorValue;
                                 MenuUI.Label(0, 9, "Outline color", 12, 2);
@@ -939,13 +942,13 @@ namespace CameraPlus.UI
                                 MenuUI.Label(0, 9, $"Center offset", 12, 2);
                                 MenuUI.Label(0, 11, "x", 6, 2);
                                 MenuUI.Label(6, 11, "y", 6, 2);
-                                if(MenuUI.DoubleSpinBox(0,13, ref wipeOffset[0], 0.01f, 0.1f, -0.5f, 0.5f, 2, 6, 2))
+                                if (MenuUI.DoubleSpinBox(0, 13, ref wipeOffset[0], 0.01f, 0.1f, -0.5f, 0.5f, 2, 6, 2))
                                     _cameraPlus.Config.WipeCircleCenterValue = _cameraPlus.effectElements.wipeCircleCenterValue = wipeOffset;
                                 if (MenuUI.DoubleSpinBox(6, 13, ref wipeOffset[1], 0.01f, 0.1f, -0.5f, 0.5f, 2, 6, 2))
                                     _cameraPlus.Config.WipeCircleCenterValue = _cameraPlus.effectElements.wipeCircleCenterValue = wipeOffset;
 
                                 MenuUI.Label(0, 16, "Wipe type", 6, 2);
-                                if (MenuUI.ToggleButton(0,18, "Circle", _cameraPlus.Config.WipeType == "Circle", 4, 6))
+                                if (MenuUI.ToggleButton(0, 18, "Circle", _cameraPlus.Config.WipeType == "Circle", 4, 6))
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Circle";
                                 if (MenuUI.ToggleButton(6, 18, "Top to Bottom", _cameraPlus.Config.WipeType == "Top", 4, 2))
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Top";
@@ -955,6 +958,29 @@ namespace CameraPlus.UI
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Right";
                                 if (MenuUI.ToggleButton(6, 22, "Bottom to Top", _cameraPlus.Config.WipeType == "Bottom", 4, 2))
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Bottom";
+                                break;
+                            case EffectSettingState.Glitch:
+                                if (MenuUI.ToggleSwitch(0, 3, "Glitch", _cameraPlus.Config.GlitchEnable, 6, 2, 1.5f))
+                                    _cameraPlus.Config.GlitchEnable = _cameraPlus.effectElements.enableGlitch = !_cameraPlus.Config.GlitchEnable;
+                                float[] glitchValue = _cameraPlus.Config.GlitchValue;
+                                MenuUI.Label(0, 6, "Line speed", 6, 2);
+                                if (MenuUI.DoubleSpinBox(0, 8, ref glitchValue[0], 0.1f, 1, 0, 10, 1, 6, 2))
+                                    _cameraPlus.Config.GlitchLineSpeed = _cameraPlus.effectElements.glitchLineSpeed = glitchValue[0];
+                                MenuUI.Label(6, 6, "Line size", 6, 2);
+                                if (MenuUI.DoubleSpinBox(6, 8, ref glitchValue[1], 0.01f, 0.1f, 0, 1, 2, 6, 2))
+                                    _cameraPlus.Config.GlitchLineSize = _cameraPlus.effectElements.glitchLineSize = glitchValue[1];
+                                MenuUI.Label(0, 10, "Color gap", 6, 2);
+                                if (MenuUI.DoubleSpinBox(0, 12, ref glitchValue[2], 0.01f, 0.1f, 0, 1, 2, 6, 2))
+                                    _cameraPlus.Config.GlitchColorGap = _cameraPlus.effectElements.glitchColorGap = glitchValue[2];
+                                MenuUI.Label(0, 14, "Frame rate", 6, 2);
+                                if (MenuUI.SpinBox(0, 16, ref glitchValue[3], 1, 0, 30, 0, 6, 2))
+                                    _cameraPlus.Config.GlitchFrameRate = _cameraPlus.effectElements.glitchFrameRate = glitchValue[3];
+                                MenuUI.Label(6, 14, "Frequency", 6, 2);
+                                if (MenuUI.DoubleSpinBox(6, 16, ref glitchValue[4], 0.01f, 0.1f, 0, 1, 2, 6, 2))
+                                    _cameraPlus.Config.GlitchFrequency = _cameraPlus.effectElements.glitchFrequency = glitchValue[4];
+                                MenuUI.Label(0, 18, "Scale", 6, 2);
+                                if (MenuUI.SpinBox(0, 20, ref glitchValue[5], 1, 1, 10, 0, 6, 2))
+                                    _cameraPlus.Config.GlitchScale = _cameraPlus.effectElements.glitchScale = glitchValue[5];
                                 break;
                         }
                         if (MenuUI.Button(0, 32, "Back top menu", 12, 2))
@@ -967,15 +993,15 @@ namespace CameraPlus.UI
                     case MenuState.Profile:
                         MenuUI.SetGrid(12, 34);
 
-                        if(MenuUI.Button(0, 0, "Create\nnew profile", 4, 3))
+                        if (MenuUI.Button(0, 0, "Create\nnew profile", 4, 3))
                         {
                             var profileName = CameraUtilities.SaveNewProfile();
                             _selectedProfile = 0;
                             _profileNameList = CameraUtilities.ProfileList();
-                            if(profileName != string.Empty)
+                            if (profileName != string.Empty)
                                 CameraUtilities.ProfileChange(profileName);
                         }
-                        if(MenuUI.Button(4, 0, "Save as\ncurrent profile", 4, 3))
+                        if (MenuUI.Button(4, 0, "Save as\ncurrent profile", 4, 3))
                         {
                             var profileName = CameraUtilities.SaveAsCurrentProfile();
                             _selectedProfile = 0;
@@ -992,14 +1018,14 @@ namespace CameraPlus.UI
 
                         _selectedProfile = MenuUI.SelectionGrid(0, 4, _selectedProfile, ref _currentProfilePage, _profileNameList, string.Empty, 12, 10);
 
-                        if(MenuUI.Button(1,15,"Load Profile", 10, 2))
+                        if (MenuUI.Button(1, 15, "Load Profile", 10, 2))
                         {
                             CameraUtilities.ProfileChange(_profileNameList[_selectedProfile]);
                             _configList = CameraUtilities.CameraSettingList(Plugin.cameraController.CurrentProfile);
                             Plugin.cameraController.CloseContextMenu();
                         }
 
-                        if(MenuUI.ToggleSwitch(0, 18, "Load profile on scene change", PluginConfig.Instance.ProfileSceneChange, 12, 2, 1.5f))
+                        if (MenuUI.ToggleSwitch(0, 18, "Load profile on scene change", PluginConfig.Instance.ProfileSceneChange, 12, 2, 1.5f))
                             PluginConfig.Instance.ProfileSceneChange = !PluginConfig.Instance.ProfileSceneChange;
 
                         if (MenuUI.Button(0, 21, "Menu Scene", 4, 2))
@@ -1042,8 +1068,8 @@ namespace CameraPlus.UI
                     case MenuState.SettingConverter:
                         MenuUI.SetGrid(12, 34);
                         MenuUI.Label(0, 0, "Import from Camera2 Setting", 12, 2);
-                        _selectedCam2Scene = MenuUI.SelectionGrid(0, 2, _selectedCam2Scene, ref _currentCam2ScenePage, Enum.GetNames(typeof(Camera2Utils.SceneTypes)),string.Empty, 8, 10);
-                        if(MenuUI.Button(8, 8, "Import", 4, 4))
+                        _selectedCam2Scene = MenuUI.SelectionGrid(0, 2, _selectedCam2Scene, ref _currentCam2ScenePage, Enum.GetNames(typeof(Camera2Utils.SceneTypes)), string.Empty, 8, 10);
+                        if (MenuUI.Button(8, 8, "Import", 4, 4))
                         {
                             Camera2ConfigExporter.LoadCamera2Scene(Enum.GetNames(typeof(Camera2Utils.SceneTypes))[_selectedCam2Scene].ToString());
                         }
@@ -1058,7 +1084,7 @@ namespace CameraPlus.UI
                         if (MenuUI.Button(0, 32, "Back top menu", 12, 2))
                             _menuMode = MenuState.MenuTop;
                         break;
-                    /////////////////////////////////////////////////////////////////////////////////////
+                        /////////////////////////////////////////////////////////////////////////////////////
                 }
                 GUI.matrix = originalMatrix;
             }

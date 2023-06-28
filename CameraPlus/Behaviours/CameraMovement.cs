@@ -33,7 +33,7 @@ namespace CameraPlus.Behaviours
         protected DateTime movementStartDateTime, movementEndDateTime, movementDelayEndDateTime;
         protected bool _paused = false;
         protected DateTime _pauseTime;
-        protected CameraEffectStruct[] CameraEffect = {new CameraEffectStruct(), new CameraEffectStruct()};
+        protected CameraEffectStruct[] CameraEffect = { new CameraEffectStruct(), new CameraEffectStruct() };
         protected WindowControlElements[] WindowControl = null;
 
         private VisibleObject _visibleLayer = null;
@@ -69,7 +69,7 @@ namespace CameraPlus.Behaviours
             public bool LoadFromJson(string jsonString)
             {
                 Movements.Clear();
-                MovementScriptJson movementScriptJson=null;
+                MovementScriptJson movementScriptJson = null;
                 string sep = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
                 string sepCheck = (sep == "." ? "," : ".");
                 try
@@ -80,7 +80,7 @@ namespace CameraPlus.Behaviours
                 {
                     Plugin.Log.Error($"JSON file syntax error. {ex.Message}");
                 }
-                if (movementScriptJson != null && movementScriptJson.Jsonmovement !=null)
+                if (movementScriptJson != null && movementScriptJson.Jsonmovement != null)
                 {
                     if (movementScriptJson.ActiveInPauseMenu != null)
                         ActiveInPauseMenu = System.Convert.ToBoolean(movementScriptJson.ActiveInPauseMenu);
@@ -97,8 +97,8 @@ namespace CameraPlus.Behaviours
                         if (jsonmovement.startRot != null) startRot = jsonmovement.startRot;
                         if (jsonmovement.startHeadOffset != null) startHeadOffset = jsonmovement.startHeadOffset;
 
-                        if (startPos.x != null) newMovement.StartPos = new Vector3(float.Parse(startPos.x.Contains(sepCheck) ? startPos.x.Replace(sepCheck, sep) : startPos.x), 
-                                                                                    float.Parse(startPos.y.Contains(sepCheck) ? startPos.y.Replace(sepCheck, sep) : startPos.y), 
+                        if (startPos.x != null) newMovement.StartPos = new Vector3(float.Parse(startPos.x.Contains(sepCheck) ? startPos.x.Replace(sepCheck, sep) : startPos.x),
+                                                                                    float.Parse(startPos.y.Contains(sepCheck) ? startPos.y.Replace(sepCheck, sep) : startPos.y),
                                                                                     float.Parse(startPos.z.Contains(sepCheck) ? startPos.z.Replace(sepCheck, sep) : startPos.z));
                         if (startRot.x != null) newMovement.StartRot = new Vector3(float.Parse(startRot.x.Contains(sepCheck) ? startRot.x.Replace(sepCheck, sep) : startRot.x),
                                                                                     float.Parse(startRot.y.Contains(sepCheck) ? startRot.y.Replace(sepCheck, sep) : startRot.y),
@@ -146,17 +146,17 @@ namespace CameraPlus.Behaviours
                             newMovement.EndFOV = 0;
 
                         newMovement.CameraEffect = ConvertEffectObject(jsonmovement.cameraEffect);
-                        
+
                         if (jsonmovement.visibleObject != null) newMovement.SectionVisibleObject = jsonmovement.visibleObject;
                         if (jsonmovement.TurnToHead != null) newMovement.TurnToHead = System.Convert.ToBoolean(jsonmovement.TurnToHead);
                         if (jsonmovement.TurnToHeadHorizontal != null) newMovement.TurnToHeadHorizontal = System.Convert.ToBoolean(jsonmovement.TurnToHeadHorizontal);
-                        if (jsonmovement.Delay != null) newMovement.Delay = float.Parse(jsonmovement.Delay.Contains(sepCheck) ? jsonmovement.Delay.Replace(sepCheck,sep) : jsonmovement.Delay);
+                        if (jsonmovement.Delay != null) newMovement.Delay = float.Parse(jsonmovement.Delay.Contains(sepCheck) ? jsonmovement.Delay.Replace(sepCheck, sep) : jsonmovement.Delay);
                         if (jsonmovement.Duration != null) newMovement.Duration = Mathf.Clamp(float.Parse(jsonmovement.Duration.Contains(sepCheck) ? jsonmovement.Duration.Replace(sepCheck, sep) : jsonmovement.Duration), 0.01f, float.MaxValue); // Make sure duration is at least 0.01 seconds, to avoid a divide by zero error
-                        
+
                         if (jsonmovement.EaseTransition != null)
                             newMovement.EaseTransition = System.Convert.ToBoolean(jsonmovement.EaseTransition);
 
-                        if(jsonmovement.windowControl != null)
+                        if (jsonmovement.windowControl != null)
                             newMovement.WindowControl = jsonmovement.windowControl;
                         Movements.Add(newMovement);
                     }
@@ -172,7 +172,7 @@ namespace CameraPlus.Behaviours
                 {
                     if (InputEffect.enableDoF != null) cameraEffects[0].enableDOF = cameraEffects[1].enableDOF = System.Convert.ToBoolean(InputEffect.enableDoF);
                     if (InputEffect.dofAutoDistance != null) cameraEffects[0].dofAutoDistance = cameraEffects[1].dofAutoDistance = System.Convert.ToBoolean(InputEffect.dofAutoDistance);
-                    if(InputEffect.StartDoF != null)
+                    if (InputEffect.StartDoF != null)
                     {
                         if (InputEffect.StartDoF.dofFocusDistance != null) cameraEffects[0].dofFocusDistance = System.Convert.ToSingle(InputEffect.StartDoF.dofFocusDistance);
                         if (InputEffect.StartDoF.dofFocusRange != null) cameraEffects[0].dofFocusRange = System.Convert.ToSingle(InputEffect.StartDoF.dofFocusRange);
@@ -201,9 +201,9 @@ namespace CameraPlus.Behaviours
                     if (InputEffect.StartOutlineEffect != null)
                     {
                         if (InputEffect.StartOutlineEffect.outlineEffectOnly != null) cameraEffects[0].outlineOnly = System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineEffectOnly);
-                        if (InputEffect.StartOutlineEffect.outlineColor != null) cameraEffects[0].outlineColor 
+                        if (InputEffect.StartOutlineEffect.outlineColor != null) cameraEffects[0].outlineColor
                                 = new Color(System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineColor.r), System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineColor.g), System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineColor.b), 0);
-                        if (InputEffect.StartOutlineEffect.outlineBackgroundColor != null) cameraEffects[0].outlineBGColor 
+                        if (InputEffect.StartOutlineEffect.outlineBackgroundColor != null) cameraEffects[0].outlineBGColor
                                 = new Color(System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineBackgroundColor.r), System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineBackgroundColor.g), System.Convert.ToSingle(InputEffect.StartOutlineEffect.outlineBackgroundColor.b), 0);
                     }
                     if (InputEffect.EndOutlineEffect != null)
@@ -307,42 +307,56 @@ namespace CameraPlus.Behaviours
             _cameraPlus.effectElements.outlineBGColor = LerpColor(CameraEffect[0].outlineBGColor, CameraEffect[1].outlineBGColor, Ease(movePerc));
 
             _cameraPlus.effectElements.enableGlitch = CameraEffect[0].enableGlitch;
-            _cameraPlus.effectElements.glitchLineSpeed = Mathf.LerpAngle(CameraEffect[0].glitchLineSpeed, CameraEffect[1].glitchLineSpeed, Ease(movePerc));
-            _cameraPlus.effectElements.glitchLineSize = Mathf.LerpAngle(CameraEffect[0].glitchLineSize, CameraEffect[1].glitchLineSize, Ease(movePerc));
-            _cameraPlus.effectElements.glitchColorGap = Mathf.LerpAngle(CameraEffect[0].glitchColorGap, CameraEffect[1].glitchColorGap, Ease(movePerc));
-            _cameraPlus.effectElements.glitchFrameRate = Mathf.LerpAngle(CameraEffect[0].glitchFrameRate, CameraEffect[1].glitchFrameRate, Ease(movePerc));
-            _cameraPlus.effectElements.glitchFrequency = Mathf.LerpAngle(CameraEffect[0].glitchFrequency, CameraEffect[1].glitchFrequency, Ease(movePerc));
-            _cameraPlus.effectElements.glitchScale = Mathf.LerpAngle(CameraEffect[0].glitchScale, CameraEffect[1].glitchScale, Ease(movePerc));
+            _cameraPlus.effectElements.glitchLineSpeed = Mathf.Lerp(CameraEffect[0].glitchLineSpeed, CameraEffect[1].glitchLineSpeed, Ease(movePerc));
+            _cameraPlus.effectElements.glitchLineSize = Mathf.Lerp(CameraEffect[0].glitchLineSize, CameraEffect[1].glitchLineSize, Ease(movePerc));
+            _cameraPlus.effectElements.glitchColorGap = Mathf.Lerp(CameraEffect[0].glitchColorGap, CameraEffect[1].glitchColorGap, Ease(movePerc));
+            _cameraPlus.effectElements.glitchFrameRate = Mathf.Lerp(CameraEffect[0].glitchFrameRate, CameraEffect[1].glitchFrameRate, Ease(movePerc));
+            _cameraPlus.effectElements.glitchFrequency = Mathf.Lerp(CameraEffect[0].glitchFrequency, CameraEffect[1].glitchFrequency, Ease(movePerc));
+            _cameraPlus.effectElements.glitchScale = Mathf.Lerp(CameraEffect[0].glitchScale, CameraEffect[1].glitchScale, Ease(movePerc));
 
             // Window Control
             if (_cameraPlus._isMainCamera && WindowControl != null)
             {
-                foreach(WindowControlElements windowControl in WindowControl)
+                foreach (WindowControlElements windowControl in WindowControl)
                 {
                     var otherCameraPlus = CameraUtilities.TargetCameraPlus(windowControl.Target, Plugin.cameraController.CurrentProfile);
                     if (otherCameraPlus != null)
+                    {
                         otherCameraPlus._screenCamera.enabled = windowControl.Visible.Value;
+                        if (windowControl.StartPos != null && windowControl.EndPos != null)
+                        {
+                            otherCameraPlus._screenCamera.SetPosition(LeapVector2(
+                                new Vector2(float.Parse(windowControl.StartPos.x), float.Parse(windowControl.StartPos.y)),
+                                new Vector2(float.Parse(windowControl.EndPos.x), float.Parse(windowControl.EndPos.y)), Ease(movePerc)));
+                        }
+                        else
+                            otherCameraPlus._screenCamera.ResetPosition();
+                    }
                 }
             }
 
             _cameraPlus.ThirdPersonPos = LerpVector3(StartPos, EndPos, Ease(movePerc));
-            _cameraPlus.ThirdPersonRot = LerpVector3(StartRot, EndRot, Ease(movePerc));
+            _cameraPlus.ThirdPersonRot = LerpVector3Angle(StartRot, EndRot, Ease(movePerc));
             _cameraPlus.turnToHeadOffset = LerpVector3(StartHeadOffset, EndHeadOffset, Ease(movePerc));
-            _cameraPlus.FOV=Mathf.Lerp(StartFOV,EndFOV,Ease(movePerc));
+            _cameraPlus.FOV = Mathf.Lerp(StartFOV, EndFOV, Ease(movePerc));
 
         }
 
         protected Vector2 LeapVector2(Vector2 from, Vector2 to, float percent)
         {
-            return new Vector2(Mathf.LerpAngle(from.x, to.x, percent), Mathf.LerpAngle(from.y, to.y, percent));
+            return new Vector2(Mathf.Lerp(from.x, to.x, percent), Mathf.Lerp(from.y, to.y, percent));
         }
         protected Vector3 LerpVector3(Vector3 from, Vector3 to, float percent)
+        {
+            return new Vector3(Mathf.Lerp(from.x, to.x, percent), Mathf.Lerp(from.y, to.y, percent), Mathf.Lerp(from.z, to.z, percent));
+        }
+        protected Vector3 LerpVector3Angle(Vector3 from, Vector3 to, float percent)
         {
             return new Vector3(Mathf.LerpAngle(from.x, to.x, percent), Mathf.LerpAngle(from.y, to.y, percent), Mathf.LerpAngle(from.z, to.z, percent));
         }
         protected Vector4 LerpVector4(Vector4 from, Vector4 to, float percent)
         {
-            return new Vector4(Mathf.LerpAngle(from.x, to.x, percent), Mathf.LerpAngle(from.y, to.y, percent), Mathf.LerpAngle(from.z, to.z, percent), Mathf.LerpAngle(from.w, to.w, percent));
+            return new Vector4(Mathf.Lerp(from.x, to.x, percent), Mathf.Lerp(from.y, to.y, percent), Mathf.Lerp(from.z, to.z, percent), Mathf.Lerp(from.w, to.w, percent));
         }
 
         protected Color LerpColor(Color from, Color to, float percent)
@@ -381,7 +395,7 @@ namespace CameraPlus.Behaviours
 
         protected bool LoadCameraData(string pathFile)
         {
-            string path= pathFile;
+            string path = pathFile;
 
             if (File.Exists(path))
             {
@@ -407,7 +421,7 @@ namespace CameraPlus.Behaviours
 
         protected void FindShortestDelta(ref Vector3 from, ref Vector3 to)
         {
-            if(Mathf.DeltaAngle(from.x, to.x) < 0)
+            if (Mathf.DeltaAngle(from.x, to.x) < 0)
                 from.x += 360.0f;
             if (Mathf.DeltaAngle(from.y, to.y) < 0)
                 from.y += 360.0f;
@@ -443,7 +457,7 @@ namespace CameraPlus.Behaviours
             else
             {
                 int beforID = eventID > 0 ? eventID - 1 : data.Movements.Count - 1;
-                if(data.Movements[beforID].SectionVisibleObject != null && data.Movements[eventID].SectionVisibleObject == null)
+                if (data.Movements[beforID].SectionVisibleObject != null && data.Movements[eventID].SectionVisibleObject == null)
                     _cameraPlus.Config.SetCullingMask();
             }
 

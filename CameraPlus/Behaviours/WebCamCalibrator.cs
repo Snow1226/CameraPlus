@@ -173,8 +173,8 @@ namespace CameraPlus.Behaviours
             _webCamTexture = new WebCamTexture(camplus.Config.webCamera.name);
             raw.texture = _webCamTexture;
             Material rawMaterial = new Material(Plugin.cameraController.Shaders["BeatSaber/BlitCopyWithDepth"]);
-            rawMaterial.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, 0));
-            rawMaterial.SetFloat("_CullMode", 0);
+            rawMaterial.SetColor(ShaderPropertyID.Color, new Color(1.0f, 1.0f, 1.0f, 0));
+            rawMaterial.SetFloat(ShaderPropertyID.CullMode, 0);
             raw.material = rawMaterial;
             _webCamTexture.Play();
 
@@ -184,9 +184,9 @@ namespace CameraPlus.Behaviours
             _cursorImage.transform.localEulerAngles = Vector3.zero;
             _cursorImage.texture = CustomUtils.LoadTextureFromResources("CameraPlus.Resources.Xross.png");
             Material cursorMat = new Material(Plugin.cameraController.Shaders["ChromaKey/Unlit/Cutout"]);
-            cursorMat.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, 0));
-            cursorMat.SetColor("_ChromaKeyColor", Color.white);
-            cursorMat.SetFloat("_ChromaKeyHueRange", 0.5f);
+            cursorMat.SetColor(ShaderPropertyID.Color, new Color(1.0f, 1.0f, 1.0f, 0));
+            cursorMat.SetColor(ShaderPropertyID.ChromaKeyColor, Color.white);
+            cursorMat.SetFloat(ShaderPropertyID.ChromaKeyHueRange, 0.5f);
             _cursorImage.material = cursorMat;
             _rectCursor = _cursorImage.GetComponent<RectTransform>();
             _rectCursor.anchorMin = new Vector2(0.5f, 0.5f);
@@ -203,7 +203,7 @@ namespace CameraPlus.Behaviours
             _calText.transform.localEulerAngles = Vector3.zero;
             _calText.alignment = TMPro.TextAlignmentOptions.Bottom;
             _calText.fontSize = 24;
-            _calText.text= "Pull the trigger in front of the webcam.";
+            _calText.text = "Pull the trigger in front of the webcam.";
             var cakRect = _calText.gameObject.GetComponent<RectTransform>();
             cakRect.anchorMin = new Vector2(0.5f, 0.5f);
             cakRect.anchorMax = new Vector2(0.5f, 0.5f);

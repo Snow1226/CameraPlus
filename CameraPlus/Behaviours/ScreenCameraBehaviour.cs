@@ -17,11 +17,11 @@ namespace CameraPlus.Behaviours
         private Material _wipeMaterial = null;
         private Material _outlineMaterial = null;
         private Material _glitchMaterial = null;
-        public void SetRenderTexture(RenderTexture renderTexture,CameraPlusBehaviour cameraPlus = null)
+        public void SetRenderTexture(RenderTexture renderTexture, CameraPlusBehaviour cameraPlus = null)
         {
             _renderTexture = renderTexture;
             Plugin.Log.Debug($"[Rendertexture in SetRenderTexture] size w:{renderTexture.width}, h:{renderTexture.height}");
-            if(cameraPlus != null)
+            if (cameraPlus != null)
                 _cameraPlus = cameraPlus;
         }
 
@@ -32,6 +32,16 @@ namespace CameraPlus.Behaviours
             _cam.depth = layer;
         }
 
+        public void SetPosition(Vector2 position)
+        {
+            _cam.pixelRect = new Rect(position.x, position.y, _cam.pixelRect.width, _cam.pixelRect.height);
+        }
+
+        public void ResetPosition()
+        {
+            if (_cameraPlus)
+                _cam.pixelRect = new Rect(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY, _cameraPlus.Config.screenWidth, _cameraPlus.Config.screenHeight);
+        }
         public void SetLayer(int layer)
         {
             _cam.depth = layer;
@@ -47,7 +57,7 @@ namespace CameraPlus.Behaviours
             _cam.cullingMask = 0;
             _cam.stereoTargetEye = StereoTargetEyeMask.None;
         }
-        
+
         private void OnRenderImage(RenderTexture src, RenderTexture dest)
         {
             if (_renderTexture == null) return;

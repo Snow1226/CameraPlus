@@ -27,6 +27,9 @@ namespace CameraPlus.Configuration
     {
         public string Target { get; set; }
         public bool? Visible { get; set; }
+
+        public PositionEelemnts StartPos { get; set; }
+        public PositionEelemnts EndPos { get; set; }
     }
 
     public class ColorElements

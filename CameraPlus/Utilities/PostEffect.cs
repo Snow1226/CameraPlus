@@ -1,29 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using CameraPlus.Behaviours;
-using CameraPlus.Configuration;
-using System.Security.Cryptography;
+using CameraPlus.Utilities;
 
 namespace CameraPlus.Utilities
 {
     public static class PostEffect
     {
-        public static void DepthOfField(CameraPlusBehaviour cameraPlus,RenderTexture renderTexture, Material material)
+        public static void DepthOfField(CameraPlusBehaviour cameraPlus, RenderTexture renderTexture, Material material)
         {
-            if(cameraPlus == null) return;
+            if (cameraPlus == null) return;
             if (material == null) material = new Material(Plugin.cameraController.Shaders["Effect/DepthOfFieldGauss"]);
             if (cameraPlus._cam.depthTextureMode != (DepthTextureMode.Depth))
                 cameraPlus._cam.depthTextureMode = DepthTextureMode.Depth;
 
             RenderTexture temp1 = RenderTexture.GetTemporary(cameraPlus._cam.pixelWidth, cameraPlus._cam.pixelHeight, 0, RenderTextureFormat.Default);
 
-            material.SetFloat("_FocusDistance", cameraPlus.effectElements.dofFocusDistance);
-            material.SetFloat("_FocusRange", cameraPlus.effectElements.dofFocusRange);
-            material.SetFloat("_BlurRadius", cameraPlus.effectElements.dofBlurRadius);
+            material.SetFloat(ShaderPropertyID.FocusDistance, cameraPlus.effectElements.dofFocusDistance);
+            material.SetFloat(ShaderPropertyID.FocusRange, cameraPlus.effectElements.dofFocusRange);
+            material.SetFloat(ShaderPropertyID.BlurRadius, cameraPlus.effectElements.dofBlurRadius);
 
             Graphics.Blit(renderTexture, temp1, material, 0);
             Graphics.Blit(temp1, renderTexture, material, 1);
@@ -37,12 +31,12 @@ namespace CameraPlus.Utilities
             if (cameraPlus._cam.depthTextureMode != (DepthTextureMode.Depth))
                 cameraPlus._cam.depthTextureMode = DepthTextureMode.Depth;
 
-            material.SetFloat("_LineSpeed", cameraPlus.effectElements.glitchLineSpeed);
-            material.SetFloat("_LineSize", cameraPlus.effectElements.glitchLineSize);
-            material.SetFloat("_ColorGap", cameraPlus.effectElements.glitchColorGap);
-            material.SetFloat("_FrameRate", cameraPlus.effectElements.glitchFrameRate);
-            material.SetFloat("_Frequency", cameraPlus.effectElements.glitchFrequency);
-            material.SetFloat("_GlitchScale", cameraPlus.effectElements.glitchScale);
+            material.SetFloat(ShaderPropertyID.LineSpeed, cameraPlus.effectElements.glitchLineSpeed);
+            material.SetFloat(ShaderPropertyID.LineSize, cameraPlus.effectElements.glitchLineSize);
+            material.SetFloat(ShaderPropertyID.ColorGap, cameraPlus.effectElements.glitchColorGap);
+            material.SetFloat(ShaderPropertyID.FrameRate, cameraPlus.effectElements.glitchFrameRate);
+            material.SetFloat(ShaderPropertyID.Frequency, cameraPlus.effectElements.glitchFrequency);
+            material.SetFloat(ShaderPropertyID.GlitchScale, cameraPlus.effectElements.glitchScale);
 
             Graphics.Blit(renderTexture, renderTexture, material);
         }
@@ -53,9 +47,9 @@ namespace CameraPlus.Utilities
                 cameraPlus._cam.depthTextureMode = DepthTextureMode.DepthNormals;
 
             if (material == null) material = new Material(Plugin.cameraController.Shaders["Effect/Outline"]);
-            material.SetFloat("_EdgeOnly", cameraPlus.effectElements.outlineOnly);
-            material.SetColor("_EdgeColor", cameraPlus.effectElements.outlineColor);
-            material.SetColor("_BackgroundColor", cameraPlus.effectElements.outlineBGColor);
+            material.SetFloat(ShaderPropertyID.EdgeOnly, cameraPlus.effectElements.outlineOnly);
+            material.SetColor(ShaderPropertyID.EdgeColor, cameraPlus.effectElements.outlineColor);
+            material.SetColor(ShaderPropertyID.BackgroundColor, cameraPlus.effectElements.outlineBGColor);
 
             Graphics.Blit(renderTexture, renderTexture, material);
         }
@@ -63,8 +57,8 @@ namespace CameraPlus.Utilities
         {
             if (cameraPlus == null) return;
             if (material == null) material = new Material(Plugin.cameraController.Shaders["Effect/Wipe"]);
-            material.SetFloat("_Progress", cameraPlus.effectElements.wipeProgress);
-            material.SetVector("_Center", cameraPlus.effectElements.wipeCircleCenter);
+            material.SetFloat(ShaderPropertyID.Progress, cameraPlus.effectElements.wipeProgress);
+            material.SetVector(ShaderPropertyID.Center, cameraPlus.effectElements.wipeCircleCenter);
             Graphics.Blit(srcRenderTexture, destRenderTexture, material,
                 cameraPlus.effectElements.wipeType == "Circle" ? 0 :
                 cameraPlus.effectElements.wipeType == "Left" ? 1 :
