@@ -148,7 +148,7 @@ namespace CameraPlus.UI
         {
             if (!MenuUI.UIInitialize) MenuUI.Initialize();
 
-            if (_showMenu)
+            if (_showMenu && _cameraPlus)
             {
                 Vector3 scale;
                 float originalWidth = 1600f;
