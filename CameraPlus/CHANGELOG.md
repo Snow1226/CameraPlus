@@ -1,3 +1,6 @@
+# v7.0.2 
+- Fixed a null bug when deleting a displayed profile.  
+
 # v7.0.1 backport
 - Fix turn to head bug.  
 - Added sub-window movement in MovementScript.  
