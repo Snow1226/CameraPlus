@@ -152,6 +152,7 @@ namespace CameraPlus.Behaviours
             if (Config.vmcProtocol.mode == VMCProtocolMode.Sender)
                 InitExternalSender();
 
+            Plugin.cameraController.OnSetCullingMask.AddListener(OnCullingMaskChangeEvent);
             Plugin.cameraController.OnFPFCToggleEvent.AddListener(OnFPFCToglleEvent);
             if (Config.webCamera.autoConnect)
                 CreateWebCamScreen();
@@ -227,6 +228,8 @@ namespace CameraPlus.Behaviours
                 Destroy(marionette);
 #endif
             Plugin.cameraController.externalSender.RemoveTask(this);
+
+            Plugin.cameraController.OnSetCullingMask.RemoveListener(OnCullingMaskChangeEvent);
 
             if (webCamScreen)
                 DisableWebCamScreen();
@@ -327,21 +330,14 @@ namespace CameraPlus.Behaviours
             }
         }
 
-        public virtual void OnEnable()
-        {
-            Plugin.cameraController.OnSetCullingMask.AddListener(OnCullingMaskChangeEvent);
-
-        }
-        public virtual void OnDisable()
-        {
-            Plugin.cameraController.OnSetCullingMask.RemoveListener(OnCullingMaskChangeEvent);
-        }
-
         public void OnCullingMaskChangeEvent()
         {
-            StartCoroutine(GetMainCamera());
-            Config.SetCullingMask();
-            OnFPFCToglleEvent();
+            if (this.gameObject.activeInHierarchy)
+            {
+                StartCoroutine(GetMainCamera());
+                Config.SetCullingMask(Config.visibleObject);
+                OnFPFCToglleEvent();
+            }
         }
 
         private void OnFPFCToglleEvent()

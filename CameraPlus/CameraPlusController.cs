@@ -111,6 +111,7 @@ namespace CameraPlus
         {
             AssetBundle assetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("CameraPlus.Resources.Shader.customshader"));
             Shaders = assetBundle.LoadAllAssets<Shader>().ToDictionary(x => x.name);
+            assetBundle.Unload(false);
         }
 
         private void OnDestroy()

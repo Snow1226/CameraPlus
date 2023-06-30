@@ -155,6 +155,24 @@ namespace CameraPlus.Configuration
         public targetTransformElements previewQuadRot { get => _previewQuadRot; set { _previewQuadRot = value; } }
         public targetTransformElements turnToHeadOffsetTransform { get => _turnToHeadOffset; set { _turnToHeadOffset = value; } }
         public visibleObjectsElements layerSetting { get => _visibleObject; set { _visibleObject = value; } }
+        public VisibleObject visibleObject
+        {
+            get
+            {
+                VisibleObject v = new VisibleObject();
+                v.avatar = _visibleObject.avatar;
+                v.ui = _visibleObject.ui;
+                v.notes = _visibleObject.notes;
+                v.wall = _visibleObject.wall;
+                v.wallFrame = _visibleObject.wallFrame;
+                v.saber = _visibleObject.saber;
+                if (_visibleObject.debris == DebriVisibility.Link && PlayerSettingPatch.playerSetting != null)
+                    v.debris = !PlayerSettingPatch.playerSetting.reduceDebris;
+                else
+                    v.debris = _visibleObject.debris == DebriVisibility.Visible ? true : false;
+                return v;
+            }
+        }
         public movementScriptElements movementScript { get => _movementScript; set { _movementScript = value; } }
         public cameraLockElements cameraLock { get => _cameraLock; set { _cameraLock = value; } }
         public cameraExtensionsElements cameraExtensions { get => _cameraExtensions; set { _cameraExtensions = value; } }
@@ -225,14 +243,14 @@ namespace CameraPlus.Configuration
                 cam._screenCamera.enabled = !value;
             }
         }
-        public bool Avatar { get => _visibleObject.avatar; set { _visibleObject.avatar = value; SetCullingMask(); } }
-        public bool UI { get => _visibleObject.ui; set { _visibleObject.ui = value; SetCullingMask(); } }
-        public bool Wall { get => _visibleObject.wall; set { _visibleObject.wall = value; SetCullingMask(); } }
-        public bool WallFrame { get => _visibleObject.wallFrame; set { _visibleObject.wallFrame = value; SetCullingMask(); } }
-        public bool Saber { get => _visibleObject.saber; set { _visibleObject.saber = value; SetCullingMask(); } }
-        public bool CutParticles { get => _visibleObject.cutParticles; set { _visibleObject.cutParticles = value; SetCullingMask(); } }
-        public bool Notes { get => _visibleObject.notes; set { _visibleObject.notes = value; SetCullingMask(); } }
-        public DebriVisibility Debris { get => _visibleObject.debris; set { _visibleObject.debris = value; SetCullingMask(); } }
+        public bool Avatar { get => _visibleObject.avatar; set { _visibleObject.avatar = value; SetCullingMask(visibleObject); } }
+        public bool UI { get => _visibleObject.ui; set { _visibleObject.ui = value; SetCullingMask(visibleObject); } }
+        public bool Wall { get => _visibleObject.wall; set { _visibleObject.wall = value; SetCullingMask(visibleObject); } }
+        public bool WallFrame { get => _visibleObject.wallFrame; set { _visibleObject.wallFrame = value; SetCullingMask(visibleObject); } }
+        public bool Saber { get => _visibleObject.saber; set { _visibleObject.saber = value; SetCullingMask(visibleObject); } }
+        public bool CutParticles { get => _visibleObject.cutParticles; set { _visibleObject.cutParticles = value; SetCullingMask(visibleObject); } }
+        public bool Notes { get => _visibleObject.notes; set { _visibleObject.notes = value; SetCullingMask(visibleObject); } }
+        public DebriVisibility Debris { get => _visibleObject.debris; set { _visibleObject.debris = value; SetCullingMask(visibleObject); } }
 
         private bool _saving = false;
         public event Action<CameraConfig> ConfigChangedEvent;

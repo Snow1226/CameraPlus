@@ -1,5 +1,6 @@
 # v7.0.2 
 - Fixed a null bug when deleting a displayed profile.  
+- Fixed game tracking not working for debris display. 
 
 # v7.0.1 backport
 - Fix turn to head bug.  
