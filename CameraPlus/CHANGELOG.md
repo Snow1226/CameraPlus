@@ -1,3 +1,6 @@
+# v7.0.3 Changes
+- Fixed an issue where the camera would move to your feet.  
+
 # v7.0.2 
 - Fixed a null bug when deleting a displayed profile.  
 - Fixed game tracking not working for debris display. 

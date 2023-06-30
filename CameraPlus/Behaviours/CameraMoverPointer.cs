@@ -38,8 +38,8 @@ namespace CameraPlus.Behaviours
         {
             if (_targetCamera == null) return;
 
-            _targetCamera.Config.Position = _targetCamera.transform.position;
-            _targetCamera.Config.Rotation = _targetCamera.transform.rotation.eulerAngles;
+            _targetCamera.Config.Position = _targetCamera._cam.transform.localPosition;
+            _targetCamera.Config.Rotation = _targetCamera._cam.transform.localRotation.eulerAngles;
 
             if (!_targetCamera.Config.cameraLock.dontSaveDrag)
                 _targetCamera.Config.Save();
