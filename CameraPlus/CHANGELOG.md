@@ -1,3 +1,6 @@
+# v7.0.4 Changes
+- Fixed game tracking not working for debris display again. 
+
 # v7.0.3 Changes
 - Fixed an issue where the camera would move to your feet.  
 

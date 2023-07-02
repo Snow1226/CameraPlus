@@ -162,7 +162,7 @@ namespace CameraPlus.Utilities
             {
                 foreach (CameraPlusBehaviour c in Plugin.cameraController.Cameras.Values.ToArray())
                 {
-                    c.Config.SetCullingMask();
+                    c.Config.SetCullingMask(c.Config.visibleObject);
                 }
             }
             catch (Exception ex)

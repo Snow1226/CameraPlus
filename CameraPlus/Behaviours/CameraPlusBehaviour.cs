@@ -261,7 +261,7 @@ namespace CameraPlus.Behaviours
             turnToHead = Config.cameraExtensions.turnToHead;
             turnToHeadOffset = Config.TurnToHeadOffset;
             turnToHeadHorizontal = Config.cameraExtensions.turnToHeadHorizontal;
-            Config.SetCullingMask();
+            Config.SetCullingMask(Config.visibleObject);
             _quad.gameObject.SetActive(ThirdPerson && Config.PreviewCamera);
             _cam.fieldOfView = Config.fov;
             _cam.orthographic = Config.cameraExtensions.orthographicMode;
@@ -326,7 +326,7 @@ namespace CameraPlus.Behaviours
             if (this.gameObject.activeInHierarchy)
             {
                 StartCoroutine(GetMainCamera());
-                Config.SetCullingMask();
+                Config.SetCullingMask(Config.visibleObject);
             }
         }
 

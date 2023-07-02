@@ -436,36 +436,38 @@ namespace CameraPlus.UI
                                     _cameraPlus.Config.Avatar = !_cameraPlus.Config.Avatar;
                                 if (MenuUI.ToggleSwitch(0, 6, "Saber", _cameraPlus.Config.Saber, 6, 3, 1.5f))
                                     _cameraPlus.Config.Saber = !_cameraPlus.Config.Saber;
-                                if (MenuUI.ToggleSwitch(0, 9, "Notes", _cameraPlus.Config.Notes, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(0, 9, "Cut Particle", _cameraPlus.Config.CutParticles, 6, 3, 1.5f))
+                                    _cameraPlus.Config.CutParticles = !_cameraPlus.Config.CutParticles;
+                                if (MenuUI.ToggleSwitch(0, 12, "Notes", _cameraPlus.Config.Notes, 6, 3, 1.5f))
                                     _cameraPlus.Config.Notes = !_cameraPlus.Config.Notes;
-                                if (MenuUI.ToggleSwitch(0, 12, "Debri - LinkGame", _cameraPlus.Config.Debris == DebriVisibility.Link, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(0, 15, "Debri - LinkGame", _cameraPlus.Config.Debris == DebriVisibility.Link, 6, 3, 1.5f))
                                 {
                                     if (_cameraPlus.Config.Debris == DebriVisibility.Link)
                                         _cameraPlus.Config.Debris = DebriVisibility.Visible;
                                     else
                                         _cameraPlus.Config.Debris = DebriVisibility.Link;
                                 }
-                                if (MenuUI.ToggleSwitch(6, 12, "Debri - AlwaysOn", _cameraPlus.Config.Debris == DebriVisibility.Visible, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(6, 15, "Debri - AlwaysOn", _cameraPlus.Config.Debris == DebriVisibility.Visible, 6, 3, 1.5f))
                                 {
                                     if (_cameraPlus.Config.Debris == DebriVisibility.Visible)
                                         _cameraPlus.Config.Debris = DebriVisibility.Hidden;
                                     else
                                         _cameraPlus.Config.Debris = DebriVisibility.Visible;
                                 }
-                                if (MenuUI.ToggleSwitch(0, 15, "Wall inside", _cameraPlus.Config.Wall, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(0, 18, "Wall inside", _cameraPlus.Config.Wall, 6, 3, 1.5f))
                                     _cameraPlus.Config.Wall = !_cameraPlus.Config.Wall;
-                                if (MenuUI.ToggleSwitch(6, 15, "Wall inside", _cameraPlus.Config.WallFrame, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(6, 18, "Wall inside", _cameraPlus.Config.WallFrame, 6, 3, 1.5f))
                                     _cameraPlus.Config.WallFrame = !_cameraPlus.Config.WallFrame;
-                                if (MenuUI.ToggleSwitch(0, 18, "UI", _cameraPlus.Config.UI, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(0, 21, "UI", _cameraPlus.Config.UI, 6, 3, 1.5f))
                                     _cameraPlus.Config.UI = !_cameraPlus.Config.UI;
 
-                                if (MenuUI.ToggleSwitch(0, 22, "PreviewCamera", _cameraPlus.Config.PreviewCamera, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(0, 25, "PreviewCamera", _cameraPlus.Config.PreviewCamera, 6, 3, 1.5f))
                                     _cameraPlus.Config.PreviewCamera = !_cameraPlus.Config.PreviewCamera;
                                 if (_cameraPlus.Config.PreviewCamera)
                                 {
-                                    if (MenuUI.ToggleSwitch(0, 25, "Hide Cube", _cameraPlus.Config.PreviewCameraQuadOnly, 6, 3, 1.5f))
+                                    if (MenuUI.ToggleSwitch(0, 28, "Hide Cube", _cameraPlus.Config.PreviewCameraQuadOnly, 6, 3, 1.5f))
                                         _cameraPlus.Config.PreviewCameraQuadOnly = !_cameraPlus.Config.PreviewCameraQuadOnly;
-                                    if (MenuUI.ToggleSwitch(6, 25, "Show VR only", _cameraPlus.Config.PreviewCameraVROnly, 6, 3, 1.5f))
+                                    if (MenuUI.ToggleSwitch(6, 28, "Show VR only", _cameraPlus.Config.PreviewCameraVROnly, 6, 3, 1.5f))
                                         _cameraPlus.Config.PreviewCameraVROnly = !_cameraPlus.Config.PreviewCameraVROnly;
                                 }
 

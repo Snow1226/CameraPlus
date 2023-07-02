@@ -120,7 +120,7 @@ namespace CameraPlus.Configuration
                 if (cam != null)
                 {
                     cam._quad.gameObject.SetActive(thirdPerson && PreviewCamera);
-                    SetCullingMask();
+                    SetCullingMask(visibleObject);
                 }
             }
         }
@@ -166,6 +166,7 @@ namespace CameraPlus.Configuration
                 v.wall = _visibleObject.wall;
                 v.wallFrame = _visibleObject.wallFrame;
                 v.saber = _visibleObject.saber;
+                v.cutParticles = _visibleObject.cutParticles;
                 if (_visibleObject.debris == DebriVisibility.Link && PlayerSettingPatch.playerSetting != null)
                     v.debris = !PlayerSettingPatch.playerSetting.reduceDebris;
                 else
@@ -652,6 +653,11 @@ namespace CameraPlus.Configuration
                 builder |= 1 << Layer.Saber;
             else
                 builder &= ~(1 << Layer.Saber);
+
+            if (visibleObject.cutParticles.HasValue ? visibleObject.cutParticles.Value : layerSetting.cutParticles)
+                builder |= 1 << Layer.CutEffectParticles;
+            else
+                builder &= ~(1 << Layer.CutEffectParticles);
 
             if (visibleObject.wall.HasValue ? visibleObject.wall.Value : layerSetting.wall)
                 builder |= 1 << TransparentWallsPatch.WallLayerMask;

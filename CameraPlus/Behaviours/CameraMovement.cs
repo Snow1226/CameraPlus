@@ -458,7 +458,7 @@ namespace CameraPlus.Behaviours
             {
                 int beforID = eventID > 0 ? eventID - 1 : data.Movements.Count - 1;
                 if (data.Movements[beforID].SectionVisibleObject != null && data.Movements[eventID].SectionVisibleObject == null)
-                    _cameraPlus.Config.SetCullingMask();
+                    _cameraPlus.Config.SetCullingMask(_cameraPlus.Config.visibleObject);
             }
 
             StartHeadOffset = new Vector3(data.Movements[eventID].StartHeadOffset.x, data.Movements[eventID].StartHeadOffset.y, data.Movements[eventID].StartHeadOffset.z);

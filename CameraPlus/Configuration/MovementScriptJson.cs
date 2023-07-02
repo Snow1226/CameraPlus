@@ -50,7 +50,7 @@ namespace CameraPlus.Configuration
         public bool? wall { get; set; }
         public bool? wallFrame { get; set; }
         public bool? saber { get; set; }
-        //public bool cutParticles { get; set; }
+        public bool? cutParticles { get; set; }
         public bool? notes { get; set; }
         public bool? debris { get; set; }
     }
