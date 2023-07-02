@@ -590,6 +590,7 @@ namespace CameraPlus.Behaviours
             {
                 while (!MainCameraPatch.isGameCameraEnable)
                     yield return null;
+                CameraUtilities.BaseCullingMask = Camera.main.cullingMask;
             }
             else
             {
