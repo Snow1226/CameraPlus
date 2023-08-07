@@ -82,6 +82,7 @@ namespace CameraPlus.Behaviours
         internal bool turnToHeadHorizontal = false;
         internal WebCamScreen webCamScreen = null;
         internal CameraEffectStruct effectElements = new CameraEffectStruct();
+        private bool _initializeExternalSender = false;
 
 #if WITH_VMCA
         private VMCAvatarMarionette marionette = null;
@@ -149,7 +150,7 @@ namespace CameraPlus.Behaviours
             SceneManager_activeSceneChanged(new Scene(), new Scene());
             Plugin.Log.Notice($"Camera \"{Path.GetFileName(Config.FilePath)}\" successfully initialized! {Convert.ToString(_cam.cullingMask, 16)}");
 
-            if (Config.vmcProtocol.mode == VMCProtocolMode.Sender)
+            if (Config.vmcProtocol.mode == VMCProtocolMode.Sender && !_initializeExternalSender)
                 InitExternalSender();
 
             Plugin.cameraController.OnSetCullingMask.AddListener(OnCullingMaskChangeEvent);
@@ -189,7 +190,10 @@ namespace CameraPlus.Behaviours
         public void InitExternalSender()
         {
             if (Config.vmcProtocol.mode == VMCProtocolMode.Sender)
+            {
                 Plugin.cameraController.externalSender.AddSendTask(this, Config.vmcProtocol.address, Config.vmcProtocol.port);
+                _initializeExternalSender = true;
+            }
         }
         public void InitExternalReceiver()
         {
@@ -213,6 +217,18 @@ namespace CameraPlus.Behaviours
                 AddMovementScript();
         }
 
+        public void OnEnable()
+        {
+            if (Config?.vmcProtocol.mode == VMCProtocolMode.Sender)
+                InitExternalSender();
+        }
+
+        public void OnDisable()
+        {
+            Plugin.cameraController.externalSender.RemoveTask(this);
+            _initializeExternalSender = false;
+        }
+
 
         protected virtual void OnDestroy()
         {
@@ -228,6 +244,7 @@ namespace CameraPlus.Behaviours
                 Destroy(marionette);
 #endif
             Plugin.cameraController.externalSender.RemoveTask(this);
+            _initializeExternalSender = false;
 
             Plugin.cameraController.OnSetCullingMask.RemoveListener(OnCullingMaskChangeEvent);
 

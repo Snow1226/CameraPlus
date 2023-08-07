@@ -1,3 +1,6 @@
+# v7.0.5 Changes
+- Fixed VMC Protocol Sender forgetting to discard the old one when switching.  
+
 # v7.0.4 Changes
 - Fixed game tracking not working for debris display again. 
 - Fixed the problem that cut particles disappeared and added display switching.  
