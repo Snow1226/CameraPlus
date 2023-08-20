@@ -456,7 +456,7 @@ namespace CameraPlus.UI
                                 }
                                 if (MenuUI.ToggleSwitch(0, 18, "Wall inside", _cameraPlus.Config.Wall, 6, 3, 1.5f))
                                     _cameraPlus.Config.Wall = !_cameraPlus.Config.Wall;
-                                if (MenuUI.ToggleSwitch(6, 18, "Wall inside", _cameraPlus.Config.WallFrame, 6, 3, 1.5f))
+                                if (MenuUI.ToggleSwitch(6, 18, "Wall Frame", _cameraPlus.Config.WallFrame, 6, 3, 1.5f))
                                     _cameraPlus.Config.WallFrame = !_cameraPlus.Config.WallFrame;
                                 if (MenuUI.ToggleSwitch(0, 21, "UI", _cameraPlus.Config.UI, 6, 3, 1.5f))
                                     _cameraPlus.Config.UI = !_cameraPlus.Config.UI;

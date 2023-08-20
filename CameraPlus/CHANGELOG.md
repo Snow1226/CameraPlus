@@ -1,3 +1,7 @@
+# v7.0.6 Changes
+- Fixed Typo.  
+- Fix "draw desktop off" not working when launch.  
+
 # v7.0.5 Changes
 - Fixed VMC Protocol Sender forgetting to discard the old one when switching.  
 
