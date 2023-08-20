@@ -43,6 +43,7 @@ namespace CameraPlus.Behaviours
         protected RenderTexture _camRenderTexture;
         internal ScreenCameraBehaviour _screenCamera;
         internal CameraOrigin _cameraOrigin;
+        internal GameObject _originOffset;
         protected Camera _mainCamera = null;
         protected CameraMovement _cameraMovement = null;
         protected BeatLineManager _beatLineManager;
@@ -100,6 +101,9 @@ namespace CameraPlus.Behaviours
             _cameraOrigin = new GameObject("CameraPlusOrigin").AddComponent<CameraOrigin>();
             _cameraOrigin.transform.SetParent(transform);
             _cameraOrigin._cameraPlus = this;
+
+            _originOffset = new GameObject("OriginOffset");
+            _originOffset.transform.SetParent(_cameraOrigin.transform);
 
             var gameObj = Instantiate(CameraUtilities.GetMainCamera(), Vector3.zero, Quaternion.identity, _cameraOrigin.gameObject.transform);
             gameObj.transform.localScale = Vector3.one;

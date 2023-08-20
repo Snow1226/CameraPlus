@@ -1,6 +1,7 @@
 # v7.0.6 Changes
-- Fixed Typo.  
-- Fix "draw desktop off" not working when launch.  
+- fix probably a typo. (PR#24) 
+- Fix "draw desktop off" not working when launch. (PR#25)
+- Fixed origin tracking when using room adjust and NoodlePlayer tracks.  
 
 # v7.0.5 Changes
 - Fixed VMC Protocol Sender forgetting to discard the old one when switching.  

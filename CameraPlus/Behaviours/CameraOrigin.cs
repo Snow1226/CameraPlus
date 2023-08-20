@@ -13,8 +13,14 @@ namespace CameraPlus.Behaviours
         {
             if (_cameraPlus.Config.cameraExtensions.followNoodlePlayerTrack && Plugin.cameraController.origin)
             {
-                _position = Plugin.cameraController.origin.position - RoomAdjustPatch.position;
-                _rotation = Plugin.cameraController.origin.rotation * Quaternion.Inverse(RoomAdjustPatch.rotation);
+                transform.position = Plugin.cameraController.origin.position;
+                transform.rotation = Plugin.cameraController.origin.rotation * Quaternion.Inverse(RoomAdjustPatch.rotation);
+
+                _cameraPlus._originOffset.transform.localPosition = Vector3.zero - RoomAdjustPatch.position;
+                _cameraPlus._originOffset.transform.localRotation = Quaternion.identity;
+
+                _position = _cameraPlus._originOffset.transform.position;
+                _rotation = _cameraPlus._originOffset.transform.rotation;
             }
             else
             {
