@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using CameraPlus.Behaviours;
+using CameraPlus.HarmonyPatches;
 
 namespace CameraPlus.VMCProtocol
 {
@@ -51,8 +52,8 @@ namespace CameraPlus.VMCProtocol
                 {
                     foreach(SendTask sendTask in sendTasks)
                     {
-                        position = sendTask.parentBehaviour.ThirdPersonPos;
-                        rotation = Quaternion.Euler(sendTask.parentBehaviour.ThirdPersonRot);
+                        position = Quaternion.Inverse(RoomAdjustPatch.rotation) * (sendTask.parentBehaviour.ThirdPersonPos - RoomAdjustPatch.position);
+                        rotation = Quaternion.Inverse(RoomAdjustPatch.rotation) * Quaternion.Euler(sendTask.parentBehaviour.ThirdPersonRot);
 
                         sendTask.client.Send("/VMC/Ext/Cam", "Camera", new float[] {
                             position.x, position.y, position.z,

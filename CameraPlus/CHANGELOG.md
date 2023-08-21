@@ -1,3 +1,6 @@
+# v7.0.7 Changes
+- Temporary workaround of room adjust problem (PR #26 #27).  
+
 # v7.0.6 Changes
 - fix probably a typo. (PR#24) 
 - Fix "draw desktop off" not working when launch. (PR#25)
