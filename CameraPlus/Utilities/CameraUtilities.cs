@@ -295,7 +295,10 @@ namespace CameraPlus.Utilities
             Plugin.Log.Notice($"ProfileChange {currentprofile} to {profile}");
             if (!Plugin.cameraController.LoadedProfile.ContainsKey(profile))
             {
-                LoadProfile(ProfileName);
+                if (Directory.Exists(Path.Combine(ProfilePath, ProfileName)))
+                    LoadProfile(ProfileName);
+                else
+                    return;
             }
             Plugin.cameraController.LoadedProfile[currentprofile].SetActive(false);
             Plugin.cameraController.LoadedProfile[profile].SetActive(true);
@@ -377,12 +380,15 @@ namespace CameraPlus.Utilities
             DirectoryInfo[] dirs = dir.GetDirectories($"{bname}*");
             foreach (var dire in dirs)
             {
-                var regex = Regex.Match(dire.Name, "([0-9]*$)");
-                if (regex.Success)
+                if (dire.Name != bname)
                 {
-                    var no = int.Parse(regex.Groups[1].Value);
-                    if (no >= max)
-                        max = no + 1;
+                    var regex = Regex.Match(dire.Name, "([0-9]*$)");
+                    if (regex.Success)
+                    {
+                        var no = int.Parse(regex.Groups[1].Value);
+                        if (no >= max)
+                            max = no + 1;
+                    }
                 }
             }
             folName = $"{folName}{max.ToString()}";

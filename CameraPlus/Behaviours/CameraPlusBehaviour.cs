@@ -35,7 +35,7 @@ namespace CameraPlus.Behaviours
         public Vector3 ThirdPersonRot;
         public Vector3 OffsetPosition;
         public Vector3 OffsetAngle;
-        public CameraConfig Config;
+        public CameraConfig Config = null;
         public bool RunCullingMask = false;
 
         internal Camera _cam;
@@ -223,8 +223,13 @@ namespace CameraPlus.Behaviours
 
         public void OnEnable()
         {
-            if (Config?.vmcProtocol.mode == VMCProtocolMode.Sender)
-                InitExternalSender();
+            if(Config!=null) 
+            {
+                if (Config?.vmcProtocol.mode == VMCProtocolMode.Sender)
+                    InitExternalSender();
+                if (Config?.movementScript.movementScript != String.Empty || Config.movementScript.songSpecificScript)
+                    AddMovementScript();
+            }
         }
 
         public void OnDisable()

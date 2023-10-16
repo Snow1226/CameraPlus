@@ -1,3 +1,7 @@
+# v7.0.8 Changes (Backport 7.1.0 for BeatSaber 1.32.0)
+- Fixed an issue where scripts were not initialized when switching profiles.  
+- Fixed an issue where a profile could not be added if "CameraPlusProfile" without a number at the end of the profile name existed.  
+
 # v7.0.7 Changes
 - Temporary workaround of room adjust problem (PR #26 #27).  
 
