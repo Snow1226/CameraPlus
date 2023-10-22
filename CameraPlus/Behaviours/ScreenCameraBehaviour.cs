@@ -65,7 +65,7 @@ namespace CameraPlus.Behaviours
             if (_cameraPlus)
             {
                 if (_cameraPlus.effectElements.enableDOF) PostEffect.DepthOfField(_cameraPlus, _renderTexture, _dofMaterial);
-                if (_cameraPlus.effectElements.enableGlitch) PostEffect.Glitch(_cameraPlus, _renderTexture, _glitchMaterial);
+                //if (_cameraPlus.effectElements.enableGlitch) PostEffect.Glitch(_cameraPlus, _renderTexture, _glitchMaterial);
                 if (_cameraPlus.effectElements.enableOutline) PostEffect.Outline(_cameraPlus, _renderTexture, _outlineMaterial);
                 if (_cameraPlus.effectElements.wipeProgress > 0)
                 {

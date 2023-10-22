@@ -45,8 +45,8 @@ namespace CameraPlus.UI
         {
             DoF,
             Wipe,
-            Outline,
-            Glitch
+            Outline
+            //Glitch
         }
 
         private bool _showMenu;
@@ -960,6 +960,7 @@ namespace CameraPlus.UI
                                 if (MenuUI.ToggleButton(6, 22, "Bottom to Top", _cameraPlus.Config.WipeType == "Bottom", 4, 2))
                                     _cameraPlus.Config.WipeType = _cameraPlus.effectElements.wipeType = "Bottom";
                                 break;
+                            /*
                             case EffectSettingState.Glitch:
                                 if (MenuUI.ToggleSwitch(0, 3, "Glitch", _cameraPlus.Config.GlitchEnable, 6, 2, 1.5f))
                                     _cameraPlus.Config.GlitchEnable = _cameraPlus.effectElements.enableGlitch = !_cameraPlus.Config.GlitchEnable;
@@ -983,6 +984,7 @@ namespace CameraPlus.UI
                                 if (MenuUI.SpinBox(0, 20, ref glitchValue[5], 1, 1, 10, 0, 6, 2))
                                     _cameraPlus.Config.GlitchScale = _cameraPlus.effectElements.glitchScale = glitchValue[5];
                                 break;
+                            */
                         }
                         if (MenuUI.Button(0, 32, "Back top menu", 12, 2))
                         {

@@ -24,6 +24,7 @@ namespace CameraPlus.Utilities
             RenderTexture.ReleaseTemporary(temp1);
         }
 
+        /*
         public static void Glitch(CameraPlusBehaviour cameraPlus, RenderTexture renderTexture, Material material)
         {
             if (cameraPlus == null) return;
@@ -40,6 +41,7 @@ namespace CameraPlus.Utilities
 
             Graphics.Blit(renderTexture, renderTexture, material);
         }
+        */
         public static void Outline(CameraPlusBehaviour cameraPlus, RenderTexture renderTexture, Material material)
         {
             if (cameraPlus == null) return;
