@@ -8,6 +8,7 @@ namespace CameraPlus.Behaviours
         internal CameraPlusBehaviour _cameraPlus;
         private Vector3 _position = Vector3.zero;
         private Quaternion _rotation = Quaternion.identity;
+        private float _yAngle;
 
         protected virtual void LateUpdate()
         {
@@ -30,6 +31,14 @@ namespace CameraPlus.Behaviours
 
             transform.position = _position;
             transform.rotation = _rotation;
+
+
+            if (_cameraPlus.Config.cameraExtensions.follow360map)
+            {
+                _yAngle = Mathf.LerpAngle(_yAngle, CameraPlusController.instance._beatLineManagerYAngle, Mathf.Clamp(Time.deltaTime * _cameraPlus.Config.cameraExtensions.rotation360Smooth, 0f, 1f));
+
+                transform.localRotation *= Quaternion.AngleAxis(_yAngle, transform.up);
+            }
         }
     }
 }

@@ -51,6 +51,10 @@ namespace CameraPlus
         protected bool _contextMenuOpen = false;
         protected bool _mouseHeld = false;
 
+        protected BeatLineManager _beatLineManager;
+        protected EnvironmentSpawnRotation _environmentSpawnRotation;
+        internal float _beatLineManagerYAngle = 0;
+
         private void Awake()
         {
             if (instance != null)
@@ -105,6 +109,37 @@ namespace CameraPlus
             }
             else
                 _mouseHeld = false;
+        }
+
+        private void LateUpdate()
+        {
+            if (SceneManager.GetActiveScene().name == "GameCore")
+            {
+                if (!_beatLineManager || !_environmentSpawnRotation)
+                {
+                    _beatLineManager = BeatLineManagerPatch.Instance;
+                    _environmentSpawnRotation = EnvironmentSpawnRotationPatch.Instance;
+                    return;
+                }
+                if (_beatLineManager.isMidRotationValid)
+                {
+                    double midRotation = (double)this._beatLineManager.midRotation;
+                    float num1 = Mathf.DeltaAngle((float)midRotation, this._environmentSpawnRotation.targetRotation);
+                    float num2 = (float)(-(double)this._beatLineManager.rotationRange * 0.5);
+                    float num3 = this._beatLineManager.rotationRange * 0.5f;
+                    if ((double)num1 > (double)num3)
+                        num3 = num1;
+                    else if ((double)num1 < (double)num2)
+                        num2 = num1;
+                    _beatLineManagerYAngle = (float)(midRotation + ((double)num2 + (double)num3) * 0.5);
+                }
+                else
+                    _beatLineManagerYAngle = this._environmentSpawnRotation.targetRotation;
+            }
+            else
+            {
+                _beatLineManagerYAngle = 0;
+            }
         }
 
         private void ShaderLoad()

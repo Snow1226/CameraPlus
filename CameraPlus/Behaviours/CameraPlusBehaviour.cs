@@ -46,12 +46,9 @@ namespace CameraPlus.Behaviours
         internal GameObject _originOffset;
         protected Camera _mainCamera = null;
         protected CameraMovement _cameraMovement = null;
-        protected BeatLineManager _beatLineManager;
-        protected EnvironmentSpawnRotation _environmentSpawnRotation;
 
         protected int _prevLayer;
         protected int _prevScreenPosX, _prevScreenPosY;
-        protected float _yAngle;
 
         protected bool _wasWindowActive = false;
         protected bool _mouseHeld = false;
@@ -433,7 +430,6 @@ namespace CameraPlus.Behaviours
 
                     HandleMultiPlayerLobby();
                     HandleMultiPlayerGame();
-                    HandleThirdPerson360();
 
                     _cam.transform.localPosition = ThirdPersonPos;
                     _cam.transform.localEulerAngles = ThirdPersonRot;
@@ -485,38 +481,6 @@ namespace CameraPlus.Behaviours
             {
                 Plugin.Log.Error($"CameraPlus {this.name}, Error in LateUpdate : {ex}");
             }
-        }
-
-        private void HandleThirdPerson360()
-        {
-            if (!_beatLineManager || !Config.cameraExtensions.follow360map || !_environmentSpawnRotation)
-            {
-                _beatLineManager = BeatLineManagerPatch.Instance;
-                _environmentSpawnRotation = EnvironmentSpawnRotationPatch.Instance;
-                return;
-            }
-            float b;
-            if (_beatLineManager.isMidRotationValid)
-            {
-                double midRotation = (double)this._beatLineManager.midRotation;
-                float num1 = Mathf.DeltaAngle((float)midRotation, this._environmentSpawnRotation.targetRotation);
-                float num2 = (float)(-(double)this._beatLineManager.rotationRange * 0.5);
-                float num3 = this._beatLineManager.rotationRange * 0.5f;
-                if ((double)num1 > (double)num3)
-                    num3 = num1;
-                else if ((double)num1 < (double)num2)
-                    num2 = num1;
-                b = (float)(midRotation + ((double)num2 + (double)num3) * 0.5);
-            }
-            else
-                b = this._environmentSpawnRotation.targetRotation;
-
-            _yAngle = Mathf.LerpAngle(_yAngle, b, Mathf.Clamp(Time.deltaTime * Config.cameraExtensions.rotation360Smooth, 0f, 1f));
-
-            ThirdPersonRot = new Vector3(Config.Rotation.x, _yAngle + Config.Rotation.y, Config.Rotation.z);
-
-            ThirdPersonPos = (transform.forward * Config.posz) + (transform.right * Config.posx);
-            ThirdPersonPos = new Vector3(ThirdPersonPos.x, Config.posy, ThirdPersonPos.z);
         }
 
         private void HandleMultiPlayerLobby()
