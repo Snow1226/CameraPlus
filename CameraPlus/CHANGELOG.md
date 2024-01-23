@@ -1,3 +1,6 @@
+# v7.0.10 Changes
+- Backport from v7.1.1, fixed an issue where the rotation axis was misaligned on 90/360 degree rotation map.
+
 # v7.0.9 Chanegs
 - Remove glitch effect menu. (for above v1.30)
 # v7.0.8 Changes (Backport 7.1.0 for BeatSaber 1.32.0)
