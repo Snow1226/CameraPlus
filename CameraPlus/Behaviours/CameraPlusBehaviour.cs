@@ -130,9 +130,6 @@ namespace CameraPlus.Behaviours
             foreach (var component in _cam.GetComponents<Behaviour>())
                 if (destroyList.Contains(component.GetType().Name)) Destroy(component);
 
-            //_screenCamera = new GameObject("Screen Camera").AddComponent<ScreenCameraBehaviour>();
-            //_screenCamera.transform.SetParent(transform);
-
             gameObj.SetActive(true);
 
             transform.localPosition = Vector3.zero;
@@ -270,8 +267,6 @@ namespace CameraPlus.Behaviours
             if (webCamScreen)
                 DisableWebCamScreen();
 
-            //if (_screenCamera)
-            //    Destroy(_screenCamera.gameObject);
             if (_quad)
                 Destroy(_quad);
         }
@@ -294,7 +289,6 @@ namespace CameraPlus.Behaviours
                 ThirdPersonRot = Config.Rotation;
             }
 
-            //_screenCamera.enabled = !Config.cameraExtensions.dontDrawDesktop;
             if (!Config.cameraExtensions.dontDrawDesktop)
                 Plugin.cameraController.ScreenCamera.RegistrationCamera(this);
             else
@@ -347,11 +341,7 @@ namespace CameraPlus.Behaviours
                     };
                     _cam.targetTexture = _camRenderTexture;
                     _quad._previewMaterial.SetTexture("_MainTex", _camRenderTexture);
-                    //_screenCamera?.SetRenderTexture(_camRenderTexture, this);
                 }
-
-                //if (changed || Config.screenPosX != _prevScreenPosX || Config.screenPosY != _prevScreenPosY || Config.layer != _prevLayer)
-                //    _screenCamera?.SetCameraInfo(Config.ScreenPosition, Config.ScreenSize, Config.layer);
 
                 _prevLayer = Config.layer;
                 _prevScreenPosX = Config.screenPosX;
@@ -386,18 +376,10 @@ namespace CameraPlus.Behaviours
 
         private void OnFPFCToglleEvent()
         {
-            //_screenCamera.SetLayer(Config.layer);
             if (Plugin.cameraController.isFPFC)
-            {
                 turnToHead = false;
-                //_screenCamera.enabled = false;
-            }
             else
-            {
                 turnToHead = Config.cameraExtensions.turnToHead;
-                //if(!Config.DontDrawDesktop)
-                    //_screenCamera.enabled = true;
-            }
         }
 
         protected virtual void Update()
