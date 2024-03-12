@@ -256,7 +256,9 @@ namespace CameraPlus.UI
                                 if (MenuUI.ToggleSwitch(0, 3, "Third person", _cameraPlus.Config.thirdPerson, 6, 2, 1.5f))
                                     _cameraPlus.Config.thirdPerson = !_cameraPlus.Config.thirdPerson;
                                 if (MenuUI.ToggleSwitch(6, 3, "Desktop screen", !_cameraPlus.Config.cameraExtensions.dontDrawDesktop, 6, 2, 1.5f))
+                                {
                                     _cameraPlus.Config.DontDrawDesktop = !_cameraPlus.Config.DontDrawDesktop;
+                                }
 
                                 if (_cameraPlus.Config.thirdPerson)
                                 {
@@ -299,7 +301,7 @@ namespace CameraPlus.UI
                                 if (MenuUI.DoubleSpinBox(0, 17, ref screenLayer, 1, 10, -1000, 1000, 0, 6, 2))
                                 {
                                     _cameraPlus.Config.rawLayer = (int)screenLayer;
-                                    _cameraPlus._screenCamera.SetLayer(_cameraPlus.Config.layer);
+                                    //_cameraPlus._screenCamera.SetLayer(_cameraPlus.Config.layer);
                                 }
 
                                 MenuUI.Label(0, 19, "Near clip plane", 6, 2);
@@ -605,14 +607,14 @@ namespace CameraPlus.UI
                                 if (MenuUI.DoubleSpinBox(0, 16, ref screenX, 1, 20, 0, Screen.width - _cameraPlus.Config.screenWidth, 0, 6, 2))
                                 {
                                     _cameraPlus.Config.screenPosX = (int)screenX;
-                                    _cameraPlus._screenCamera.SetPosition(new Vector2(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY));
+                                    //_cameraPlus._screenCamera.SetPosition(new Vector2(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY));
                                 }
                                 MenuUI.Label(6, 14, "Y", 6, 2);
                                 var screenY = (float)_cameraPlus.Config.screenPosY;
                                 if (MenuUI.DoubleSpinBox(6, 16, ref screenY, 1, 20, 0, Screen.height - _cameraPlus.Config.screenHeight, 0, 6, 2))
                                 {
                                     _cameraPlus.Config.screenPosY = (int)screenY;
-                                    _cameraPlus._screenCamera.SetPosition(new Vector2(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY));
+                                    //_cameraPlus._screenCamera.SetPosition(new Vector2(_cameraPlus.Config.screenPosX, _cameraPlus.Config.screenPosY));
                                 }
 
 

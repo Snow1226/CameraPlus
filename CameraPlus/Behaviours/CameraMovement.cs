@@ -322,15 +322,15 @@ namespace CameraPlus.Behaviours
                     var otherCameraPlus = CameraUtilities.TargetCameraPlus(windowControl.Target, Plugin.cameraController.CurrentProfile);
                     if (otherCameraPlus != null)
                     {
-                        otherCameraPlus._screenCamera.enabled = windowControl.Visible.Value;
+                        otherCameraPlus.renderScreen = windowControl.Visible.Value;
                         if (windowControl.StartPos != null && windowControl.EndPos != null)
                         {
-                            otherCameraPlus._screenCamera.SetPosition(LeapVector2(
+                            otherCameraPlus.ScreenPosition = LeapVector2(
                                 new Vector2(float.Parse(windowControl.StartPos.x), float.Parse(windowControl.StartPos.y)),
-                                new Vector2(float.Parse(windowControl.EndPos.x), float.Parse(windowControl.EndPos.y)), Ease(movePerc)));
+                                new Vector2(float.Parse(windowControl.EndPos.x), float.Parse(windowControl.EndPos.y)), Ease(movePerc));
                         }
                         else
-                            otherCameraPlus._screenCamera.ResetPosition();
+                            otherCameraPlus.ScreenRect = otherCameraPlus.Config.rect;
                     }
                 }
             }

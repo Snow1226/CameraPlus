@@ -5,7 +5,8 @@
       "StartPos": {
         "x": 2,
         "y": 1.75,
-        "z": -2
+        "z": -2,
+        "FOV": 90
       },
       "StartRot": {
         "x": 15,
@@ -15,15 +16,83 @@
       "EndPos": {
         "x": 2,
         "y": 1,
-        "z": 9
+        "z": 9,
+        "FOV": 40
       },
       "EndRot": {
         "x": 15,
         "y": -40,
         "z": 0
       },
+      "CameraEffect": {
+        "enableDoF": false,
+        "dofAutoDistance": false,
+        "StartDoF": {
+          "dofFocusDistance": 1.0,
+          "dofFocusRange": 1.0,
+          "dofBlurRadius": 5.0
+        },
+        "EndDoF": {
+          "dofFocusDistance": 1.0,
+          "dofFocusRange": 1.0,
+          "dofBlurRadius": 5.0
+        },
+        "wipeType": "Circle",
+        "StartWipe": {
+          "wipeProgress": 0.0,
+          "wipeCircleCenter": {
+            "x": 0.0,
+            "y": 0.0
+          }
+        },
+        "EndWipe": {
+          "wipeProgress": 0.0,
+          "wipeCircleCenter": {
+            "x": 0.0,
+            "y": 0.0
+          }
+        },
+        "enableOutlineEffect": false,
+        "StartOutlineEffect": {
+          "outlineEffectOnly": 0.0,
+          "outlineColor": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          },
+          "outlineBackgroundColor": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          }
+        },
+        "EndOutlineEffect": {
+          "outlineEffectOnly": 0.0,
+          "outlineColor": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          },
+          "outlineBackgroundColor": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          }
+        }
+      },
+      "TurnToHead": false,
+      "TurnToHeadHorizontal": false,
       "Duration": 4,
       "Delay": 0,
+      "VisibleObject": {
+        "avatar": true,
+        "ui": true,
+        "wall": false, 
+        "wallFrame": true, 
+        "saber": true,
+        "notes": true, 
+        "debris": false 
+      },
       "EaseTransition": true
     },
     {

@@ -293,6 +293,7 @@ namespace CameraPlus.Utilities
             string profile = (ProfileName == string.Empty ? RootProfile : ProfileName);
             string currentprofile = (Plugin.cameraController.CurrentProfile == string.Empty ? RootProfile : Plugin.cameraController.CurrentProfile);
             Plugin.Log.Notice($"ProfileChange {currentprofile} to {profile}");
+            Plugin.cameraController.ScreenCamera.ClearScreenCamera();
             if (!Plugin.cameraController.LoadedProfile.ContainsKey(profile))
             {
                 if (Directory.Exists(Path.Combine(ProfilePath, ProfileName)))

@@ -1,3 +1,6 @@
+# V7.0.11 Changes
+- Lighter rendering.  
+
 # v7.0.10 Changes
 - Backport from v7.1.1, fixed an issue where the rotation axis was misaligned on 90/360 degree rotation map.
 

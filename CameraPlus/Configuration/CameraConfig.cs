@@ -134,12 +134,33 @@ namespace CameraPlus.Configuration
                 else
                     return _layer;
             }
-            set { _layer = value; }
+            set { 
+                _layer = value;
+                Plugin.cameraController.ScreenCamera.SortCamera();
+            }
         }
-        public int rawLayer { get => _layer; set { _layer = value; } }
+        public int rawLayer { 
+            get => _layer; 
+            set {
+                _layer = value;
+                Plugin.cameraController.ScreenCamera.SortCamera();
+            }
+        }
         public int antiAliasing { get => _antiAliasing; set { _antiAliasing = value; } }
         public float renderScale { get => _renderScale; set { _renderScale = value; } }
         public bool fitToCanvas { get => _windowRect.fitToCanvas; set { _windowRect.fitToCanvas = value; } }
+
+        private Rect _rect = new Rect(0,0,0,0);
+        public Rect rect { 
+            get{
+                _rect.x = _windowRect.x;
+                _rect.y = _windowRect.y;
+                _rect.width = _windowRect.width;
+                _rect.height = _windowRect.height;
+                return _rect;
+            }
+        }
+
         public int screenPosX { get => _windowRect.x; set { _windowRect.x = value; } }
         public int screenPosY { get => _windowRect.y; set { _windowRect.y = value; } }
         public int screenWidth { get => _windowRect.width; set { _windowRect.width = value; } }
@@ -241,7 +262,10 @@ namespace CameraPlus.Configuration
             set
             {
                 _cameraExtensions.dontDrawDesktop = value;
-                cam._screenCamera.enabled = !value;
+                if (!value)
+                    Plugin.cameraController.ScreenCamera.RegistrationCamera(cam);
+                else
+                    Plugin.cameraController.ScreenCamera.UnregistrationCamera(cam);
             }
         }
         public bool Avatar { get => _visibleObject.avatar; set { _visibleObject.avatar = value; SetCullingMask(visibleObject); } }
