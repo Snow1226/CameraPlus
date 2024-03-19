@@ -65,7 +65,7 @@ namespace CameraPlus.Behaviours
             {
                 if (_grabbingController != null)
                 {
-                    var diff = -_grabbingController.verticalAxisValue * Time.unscaledDeltaTime;
+                    var diff = _grabbingController.verticalAxisValue * Time.unscaledDeltaTime;
                     if (_grabPos.magnitude > MinScrollDistance)
                         _grabPos -= Vector3.forward * diff;
                     else

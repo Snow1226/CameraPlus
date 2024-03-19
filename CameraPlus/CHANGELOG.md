@@ -1,3 +1,6 @@
+# V7.0.12 Changes
+- If you grab the camera and move it with the stick, Fixed an issue where the movement would be the opposite of what was expected.  
+
 # V7.0.11 Changes
 - Lighter rendering.  
 
