@@ -1,7 +1,10 @@
-# V7.0.12 Changes
+# v7.0.13 Changes
+- Fixed a mistake in the script reset process.  
+- 
+# v7.0.12 Changes
 - If you grab the camera and move it with the stick, Fixed an issue where the movement would be the opposite of what was expected.  
 
-# V7.0.11 Changes
+# v7.0.11 Changes
 - Lighter rendering.  
 
 # v7.0.10 Changes
