@@ -194,29 +194,29 @@ namespace CameraPlus.Utilities
             workProfile = (profileName != string.Empty ? profileName : RootProfile);
 
             Plugin.Log.Notice($"Loading profile : {workProfile}");
-            if (!Plugin.cameraController.LoadedProfile.ContainsKey(workProfile))
+            if (GetMainCamera() != null)
             {
-                profileObject = new GameObject(workProfile);
-                Plugin.cameraController.LoadedProfile.TryAdd(workProfile, profileObject);
-                profileObject.name = workProfile;
-                profileObject.transform.SetParent(Plugin.cameraController.gameObject.transform);
-                profileObject.transform.localPosition = Vector3.zero;
-                profileObject.transform.localRotation = Quaternion.identity;
-            }
-            else
-            {
-                profileObject = Plugin.cameraController.LoadedProfile[workProfile];
-            }
-
-            try
-            {
-                if (!Directory.Exists(ConfigPath))
-                    Directory.CreateDirectory(ConfigPath);
-
-                string[] files = (profileName != string.Empty ? Directory.GetFiles(Path.Combine(ProfilePath, profileName)) : Directory.GetFiles(ConfigPath));
-                string fileName, dictKey;
-                if(GetMainCamera() != null)
+                if (!Plugin.cameraController.LoadedProfile.ContainsKey(workProfile))
                 {
+                    profileObject = new GameObject(workProfile);
+                    Plugin.cameraController.LoadedProfile.TryAdd(workProfile, profileObject);
+                    profileObject.name = workProfile;
+                    profileObject.transform.SetParent(Plugin.cameraController.gameObject.transform);
+                    profileObject.transform.localPosition = Vector3.zero;
+                    profileObject.transform.localRotation = Quaternion.identity;
+                }
+                else
+                {
+                    profileObject = Plugin.cameraController.LoadedProfile[workProfile];
+                }
+
+                try
+                {
+                    if (!Directory.Exists(ConfigPath))
+                        Directory.CreateDirectory(ConfigPath);
+
+                    string[] files = (profileName != string.Empty ? Directory.GetFiles(Path.Combine(ProfilePath, profileName)) : Directory.GetFiles(ConfigPath));
+                    string fileName, dictKey;
                     foreach (string filePath in files)
                     {
                         Plugin.Log.Notice($"Loading profile cameras : {Path.GetFileName(filePath)}");
@@ -240,15 +240,15 @@ namespace CameraPlus.Utilities
                         }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Plugin.Log.Notice($"Not found MainCamera / BeatLeader Replay");
+                    Plugin.Log.Error($"Exception while loading profile cameras! Exception:" +
+                        $" {ex.Message}\n{ex.StackTrace}");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Plugin.Log.Error($"Exception while loading profile cameras! Exception:" +
-                    $" {ex.Message}\n{ex.StackTrace}");
+                Plugin.Log.Notice($"Not found MainCamera / BeatLeader Replay");
             }
         }
 
@@ -303,6 +303,8 @@ namespace CameraPlus.Utilities
 
         internal static void ProfileChange(String ProfileName)
         {
+            if (GetMainCamera() == null)
+                return;
             string profile = (ProfileName == string.Empty ? RootProfile : ProfileName);
             string currentprofile = (Plugin.cameraController.CurrentProfile == string.Empty ? RootProfile : Plugin.cameraController.CurrentProfile);
             Plugin.Log.Notice($"ProfileChange {currentprofile} to {profile}");
