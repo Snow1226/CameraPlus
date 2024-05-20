@@ -44,14 +44,6 @@ namespace CameraPlus
             else
                 Log.Warn("SiraUtil Not Detected.");
 
-            if (HarmonyPatches.BeatLeaderReplayerCameraControllerStartPatch.TargetMethod() != null)
-            {
-                _harmony.PatchAll(typeof(HarmonyPatches.BeatLeaderReplayerCameraControllerStartPatch));
-                _harmony.PatchAll(typeof(HarmonyPatches.BeatLeaderReplayerCameraControllerOnDestroyPatch));
-            }
-            else
-                Log.Warn("BeatLeader Not Detected.");
-
             cameraController = new GameObject("CameraPlusController").AddComponent<CameraPlusController>();
         }
 

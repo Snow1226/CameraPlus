@@ -116,7 +116,10 @@ namespace CameraPlus.Behaviours
             _originOffset = new GameObject("OriginOffset");
             _originOffset.transform.SetParent(_cameraOrigin.transform);
 
-            var gameObj = Instantiate(CameraUtilities.GetMainCamera(), Vector3.zero, Quaternion.identity, _cameraOrigin.gameObject.transform);
+            var c = CameraUtilities.GetMainCamera();
+            if(c==null)
+                c = CameraUtilities.GetMainCameraInactive();
+            var gameObj = Instantiate(c, Vector3.zero, Quaternion.identity, _cameraOrigin.gameObject.transform);
             gameObj.transform.localScale = Vector3.one;
 
             gameObj.SetActive(false);
