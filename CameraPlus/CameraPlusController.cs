@@ -55,8 +55,6 @@ namespace CameraPlus
         protected EnvironmentSpawnRotation _environmentSpawnRotation;
         internal float _beatLineManagerYAngle = 0;
 
-        internal bool _isBeatLeaderReplay = false;
-
         private void Awake()
         {
             if (instance != null)
@@ -234,7 +232,7 @@ namespace CameraPlus
 
         private void OnFPFCToglleEvent()
         {
-            if (isFPFC || _isBeatLeaderReplay)
+            if (isFPFC)
                 ScreenCamera.gameObject.SetActive(false);
             else
                 ScreenCamera.gameObject.SetActive(true);
