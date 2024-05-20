@@ -176,7 +176,23 @@ namespace CameraPlus.Utilities
         {
             var cam = Camera.main;
             if (cam == null)
-                return GameObject.FindGameObjectsWithTag("MainCamera")[0];
+            {
+                var c = GameObject.FindGameObjectsWithTag("MainCamera");
+                if (c.Length > 0)
+                    return c[0];
+                else
+                    return null;
+            }
+            return cam.gameObject;
+        }
+
+        public static GameObject GetMainCameraInactive()
+        {
+            var cam = Camera.main;
+            if (cam == null && HarmonyPatches.MainCameraPatch.gameMainCamera)
+            {
+                return HarmonyPatches.MainCameraPatch.gameMainCamera.gameObject;
+            }
             return cam.gameObject;
         }
 

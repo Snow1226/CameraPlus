@@ -29,7 +29,7 @@ namespace CameraPlus.Behaviours
         }
         public void RegistrationCamera(CameraPlusBehaviour cameraPlus)
         {
-            if(_cameras.Find(c=>c._cam.name == cameraPlus._cam.name) == null)
+            if(_cameras.Find(c=>c._cam.name == cameraPlus._cam.name) == null && cameraPlus.gameObject.activeInHierarchy == transform)
             {
                 _cameras.Add(cameraPlus);
                 _cameras = _cameras.OrderBy(c => c.Config.layer).ToList();

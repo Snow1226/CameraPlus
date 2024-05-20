@@ -1,6 +1,9 @@
+# v7.0.14 Changes
+- Backport from v7.3.1. (Issue #28, #29)  
+
 # v7.0.13 Changes
 - Fixed a mistake in the script reset process.  
-- 
+ 
 # v7.0.12 Changes
 - If you grab the camera and move it with the stick, Fixed an issue where the movement would be the opposite of what was expected.  
 

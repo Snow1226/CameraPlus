@@ -223,16 +223,8 @@ namespace CameraPlus
 
         internal IEnumerator waitMainCamera()
         {
-            if (SceneManager.GetActiveScene().name == "GameCore")
-            {
-                while (!MainCameraPatch.isGameCameraEnable)
-                    yield return null;
-            }
-            else
-            {
-                while (Camera.main == null)
-                    yield return null;
-            }
+            while (CameraUtilities.GetMainCamera() == null)
+                yield return null;
         }
 
         private void OnFPFCToglleEvent()

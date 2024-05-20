@@ -9,7 +9,8 @@ namespace CameraPlus.HarmonyPatches
         public static int WallLayerMask = 25;
         static void Postfix(Transform ____obstacleCore, ref ParametricBoxFakeGlowController ____obstacleFakeGlow)
         {
-            Camera.main.cullingMask |= (1 << TransparentWallsPatch.WallLayerMask);//Enables HMD bits because layer 25 is masked by default
+            if (Camera.main != null)
+                Camera.main.cullingMask |= (1 << TransparentWallsPatch.WallLayerMask);//Enables HMD bits because layer 25 is masked by default
             if (____obstacleCore != null)
             {
                 ____obstacleCore.gameObject.layer = WallLayerMask;
