@@ -1,3 +1,7 @@
+# v7.3.1 Chanegs
+- Fixed an issue where a patch error would occur on the Oculus version.   
+- Fixed patch error on song search screen.  
+
 # v7.3.0 Chanegs
 - Support game version 1.36.2.  
 
