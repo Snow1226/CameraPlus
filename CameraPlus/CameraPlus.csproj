@@ -182,11 +182,10 @@
     <Compile Include="Configuration\MovementScriptJson.cs" />
     <Compile Include="HarmonyPatches\AudioTimeSyncControllerPatch.cs" />
     <Compile Include="HarmonyPatches\CustomLevelLoaderPatch.cs" />
-    <Compile Include="HarmonyPatches\CustomPreviewBeatmapLevelPatch.cs" />
+    <Compile Include="HarmonyPatches\SongScriptBeatmapPatch.cs" />
     <Compile Include="HarmonyPatches\SmoothCameraPatch.cs" />
     <Compile Include="HarmonyPatches\FPFCPatch.cs" />
     <Compile Include="HarmonyPatches\LevelDataPatch.cs" />
-    <Compile Include="HarmonyPatches\MainCameraPatch.cs" />
     <Compile Include="HarmonyPatches\MultiplayerPatch.cs" />
     <Compile Include="HarmonyPatches\PlayerSettingPatch.cs" />
     <Compile Include="HarmonyPatches\RoomAdjustPatch.cs" />

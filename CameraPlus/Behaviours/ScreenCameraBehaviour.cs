@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace CameraPlus.Behaviours
 {
@@ -81,7 +82,15 @@ namespace CameraPlus.Behaviours
                 useDynamicScale = false
             };
         }
-        
+
+        public void OnEnable()
+        {
+            if(GraphicsSettings.renderPipelineAsset!=null)
+                Plugin.Log.Notice($"Renderpipeline {GraphicsSettings.renderPipelineAsset.name}");
+            else
+                Plugin.Log.Notice($"GraphicsSetting null");
+        }
+
         private void OnRenderImage(RenderTexture src, RenderTexture dest)
         {
             if (_renderTexture == null) return;
@@ -96,7 +105,7 @@ namespace CameraPlus.Behaviours
                     _cam.pixelRect = c.ScreenRect;
 
                     if (c.effectElements.enableDOF) PostEffect.DepthOfField(c, c._camRenderTexture, _dofMaterial);
-                    //if (c.effectElements.enableGlitch) PostEffect.Glitch(c, c._camRenderTexture, _glitchMaterial);
+                    if (c.effectElements.enableGlitch) PostEffect.Glitch(c, c._camRenderTexture, _glitchMaterial);
                     if (c.effectElements.enableOutline) PostEffect.Outline(c, c._camRenderTexture, _outlineMaterial);
                     if (c.effectElements.wipeProgress > 0)
                         PostEffect.Wipe(c, c._camRenderTexture, dest, _wipeMaterial);

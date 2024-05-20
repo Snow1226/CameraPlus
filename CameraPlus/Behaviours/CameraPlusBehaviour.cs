@@ -585,7 +585,7 @@ namespace CameraPlus.Behaviours
         {
             if (SceneManager.GetActiveScene().name == "GameCore")
             {
-                while (!MainCameraPatch.isGameCameraEnable)
+                while (CameraUtilities.GetMainCamera() == null)
                     yield return null;
                 CameraUtilities.BaseCullingMask = Camera.main.cullingMask;
             }
