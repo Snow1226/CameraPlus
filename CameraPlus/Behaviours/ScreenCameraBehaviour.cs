@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace CameraPlus.Behaviours
 {
@@ -81,14 +80,6 @@ namespace CameraPlus.Behaviours
                 anisoLevel = 1,
                 useDynamicScale = false
             };
-        }
-
-        public void OnEnable()
-        {
-            if(GraphicsSettings.renderPipelineAsset!=null)
-                Plugin.Log.Notice($"Renderpipeline {GraphicsSettings.renderPipelineAsset.name}");
-            else
-                Plugin.Log.Notice($"GraphicsSetting null");
         }
 
         private void OnRenderImage(RenderTexture src, RenderTexture dest)
