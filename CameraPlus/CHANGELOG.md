@@ -1,7 +1,8 @@
 # v7.3.1 Chanegs
-- Fixed an issue where a patch error would occur on the Oculus version.   
+- Fixed an issue where a patch error would occur on the Oculus version.(Issue #30)   
 - Fixed patch error on song search screen.  
-- Fixed an error when playing BeatLeader Replay.  
+- Fixed an error when playing BeatLeader Replay.(Issue #29)  
+- Fixed an issue where the camera before switching remained when switching profiles. (Issue #28)  
 
 # v7.3.0 Chanegs
 - Support game version 1.36.2.  
