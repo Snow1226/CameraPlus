@@ -215,27 +215,34 @@ namespace CameraPlus.Utilities
 
                 string[] files = (profileName != string.Empty ? Directory.GetFiles(Path.Combine(ProfilePath, profileName)) : Directory.GetFiles(ConfigPath));
                 string fileName, dictKey;
-                foreach (string filePath in files)
+                if(GetMainCamera() != null)
                 {
-                    Plugin.Log.Notice($"Loading profile cameras : {Path.GetFileName(filePath)}");
-
-                    fileName = Path.GetFileName(filePath);
-                    dictKey = (profileName == string.Empty ? $"{Plugin.Name}_{fileName}" : $"{profileName}_{fileName}");
-                    if (fileName.EndsWith(".json") && !Plugin.cameraController.Cameras.ContainsKey(dictKey))
+                    foreach (string filePath in files)
                     {
-                        Plugin.Log.Notice($"Found new CameraConfig {filePath}!");
+                        Plugin.Log.Notice($"Loading profile cameras : {Path.GetFileName(filePath)}");
 
-                        CameraConfig Config = new CameraConfig(filePath);
-                        if (Config.configLoaded)
+                        fileName = Path.GetFileName(filePath);
+                        dictKey = (profileName == string.Empty ? $"{Plugin.Name}_{fileName}" : $"{profileName}_{fileName}");
+                        if (fileName.EndsWith(".json") && !Plugin.cameraController.Cameras.ContainsKey(dictKey))
                         {
-                            var cam = new GameObject(dictKey).AddComponent<CameraPlusBehaviour>();
-                            cam.transform.SetParent(profileObject.transform);
-                            cam.transform.localPosition = Vector3.zero;
-                            cam.transform.localRotation = Quaternion.identity;
-                            cam.Init(Config);
-                            Plugin.cameraController.Cameras.TryAdd(dictKey, cam);
+                            Plugin.Log.Notice($"Found new CameraConfig {filePath}!");
+
+                            CameraConfig Config = new CameraConfig(filePath);
+                            if (Config.configLoaded)
+                            {
+                                var cam = new GameObject(dictKey).AddComponent<CameraPlusBehaviour>();
+                                cam.transform.SetParent(profileObject.transform);
+                                cam.transform.localPosition = Vector3.zero;
+                                cam.transform.localRotation = Quaternion.identity;
+                                cam.Init(Config);
+                                Plugin.cameraController.Cameras.TryAdd(dictKey, cam);
+                            }
                         }
                     }
+                }
+                else
+                {
+                    Plugin.Log.Notice($"Not found MainCamera / BeatLeader Replay");
                 }
             }
             catch (Exception ex)

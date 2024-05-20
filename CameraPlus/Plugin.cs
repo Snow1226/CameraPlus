@@ -35,6 +35,7 @@ namespace CameraPlus
         {
             _harmony = new Harmony("com.brian91292.beatsaber.cameraplus");
             _harmony.PatchAll(Assembly.GetExecutingAssembly());
+
             if (HarmonyPatches.FPFCToggleEnable.TargetMethod() != null)
             {
                 _harmony.PatchAll(typeof(HarmonyPatches.FPFCToggleEnable));
@@ -42,6 +43,14 @@ namespace CameraPlus
             }
             else
                 Log.Warn("SiraUtil Not Detected.");
+
+            if (HarmonyPatches.BeatLeaderReplayerCameraControllerStartPatch.TargetMethod() != null)
+            {
+                _harmony.PatchAll(typeof(HarmonyPatches.BeatLeaderReplayerCameraControllerStartPatch));
+                _harmony.PatchAll(typeof(HarmonyPatches.BeatLeaderReplayerCameraControllerOnDestroyPatch));
+            }
+            else
+                Log.Warn("BeatLeader Not Detected.");
 
             cameraController = new GameObject("CameraPlusController").AddComponent<CameraPlusController>();
         }

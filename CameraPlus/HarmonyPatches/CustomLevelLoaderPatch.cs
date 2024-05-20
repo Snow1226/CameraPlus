@@ -12,8 +12,9 @@ namespace CameraPlus.HarmonyPatches
         static void Postfix(CustomLevelLoader __instance)
         {
             Instance = __instance;
+#if DEBUG
             Plugin.Log.Notice($"CustomLevelLoader Loaded");
-
+#endif
         }
 
     }
