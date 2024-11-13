@@ -1,3 +1,6 @@
+# v7.5.0 Chanegs
+- Support game version 1.39.0.  
+ 
 # v7.4.0 Chanegs
 - Support game version 1.37.0.  
 - 
