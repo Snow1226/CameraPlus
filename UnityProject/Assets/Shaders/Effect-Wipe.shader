@@ -4,7 +4,7 @@
         _Progress("Progress", Float) = 0
         _MainTex("MainTex", 2D) = "" {}
         _Color("Color", Color) = (0, 0, 0, 0)
-        _Cutoff("Cutoff", Range(0, 1)) = 1.0
+        _Cutoff("Cutoff", Range(0, 2)) = 2.0
         _Center("Center", Vector) = (0,0,0,0)
     }
     SubShader{
