@@ -1,4 +1,5 @@
-# v7.5.1 Changes
+# v7.6.0 Changes
+- Support game version 1.40.0.  
 - Fixed an issue where avatar shadows were left behind during wipe effects.  
 
 # v7.5.0 Chanegs

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CameraPlus.HarmonyPatches
 {
-    [HarmonyPatch(typeof(StretchableObstacle), nameof(StretchableObstacle.SetSizeAndColor))]
+    [HarmonyPatch(typeof(StretchableObstacle), nameof(StretchableObstacle.SetAllProperties))]
     internal class TransparentWallsPatch
     {
         public static int WallLayerMask = 25;
