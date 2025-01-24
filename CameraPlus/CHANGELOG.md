@@ -1,3 +1,6 @@
+# v7.6.1 Changes
+- Fixed an issue where the Glitch effect was not working properly with movement scripts.
+
 # v7.6.0 Changes
 - Support game version 1.40.0.  
 - Fixed an issue where avatar shadows were left behind during wipe effects.  

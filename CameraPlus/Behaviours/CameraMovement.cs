@@ -215,6 +215,7 @@ namespace CameraPlus.Behaviours
                                 = new Color(System.Convert.ToSingle(InputEffect.EndOutlineEffect.outlineBackgroundColor.r), System.Convert.ToSingle(InputEffect.EndOutlineEffect.outlineBackgroundColor.g), System.Convert.ToSingle(InputEffect.EndOutlineEffect.outlineBackgroundColor.b), 0);
                     }
 
+                    if (InputEffect.enableGlitchEffect != null) cameraEffects[0].enableGlitch= cameraEffects[1].enableGlitch = System.Convert.ToBoolean(InputEffect.enableGlitchEffect);
                     if (InputEffect.StartGlitchEffect != null)
                     {
                         if (InputEffect.StartGlitchEffect.glitchLineSpeed != null) cameraEffects[0].glitchLineSpeed = System.Convert.ToSingle(InputEffect.StartGlitchEffect.glitchLineSpeed);

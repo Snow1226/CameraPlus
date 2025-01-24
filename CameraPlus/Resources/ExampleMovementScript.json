@@ -77,26 +77,26 @@
             "r": 0.0,
             "g": 0.0,
             "b": 0.0
-          },
-          "enableGlitchEffect": false,
-          "StartGlitchEffect": {
-            "EnableGlitch": false,
-            "GlitchLineSpeed": 5.0,
-            "GlitchLineSize": 0.01,
-            "GlitchColorGap": 0.01,
-            "GlitchFrameRate": 15.0,
-            "GlitchFrequency": 0.1,
-            "GlitchScale": 1.0
-          },
-          "EndGlitchEffect": {
-            "EnableGlitch": false,
-            "GlitchLineSpeed": 5.0,
-            "GlitchLineSize": 0.01,
-            "GlitchColorGap": 0.01,
-            "GlitchFrameRate": 15.0,
-            "GlitchFrequency": 0.1,
-            "GlitchScale": 1.0
           }
+        },
+        "enableGlitchEffect": false,
+        "StartGlitchEffect": {
+          "EnableGlitch": false,
+          "GlitchLineSpeed": 5.0,
+          "GlitchLineSize": 0.01,
+          "GlitchColorGap": 0.01,
+          "GlitchFrameRate": 15.0,
+          "GlitchFrequency": 0.1,
+          "GlitchScale": 1.0
+        },
+        "EndGlitchEffect": {
+          "EnableGlitch": false,
+          "GlitchLineSpeed": 5.0,
+          "GlitchLineSize": 0.01,
+          "GlitchColorGap": 0.01,
+          "GlitchFrameRate": 15.0,
+          "GlitchFrequency": 0.1,
+          "GlitchScale": 1.0
         }
       },
       "TurnToHead": false,
