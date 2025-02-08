@@ -6,7 +6,7 @@ Therefore, CameraPlus is no longer registered in ModAssistant.
 This is the version where I will add the features I want without permission.  
 
 # Supported game versions
-BeatSaber 1.40.0  
+BeatSaber 1.40.0 - 1.40.2  
 
 # Requirements
 CameraPlus is an external plugin.  
