@@ -436,9 +436,6 @@ namespace CameraPlus.Behaviours
                             }
 #endif
 
-                    HandleMultiPlayerLobby();
-                    HandleMultiPlayerGame();
-
                     _cam.transform.localPosition = ThirdPersonPos;
                     _cam.transform.localEulerAngles = ThirdPersonRot;
 
@@ -488,56 +485,6 @@ namespace CameraPlus.Behaviours
             catch(Exception ex)
             {
                 Plugin.Log.Error($"CameraPlus {this.name}, Error in LateUpdate : {ex}");
-            }
-        }
-
-        private void HandleMultiPlayerLobby()
-        {
-            try
-            {
-                if (!MultiplayerLobbyAvatarPlaceManagerPatch.Instance || !MultiplayerLobbyControllerPatch.Instance.isActiveAndEnabled || Config.multiplayer.targetPlayerNumber == 0) return;
-                if (MultiplayerSession.LobbyAvatarPlaceList.Count == 0) MultiplayerSession.LoadLobbyAvatarPlace();
-
-                for (int i = 0; i < MultiplayerSession.LobbyAvatarPlaceList.Count; i++)
-                {
-                    if (i == Config.multiplayer.targetPlayerNumber - 1)
-                    {
-                        OffsetPosition = MultiplayerSession.LobbyAvatarPlaceList[i].position;
-                        OffsetAngle = MultiplayerSession.LobbyAvatarPlaceList[i].eulerAngles;
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Plugin.Log.Error($"HandleMultiPlayerLobby Error {ex.Message}");
-            }
-        }
-        private void HandleMultiPlayerGame()
-        {
-            try
-            {
-                if (SceneManager.GetActiveScene().name == "GameCore" && MultiplayerSession.ConnectedMultiplay)
-                {
-                    MultiplayerConnectedPlayerFacade player = null;
-                    bool TryPlayerFacade;
-                    if (MultiplayerPlayersManagerPatch.Instance && Config.multiplayer.targetPlayerNumber != 0)
-                        foreach (IConnectedPlayer connectedPlayer in MultiplayerSession.connectedPlayers)
-                            if (Config.multiplayer.targetPlayerNumber - 1 == connectedPlayer.sortIndex)
-                            {
-                                TryPlayerFacade = MultiplayerPlayersManagerPatch.Instance.TryGetConnectedPlayerController(connectedPlayer.userId, out player);
-                                if (TryPlayerFacade && player != null)
-                                {
-                                    OffsetPosition = player.transform.position;
-                                    OffsetAngle = player.transform.eulerAngles;
-                                }
-                                break;
-                            }
-                }
-            }
-            catch (Exception ex)
-            {
-                Plugin.Log.Error($"{this.name} HandleMultiPlayerGame Error {ex.Message}");
             }
         }
 

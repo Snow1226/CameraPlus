@@ -1,3 +1,6 @@
+# v7.6.2 Changes
+- Fixed remote player position calculation in multiplayer mode. ( Issue #32 )   
+  
 # v7.6.1 Changes
 - Fixed an issue where the Glitch effect was not working properly with movement scripts.
 
