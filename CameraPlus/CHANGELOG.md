@@ -1,3 +1,7 @@
+# v7.6.3 Changes
+- Support game version 1.42.1.  
+- Multiplayer Change Fixes (Temporary).  
+
 # v7.6.2 Changes
 - Fixed remote player position calculation in multiplayer mode. ( Issue #32 )   
   

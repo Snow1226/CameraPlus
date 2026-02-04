@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HarmonyLib;
 using CameraPlus.Utilities;
 
 namespace CameraPlus.HarmonyPatches
 {
-    [HarmonyPatch(typeof(MultiplayerSessionManager),"Start")]
-    internal class MultiplayerSessionManagerPatch
+    [HarmonyPatch(typeof(BeatSaberConnectedPlayerManager), nameof(BeatSaberConnectedPlayerManager.SetLocalPlayerAvatar))]
+    internal class BeatSaberConnectedPlayerManagerPatch
     {
-        public static MultiplayerSessionManager Instance { get; private set; }
-        static void Postfix(MultiplayerSessionManager __instance)
+        public static BeatSaberConnectedPlayerManager Instance { get; private set; }
+        static void Postfix(BeatSaberConnectedPlayerManager __instance)
         {
-            Instance = __instance;
-            MultiplayerSession.Init(Instance);
-            Plugin.Log.Info($"Success Find SessionManager");
+            MultiplayerSession.Init(__instance);
         }
     }
 

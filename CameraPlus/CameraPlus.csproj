@@ -60,10 +60,14 @@
       <Private>False</Private>
       <Publicize>True</Publicize>
     </Reference>
-    <Reference Include="GameplayCore">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+    <Reference Include="BeatSaber.Multiplayer.Core">
+      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BeatSaber.Multiplayer.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	<Reference Include="GameplayCore">
+		<HintPath>$(GameDirectory)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+		<Private>False</Private>
+	</Reference>	  
     <Reference Include="Hive.Versioning">
       <HintPath>$(GameDirectory)\Libs\Hive.Versioning.dll</HintPath>
       <Private>False</Private>

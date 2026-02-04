@@ -8,33 +8,35 @@ namespace CameraPlus.Utilities
 {
     internal static class MultiplayerSession
     {
-        internal static MultiplayerSessionManager SessionManager { get; private set; }
+        //internal static BeatSaberMultiplayerSessionManager SessionManager { get; private set; }
+        internal static BeatSaberConnectedPlayerManager ConnectedPlayerManager { get; private set; }
+
         internal static List<IConnectedPlayer> connectedPlayers;
         internal static bool ConnectedMultiplay;
         internal static MultiplayerPlayersManager playersManager = null;
         internal static List<Transform> LobbyAvatarPlaceList;
-        internal static void Init(MultiplayerSessionManager sessionManager)
+        internal static void Init(BeatSaberConnectedPlayerManager playerManager)
         {
             connectedPlayers = new List<IConnectedPlayer>();
             LobbyAvatarPlaceList = new List<Transform>();
             ConnectedMultiplay = false;
-            SessionManager = sessionManager;
+            ConnectedPlayerManager = playerManager;
 
-            SessionManager.connectedEvent += OnSessionConnected;
-            SessionManager.disconnectedEvent += OnSessionDisconnected;
-            SessionManager.playerConnectedEvent += OnSessionPlayerConnected;
-            SessionManager.playerDisconnectedEvent += OnSessionPlayerDisconnected;
+            ConnectedPlayerManager.connectedEvent += OnSessionConnected;
+            ConnectedPlayerManager.disconnectedEvent += OnSessionDisconnected;
+            ConnectedPlayerManager.playerConnectedEvent += OnSessionPlayerConnected;
+            ConnectedPlayerManager.playerDisconnectedEvent += OnSessionPlayerDisconnected;
         }
 
         internal static void Close()
         {
             ConnectedMultiplay = false;
-            if (SessionManager != null)
+            if (ConnectedPlayerManager != null)
             {
-                SessionManager.connectedEvent -= OnSessionConnected;
-                SessionManager.disconnectedEvent -= OnSessionDisconnected;
-                SessionManager.playerConnectedEvent -= OnSessionPlayerConnected;
-                SessionManager.playerDisconnectedEvent -= OnSessionPlayerDisconnected;
+                ConnectedPlayerManager.connectedEvent -= OnSessionConnected;
+                ConnectedPlayerManager.disconnectedEvent -= OnSessionDisconnected;
+                ConnectedPlayerManager.playerConnectedEvent -= OnSessionPlayerConnected;
+                ConnectedPlayerManager.playerDisconnectedEvent -= OnSessionPlayerDisconnected;
             }
         }
 
@@ -42,7 +44,7 @@ namespace CameraPlus.Utilities
         {
             ConnectedMultiplay = true;
             connectedPlayers.Clear();
-            connectedPlayers.Add(SessionManager.localPlayer);
+            connectedPlayers.Add(ConnectedPlayerManager.localPlayer);
 #if DEBUG
             Plugin.Log.Info($"ConnectedPlayer---------------");
             for (int i = 0; i < connectedPlayers.Count; i++)
