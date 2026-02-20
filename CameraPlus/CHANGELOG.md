@@ -1,3 +1,9 @@
+# v7.7.0 Changes
+- Adding a Spout2 receiver.  
+- Remove VMCAvatar from the reference (change to reflection).  
+- Adding a VMC Protocol Sender.  
+- Removed unnecessary components from the camera.  
+  
 # v7.6.3 Changes
 - Support game version 1.42.1.  
 - Multiplayer Change Fixes (Temporary).  

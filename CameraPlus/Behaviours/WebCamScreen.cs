@@ -143,6 +143,7 @@ namespace CameraPlus.Behaviours
             webCamCanvas.transform.SetParent(transform);
             webCamCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             webCamCanvas.worldCamera = parentBhaviour._cam;
+            webCamCanvas.gameObject.layer |= 1 << Layer.OnlyInThirdPerson;
 
             webCamCanvas.planeDistance = 1;
             CanvasScaler canvasScaler = webCamCanvas.gameObject.AddComponent<CanvasScaler>();

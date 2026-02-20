@@ -64,10 +64,10 @@
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BeatSaber.Multiplayer.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
-	<Reference Include="GameplayCore">
-		<HintPath>$(GameDirectory)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
-		<Private>False</Private>
-	</Reference>	  
+    <Reference Include="GameplayCore">
+      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Hive.Versioning">
       <HintPath>$(GameDirectory)\Libs\Hive.Versioning.dll</HintPath>
       <Private>False</Private>
@@ -75,6 +75,9 @@
     <Reference Include="HMRendering">
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\HMRendering.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Klak.Spout.Runtime">
+      <HintPath>Library\Klak.Spout.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="LIV">
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\LIV.dll</HintPath>
@@ -164,10 +167,6 @@
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VMCAvatar">
-      <HintPath>$(GameDirectory)\Plugins\VMCAvatar.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="VRUI">
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\VRUI.dll</HintPath>
       <Private>False</Private>
@@ -180,6 +179,7 @@
     <Compile Include="Behaviours\CameraPlusBehaviour.cs" />
     <Compile Include="Behaviours\CameraPreviewQuad.cs" />
     <Compile Include="Behaviours\ScreenCameraBehaviour.cs" />
+    <Compile Include="Behaviours\SpoutReceiverScreen.cs" />
     <Compile Include="Behaviours\WebCamCalibrator.cs" />
     <Compile Include="Behaviours\WebCamScreen.cs" />
     <Compile Include="Camera2Utils\Camera2Config.cs" />
@@ -211,10 +211,15 @@
     <Compile Include="Utilities\PostEffect.cs" />
     <Compile Include="Utilities\ShaderPropertyID.cs" />
     <Compile Include="Utilities\Utilities.cs" />
+    <Compile Include="VMCProtocol\ExternalReciver.cs" />
     <Compile Include="VMCProtocol\ExternalSender.cs" />
     <Compile Include="VMCProtocol\OscClient.cs" />
+    <Compile Include="VMCProtocol\OscDataHandle.cs" />
     <Compile Include="VMCProtocol\OscDataType.cs" />
+    <Compile Include="VMCProtocol\OscMessageDispatcher.cs" />
     <Compile Include="VMCProtocol\OscPacketEncorder.cs" />
+    <Compile Include="VMCProtocol\OscPacketParser.cs" />
+    <Compile Include="VMCProtocol\OscServer.cs" />
     <Compile Include="VMCProtocol\VMCAvatarMarionette.cs" />
   </ItemGroup>
   <ItemGroup>

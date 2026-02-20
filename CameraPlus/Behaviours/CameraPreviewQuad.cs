@@ -65,7 +65,7 @@ namespace CameraPlus.Behaviours
 			_cameraCube.transform.localEulerAngles = Vector3.zero;
 
 			_cameraQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-			DestroyImmediate(_cameraQuad.GetComponent<Collider>());
+			Destroy(_cameraQuad.GetComponent<Collider>());
 			_cameraQuad.GetComponent<MeshRenderer>().material = _previewMaterial;
 
 			if (_cameraPlus.Config.cameraExtensions.previewQuadSeparate)

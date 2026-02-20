@@ -104,6 +104,9 @@ namespace CameraPlus.Configuration
             glitchFrequency = 0.1f,
             glitchScale = 1
         };
+        [JsonProperty("Spout")]
+        private SpoutCameraElements _spout = new SpoutCameraElements();
+        //public string spoutReceiverName = "";
 
         public bool thirdPerson
         {
@@ -203,6 +206,7 @@ namespace CameraPlus.Configuration
         public multiplayerElemetns multiplayer { get => _multiplayer; set { _multiplayer = value; } }
         public vmcProtocolElements vmcProtocol { get => _vmcProtocol; set { _vmcProtocol = value; } }
         public webCameraElements webCamera { get => _webCameraElements; set { _webCameraElements = value; } }
+        public SpoutCameraElements spout { get => _spout; set { _spout = value; } }
         public CameraEffectStruct cameraEffect { get => _cameraEffect; set { _cameraEffect = value; } }
 
         public bool DoFEnable { get => _cameraEffect.enableDOF; set { _cameraEffect.enableDOF = value; } }
@@ -926,8 +930,10 @@ namespace CameraPlus.Configuration
         internal VMCProtocolMode mode = VMCProtocolMode.Disable;
         [JsonProperty("Address")]
         public string address = "127.0.0.1";
-        [JsonProperty("Port")]
+        [JsonProperty("Sender Port")]
         public int port = 39540;
+        [JsonProperty("Receiver Port")]
+        public int receiverPort = 39540;
     }
     [JsonObject(MemberSerialization.OptIn)]
     public class webCameraElements
@@ -957,6 +963,21 @@ namespace CameraPlus.Configuration
                 color[2] = value.b;
             }
         }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class SpoutCameraElements
+    {
+        [JsonProperty("SpoutReceiverName")]
+        public string reciverName = string.Empty;
+        [JsonProperty("AutoConnect")]
+        public bool reciverAutoConnect = false;
+        [JsonProperty("SpoutSenderName")]
+        public string senderName = string.Empty;
+        [JsonProperty("SpoutSenderWidth")]
+        public int senderWidth = 1920;
+        [JsonProperty("SpoutSenderHeight")]
+        public int senderHeight = 1080;
     }
 
     [JsonObject(MemberSerialization.OptIn)]

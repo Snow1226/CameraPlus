@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 3612730896
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: aa3fea4d79275c7f66cfe014c508983f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0df1dec30b5d061d422d3e6493d27647
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: aa3fea4d79275c7f66cfe014c508983f
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Shaders/BeatSaber-BlitCopyWithDepthTransparent.shader
+- Assets/Shaders/ChromaKey_Unlit_Cutout.shader
+- Assets/Shaders/Effect-Glitch.shader
+- Assets/Shaders/Effect-DepthOfFieldGauss.shader
+- Assets/Shaders/Blit.shader
+- Assets/Shaders/Effect-DepthOfFieldDownSample.shader
+- Assets/Shaders/Effect-Outline.shader
+- Assets/Shaders/BeatSaber-BlitCopyWithDepth.shader
+- Assets/Shaders/Unlit-Alpha.shader
+- Assets/Shaders/Effect-Wipe.shader
+Dependencies: []

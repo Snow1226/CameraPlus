@@ -7,6 +7,8 @@ using CameraPlus.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Klak.Spout;
+using System.Linq;
 
 namespace CameraPlus.UI
 {
@@ -40,6 +42,7 @@ namespace CameraPlus.UI
         public enum ExternalLinkState
         {
             VMCProtocol,
+            SpoutReceiver,
             WebCamera
         }
         public enum EffectSettingState
@@ -92,6 +95,10 @@ namespace CameraPlus.UI
         private string[] _webCamList;
         private int _currentWebCamPage = 0;
 
+        private int _selectedSpoutReceiver = 0;
+        private string[] _spoutReceiverList;
+        private int _currentSpoutReceiverPage = 0;
+
         private int _selectedCam2Scene = 0;
         private int _currentCam2ScenePage = 0;
 
@@ -125,6 +132,9 @@ namespace CameraPlus.UI
             _selectedConfig = SelectedListNumber(_configList, Path.GetFileName(_cameraPlus.Config.FilePath));
 
             _webCamList = Plugin.cameraController.WebCameraList();
+
+            _spoutReceiverList = SpoutManager.GetSourceNames().ToList().ToArray();
+            Plugin.Log.Notice($"Spout Receiver List Count {SpoutManager.GetSourceNames().Length}");
         }
         public void DisableMenu()
         {
@@ -733,18 +743,36 @@ namespace CameraPlus.UI
                                     else if (_cameraPlus.Config.vmcProtocol.mode == VMCProtocolMode.Receiver)
                                         _cameraPlus.InitExternalReceiver();
                                 }
-                                MenuUI.Label(0, 5, "Address", 4, 2);
-                                MenuUI.Label(4, 5, "Port", 4, 2);
-                                var senderAddr = MenuUI.TextField(0, 7, _cameraPlus.Config.vmcProtocol.address, 4, 2);
-                                var senderPort = MenuUI.TextField(4, 7, _cameraPlus.Config.vmcProtocol.port.ToString(), 4, 2);
-                                if (Regex.IsMatch(senderAddr, ("^" + ipNum + "\\." + ipNum + "\\." + ipNum + "\\." + ipNum + "$")))
-                                    _cameraPlus.Config.vmcProtocol.address = senderAddr;
-                                if (int.TryParse(senderPort, out int result))
-                                    _cameraPlus.Config.vmcProtocol.port = result;
+                                switch (_cameraPlus.Config.vmcProtocol.mode)
+                                {
+                                    case VMCProtocolMode.Disable:
+                                        break;
+                                    case VMCProtocolMode.Receiver:
+                                        MenuUI.Label(4, 5, "Receiver Port", 4, 2);
+                                        var receiverPort = MenuUI.TextField(4, 7, _cameraPlus.Config.vmcProtocol.receiverPort.ToString(), 4, 2);
+                                        if (int.TryParse(receiverPort, out int recResult))
+                                            _cameraPlus.Config.vmcProtocol.receiverPort = recResult;
+                                        if (MenuUI.Button(8, 7, "Save", 4, 2))
+                                            _cameraPlus.Config.Save();
 
-                                if (MenuUI.Button(8, 7, "Save", 4, 2))
-                                    _cameraPlus.Config.Save();
+                                        break;
+                                    case VMCProtocolMode.Sender:
+                                        MenuUI.Label(0, 5, "Sender Address", 4, 2);
+                                        MenuUI.Label(4, 5, "Sender Port", 4, 2);
+                                        var senderAddr = MenuUI.TextField(0, 7, _cameraPlus.Config.vmcProtocol.address, 4, 2);
+                                        var senderPort = MenuUI.TextField(4, 7, _cameraPlus.Config.vmcProtocol.port.ToString(), 4, 2);
+                                        if (Regex.IsMatch(senderAddr, ("^" + ipNum + "\\." + ipNum + "\\." + ipNum + "\\." + ipNum + "$")))
+                                            _cameraPlus.Config.vmcProtocol.address = senderAddr;
+                                        if (int.TryParse(senderPort, out int result))
+                                            _cameraPlus.Config.vmcProtocol.port = result;
+
+                                        if (MenuUI.Button(8, 7, "Save", 4, 2))
+                                            _cameraPlus.Config.Save();
+                                        break;
+                                }
                                 break;
+
+
                             case ExternalLinkState.WebCamera:
                                 _selectedWebCam = MenuUI.SelectionGrid(0, 3, _selectedWebCam, ref _currentWebCamPage, _webCamList, _cameraPlus.Config.webCamera.name, 8, 10);
 
@@ -810,6 +838,26 @@ namespace CameraPlus.UI
                                     if (MenuUI.DoubleSpinBox(0, 29, ref bri, 0.01f, 0.1f, 0, 1, 2, 6, 2))
                                         _cameraPlus.webCamScreen.ChromakeyBrightness = bri;
                                 }
+                                break;
+                            case ExternalLinkState.SpoutReceiver:
+                                _selectedSpoutReceiver = MenuUI.SelectionGrid(0, 3, _selectedSpoutReceiver, ref _currentSpoutReceiverPage, _spoutReceiverList, _cameraPlus.Config.spout.reciverName, 8, 10);
+
+                                if (MenuUI.ToggleSwitch(8, 3, "Auto\nConnect", _cameraPlus.Config.spout.reciverAutoConnect, 4, 3, 1.5f))
+                                    _cameraPlus.Config.spout.reciverAutoConnect = !_cameraPlus.Config.spout.reciverAutoConnect;
+                                if (!_cameraPlus.spoutReceiverScreen)
+                                {
+                                    if (MenuUI.Button(8, 6, "Connect", 4, 3))
+                                    {
+                                        _cameraPlus.Config.spout.reciverName = _spoutReceiverList[_selectedSpoutReceiver];
+                                        _cameraPlus.CreateSpoutScreen();
+                                    }
+                                }
+                                else
+                                {
+                                    if (MenuUI.Button(8, 6, "Disconnect", 4, 3))
+                                        _cameraPlus.DisableSpoutScreen();
+                                }
+
                                 break;
                         }
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using IPA.Utilities;
+using IPA.Loader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
@@ -15,6 +16,7 @@ using CameraPlus.Behaviours;
 using CameraPlus.Utilities;
 using CameraPlus.VMCProtocol;
 using UnityEngine.UIElements;
+using Klak.Spout;
 
 namespace CameraPlus
 {
@@ -29,7 +31,7 @@ namespace CameraPlus
         public string CurrentProfile = string.Empty;
 
         public bool MultiplayerSessionInit;
-        internal bool existsVMCAvatar = false;
+        internal PluginMetadata _vmcAvatar;
         internal Transform origin;
 
         internal Dictionary<string, Shader> Shaders = new Dictionary<string, Shader>();
@@ -55,12 +57,16 @@ namespace CameraPlus
         protected EnvironmentSpawnRotation _environmentSpawnRotation;
         internal float _beatLineManagerYAngle = 0;
 
+        public List<int> usedPort;
+
+        [SerializeField] public SpoutResources spoutResources = null;
+
         private void Awake()
         {
             if (instance != null)
             {
                 Plugin.Log?.Warn($"Instance of {this.GetType().Name} already exists, destroying.");
-                GameObject.DestroyImmediate(this);
+                GameObject.Destroy(this);
                 return;
             }
             GameObject.DontDestroyOnLoad(this);
@@ -88,10 +94,11 @@ namespace CameraPlus
 
             OnFPFCToggleEvent.AddListener(OnFPFCToglleEvent);
 
-            if (CustomUtils.IsModInstalled("VMCAvatar","0.99.0"))
-                existsVMCAvatar = true;
+            _vmcAvatar = PluginManager.GetPluginFromId("VMCAvatar");
             _webCamTexture = new WebCamTexture();
             webCamDevices = WebCamTexture.devices;
+
+            usedPort = new List<int>();
         }
 
         private void Update()
@@ -147,6 +154,17 @@ namespace CameraPlus
             AssetBundle assetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("CameraPlus.Resources.Shader.customshader"));
             Shaders = assetBundle.LoadAllAssets<Shader>().ToDictionary(x => x.name);
             assetBundle.Unload(false);
+
+#if DEBUG
+            foreach (var shader in Shaders)
+            {
+                if (shader.Value.isSupported)
+                    Plugin.Log?.Notice($"Shader {shader.Key} is  supported on this platform.");
+            }
+#endif
+            spoutResources = SpoutResources.CreateInstance<SpoutResources>();
+            spoutResources.blitShader = Plugin.cameraController.Shaders["Hidden/Klak/Spout/Blit"];
+
         }
 
         private void OnDestroy()

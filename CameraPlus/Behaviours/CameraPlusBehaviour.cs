@@ -1,5 +1,4 @@
-﻿#define WITH_VMCA
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Collections;
@@ -14,6 +13,7 @@ using CameraPlus.HarmonyPatches;
 using CameraPlus.VMCProtocol;
 using CameraPlus.Utilities;
 using CameraPlus.UI;
+using Klak.Spout;
 
 namespace CameraPlus.Behaviours
 {
@@ -95,10 +95,12 @@ namespace CameraPlus.Behaviours
         internal CameraEffectStruct effectElements = new CameraEffectStruct();
         private bool _initializeExternalSender = false;
         internal bool renderScreen = true;
+        internal SpoutReceiverScreen spoutReceiverScreen = null;
+        private ExternalReciver _externalReciver = null;
 
-#if WITH_VMCA
-        private VMCAvatarMarionette marionette = null;
-#endif
+        //private SpoutSender _spout = null;
+
+        private VMCAvatarMarionette _marionette = null;
         public virtual void Init(CameraConfig config)
         {
             Config = config;
@@ -133,7 +135,7 @@ namespace CameraPlus.Behaviours
 
             foreach (var child in _cam.transform.Cast<Transform>())
                 Destroy(child.gameObject);
-            var destroyList = new string[] { "AudioListener", "LIV", "MainCamera", "MeshCollider", "TrackedPoseDriver", "DepthTextureController" };
+            var destroyList = new string[] { "AudioListener", "LIV", "MainCamera", "MeshCollider", "TrackedPoseDriver", "DepthTextureController","SimpleCameraController" };
             foreach (var component in _cam.GetComponents<Behaviour>())
                 if (destroyList.Contains(component.GetType().Name)) Destroy(component);
 
@@ -172,6 +174,8 @@ namespace CameraPlus.Behaviours
             Plugin.cameraController.OnFPFCToggleEvent.AddListener(OnFPFCToglleEvent);
             if (Config.webCamera.autoConnect)
                 CreateWebCamScreen();
+            if (Config.spout.reciverAutoConnect)
+                CreateSpoutScreen();
         }
 
         internal void CreateWebCamScreen()
@@ -202,6 +206,23 @@ namespace CameraPlus.Behaviours
             webCamScreen = null;
         }
 
+        internal void CreateSpoutScreen()
+        {
+            if (!spoutReceiverScreen)
+            {
+                spoutReceiverScreen = new GameObject("SpoutReceiverScreen").AddComponent<SpoutReceiverScreen>();
+                spoutReceiverScreen.transform.SetParent(transform);
+                spoutReceiverScreen.AddSpoutScreen(Config.spout.reciverName, this);
+            }
+        }
+
+        internal void DisableSpoutScreen()
+        {
+            if (!spoutReceiverScreen) return;
+            Destroy(spoutReceiverScreen.gameObject);
+            spoutReceiverScreen = null;
+        }
+
         public void InitExternalSender()
         {
             if (Config.vmcProtocol.mode == VMCProtocolMode.Sender)
@@ -212,20 +233,37 @@ namespace CameraPlus.Behaviours
         }
         public void InitExternalReceiver()
         {
-#if WITH_VMCA
-            if (Config.vmcProtocol.mode == VMCProtocolMode.Receiver && Plugin.cameraController.existsVMCAvatar)
+            if (Config.vmcProtocol.mode == VMCProtocolMode.Receiver)
             {
-                marionette = this.gameObject.AddComponent<VMCProtocol.VMCAvatarMarionette>();
-                ClearMovementScript();
+                if (Plugin.cameraController._vmcAvatar != null)
+                {
+                    _marionette = this.gameObject.AddComponent<VMCProtocol.VMCAvatarMarionette>();
+                    ClearMovementScript();
+                }
+                else
+                {
+                    _externalReciver = this.gameObject.AddComponent<ExternalReciver>();
+                    if (Plugin.cameraController.usedPort.Contains(Config.vmcProtocol.receiverPort))
+                    {
+                        Plugin.Log.Error($"External Receiver : Port {Config.vmcProtocol.receiverPort} uses the same port.");
+                        Destroy(_externalReciver);
+                        return;
+                    }
+                    else
+                    {
+                        _externalReciver.Initialize(Config.vmcProtocol.receiverPort);
+                        ClearMovementScript();
+                    }
+                }
             }
-#endif
         }
         public void DestoryVMCProtocolObject()
         {
-#if WITH_VMCA
-            if (marionette)
-                Destroy(marionette);
-#endif
+            if(_externalReciver != null)
+                Destroy(_externalReciver);
+
+            if (_marionette)
+                Destroy(_marionette);
             Plugin.cameraController.externalSender.RemoveTask(this);
 
             if (!string.IsNullOrWhiteSpace(Config.movementScript.movementScript) || Config.movementScript.songSpecificScript)
@@ -261,10 +299,9 @@ namespace CameraPlus.Behaviours
 
             _camRenderTexture?.Release();
 
-#if WITH_VMCA
-            if (marionette)
-                Destroy(marionette);
-#endif
+            if (_marionette)
+                Destroy(_marionette);
+
             Plugin.cameraController.externalSender.RemoveTask(this);
             _initializeExternalSender = false;
 
@@ -345,6 +382,18 @@ namespace CameraPlus.Behaviours
                         anisoLevel = 1,
                         useDynamicScale = false
                     };
+                    /*
+                    if (_spout == null)
+                    {
+                        _spout = this.gameObject.AddComponent<SpoutSender>();
+                        _spout.SetResources(Plugin.cameraController.spoutResources);
+                        _spout.spoutName = $"{_cam.name}";
+                        _spout.captureMethod = CaptureMethod.Texture;
+
+                    }
+                    _spout.sourceTexture = _camRenderTexture;
+                    */
+
                     _cam.targetTexture = _camRenderTexture;
                     _quad._previewMaterial.SetTexture("_MainTex", _camRenderTexture);
                 }
@@ -424,18 +473,23 @@ namespace CameraPlus.Behaviours
 
                 if (ThirdPerson)
                 {
-#if WITH_VMCA
-                    if (Plugin.cameraController.existsVMCAvatar)
-                        if (Config.vmcProtocol.mode == VMCProtocolMode.Receiver && marionette)
-                            if (marionette.receivedData)
+                    if (Plugin.cameraController._vmcAvatar != null)
+                        if (Config.vmcProtocol.mode == VMCProtocolMode.Receiver && _marionette)
+                            if (_marionette.receivedData)
                             {
-                                transform.position = marionette.position;
-                                transform.rotation = marionette.rotate;
-                                _cam.fieldOfView = marionette.fov > 0 ? marionette.fov : Config.fov;
+                                _cam.transform.localPosition = _marionette.position;
+                                _cam.transform.localRotation = _marionette.rotate;
+                                _cam.fieldOfView = _marionette.fov > 0 ? _marionette.fov : Config.fov;
                                 return;
                             }
-#endif
-
+                    if(_externalReciver != null)
+                        if (Config.vmcProtocol.mode == VMCProtocolMode.Receiver)
+                        {
+                            _cam.transform.localPosition = _externalReciver.position;
+                            _cam.transform.localRotation = _externalReciver.rotation;
+                            _cam.fieldOfView = _externalReciver.fov > 0 ? _externalReciver.fov : Config.fov;
+                            return;
+                        }
                     _cam.transform.localPosition = ThirdPersonPos;
                     _cam.transform.localEulerAngles = ThirdPersonRot;
 

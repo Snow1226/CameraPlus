@@ -7,4 +7,4 @@ EditorBuildSettings:
   m_Scenes: []
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 9b1390c2a2f92494ba7dabf10d15e3c1, type: 2}
-    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: 2b1ef1fcc7b753644ba742d83041a2de, type: 2}
+    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: affdfac6a2ddfb84c84d74d3800762b3, type: 2}

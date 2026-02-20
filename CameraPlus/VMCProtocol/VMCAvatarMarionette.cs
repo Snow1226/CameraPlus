@@ -1,13 +1,9 @@
-﻿#define WITH_VMCA
+﻿using System;
+using System.Reflection;
 using UnityEngine;
-
-#if WITH_VMCA
-using VMCP = global::VMCProtocol;
-#endif
 
 namespace CameraPlus.VMCProtocol
 {
-#if WITH_VMCA
     public class VMCAvatarMarionette : MonoBehaviour
     {
         public Vector3 position;
@@ -16,14 +12,21 @@ namespace CameraPlus.VMCProtocol
         public bool receivedData = false;
         public virtual void OnEnable()
         {
-            if (Plugin.cameraController.existsVMCAvatar)
+            if (Plugin.cameraController._vmcAvatar != null)
             {
                 var vmcProtocol = GameObject.Find("VMCProtocol");
                 if (vmcProtocol != null)
                 {
-                    var marionette = vmcProtocol.GetComponent<VMCP.IMarionette>();
-                    marionette.CameraTransformAndFov += OnCameraPosition;
+                    var marionette = vmcProtocol.GetComponent("Marionette");
+                    EventInfo eventInfo = Plugin.cameraController._vmcAvatar.Assembly.GetType("VMCProtocol.Marionette").GetEvent("CameraTransformAndFov");
+                    MethodInfo methodInfo = typeof(VMCAvatarMarionette).GetMethod("OnCameraPosition", BindingFlags.NonPublic | BindingFlags.Instance);
+                    Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+                    eventInfo.AddEventHandler(marionette, handler);
                 }
+            }
+            else
+            {
+                //To Do : VMCProtocol Receiver
             }
         }
 
@@ -35,5 +38,4 @@ namespace CameraPlus.VMCProtocol
             receivedData = true;
         }
     }
-#endif
 }
