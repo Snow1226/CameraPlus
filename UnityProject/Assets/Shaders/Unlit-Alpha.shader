@@ -72,8 +72,8 @@ SubShader {
     // for bloom removal on the background (walls, sabers, etc.).
     Pass {
         Name "AlphaClear"
-        ZWrite Off
-        ZTest Always
+        ZWrite On
+        ZTest LEqual
         ColorMask A
         Blend Off
 

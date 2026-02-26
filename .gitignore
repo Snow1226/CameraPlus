@@ -331,7 +331,8 @@ ASALocalRun/
 /CameraPlus/packages.config
 
 /UnityProject/Temp
-/UnityProject/Assets/AssetBundles/
+/UnityProject/AssetBundles
+/UnityProject/AssetBundles/StandaloneWindows
 /UnityProject/Library/
 /UnityProject/UserSettings/
 /EffectUnityProject/Temp

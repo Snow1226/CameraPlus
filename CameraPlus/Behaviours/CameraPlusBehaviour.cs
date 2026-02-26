@@ -514,9 +514,17 @@ namespace CameraPlus.Behaviours
                         var direction = turnToTarget.position - _cam.transform.position;
                         var lookRotation = Quaternion.LookRotation(direction);
                         if (turnToHeadHorizontal)
-                            _cam.transform.localEulerAngles = new Vector3(_cam.transform.eulerAngles.x,lookRotation.eulerAngles.y, _cam.transform.eulerAngles.z);
+                        {
+                            _cam.transform.localEulerAngles = new Vector3(_cam.transform.eulerAngles.x, lookRotation.eulerAngles.y, _cam.transform.eulerAngles.z);
+                            ThirdPersonPos = _cam.transform.position;
+                            ThirdPersonRot = _cam.transform.eulerAngles;
+                        }
                         else
+                        {
                             _cam.transform.localRotation = lookRotation;
+                            ThirdPersonPos = _cam.transform.position;
+                            ThirdPersonRot = _cam.transform.eulerAngles;
+                        }
                         //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Config.cameraExtensions.rotationSmooth);
                         turnToTarget.transform.localPosition -= turnToHeadOffset;
                     }
