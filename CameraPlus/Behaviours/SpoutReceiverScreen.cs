@@ -25,7 +25,13 @@ namespace CameraPlus.Behaviours
         private void Update()
         {
             if (spoutCanvas && Camera.main != null)
-                spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position)- 0.5f;
+            {
+                var distance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position);
+                if (distance >= 0.7f)
+                    spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position) - 0.5f;
+                else
+                    spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position) + 0.5f;
+            }
         }
 
         internal void AddSpoutScreen(string spoutName, CameraPlusBehaviour parentBhaviour)
