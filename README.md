@@ -7,6 +7,7 @@ This is the version where I will add the features I want without permission.
 
 # Supported game versions
 BeatSaber 1.42.0 - 1.42.2  
+BeatSaver 1.40.8
 
 # Requirements
 CameraPlus is an external plugin.  
@@ -100,10 +101,6 @@ If you plan on adding any new dependencies which are located in the Beat Saber d
 </Reference>
 ...
 ```
-### VMCAvatar-BS Mod is required to build with full functionality.  
-[VMCAvatar-BS](https://github.com/nagatsuki/VMCAvatar-BS)
-Full builds currently require the Pre-release version.
-[https://github.com/nagatsuki/VMCAvatar-BS/releases/tag/v1.0.0-dev2](https://github.com/nagatsuki/VMCAvatar-BS/releases/tag/v1.0.0-dev2)
   
 ### Modify build-in shader
 To create customshader, you need to open the UnityProject folder from UnityEditor and create an AssetBundle.  
@@ -111,3 +108,6 @@ This shader is Unity built-in shader modified by [Reiya1013](https://github.com/
 
 ### I borrowed the following shaders for Chroma Key.  
 [hecomi/uChromaKey](https://github.com/hecomi/uChromaKey)
+
+### The Spout library references the following:
+[Klak Spout](https://github.com/keijiro/KlakSpout)
