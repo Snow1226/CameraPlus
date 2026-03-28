@@ -25,13 +25,7 @@ namespace CameraPlus.Behaviours
         private void Update()
         {
             if (spoutCanvas && Camera.main != null)
-            {
-                var distance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position);
-                if (distance >= 0.7f)
-                    spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position) - 0.5f;
-                else
-                    spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position) + 0.5f;
-            }
+                spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position);
         }
 
         internal void AddSpoutScreen(string spoutName, CameraPlusBehaviour parentBhaviour)
@@ -44,6 +38,7 @@ namespace CameraPlus.Behaviours
             spoutCanvas.transform.SetParent(this.transform);
             spoutCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             spoutCanvas.worldCamera = parentBhaviour._cam;
+            parentBhaviour._cam.depthTextureMode |= DepthTextureMode.Depth;
 
             spoutCanvas.planeDistance = 1;
 
@@ -57,6 +52,8 @@ namespace CameraPlus.Behaviours
             raw.transform.localPosition = Vector3.zero;
             raw.transform.localEulerAngles = Vector3.zero;
 
+            _rawMaterial.SetFloat("_DepthWriteThreshold", 0.9f);
+            _rawMaterial.SetFloat("_AlphaClearThreshold", 0.9f);
             raw.material = _rawMaterial;
 
             _rect = raw.GetComponent<RectTransform>();

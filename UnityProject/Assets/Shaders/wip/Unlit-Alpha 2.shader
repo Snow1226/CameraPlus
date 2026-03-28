@@ -2,8 +2,8 @@
 Shader "BeatSaber/Unlit/Transparent" {
 Properties {
     _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
-    _DepthWriteThreshold ("Depth Write Threshold", Range(0,1)) = 0.9
-    _AlphaClearThreshold ("Alpha Clear Threshold", Range(0,1)) = 0.9
+    _DepthWriteThreshold ("Depth Write Threshold", Range(0,1)) = 0.5
+    _AlphaClearThreshold ("Alpha Clear Threshold", Range(0,1)) = 0.5
 }
 
 SubShader {
