@@ -44,7 +44,7 @@ namespace CameraPlus.Behaviours
 
             CanvasScaler canvasScaler = spoutCanvas.gameObject.AddComponent<CanvasScaler>();
             canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvasScaler.referenceResolution = new Vector2(Screen.width, Screen.height);
+            canvasScaler.referenceResolution = new Vector2(parentBhaviour.Config.screenWidth, parentBhaviour.Config.screenHeight);
             canvasScaler.matchWidthOrHeight = 1;
 
             RawImage raw = new GameObject("RawImage").AddComponent<RawImage>();

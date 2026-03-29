@@ -1,3 +1,6 @@
+# v7.7.1 Changes
+- Fixed an issue where calculations were incorrect when the vertical height of the CameraPlus window was shorter than the window itself.  
+  
 # v7.7.0 Changes
 - Adding a Spout2 receiver.  
 - Remove VMCAvatar from the reference (change to reflection).  
