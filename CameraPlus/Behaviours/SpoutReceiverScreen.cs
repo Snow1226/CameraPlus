@@ -40,6 +40,8 @@ namespace CameraPlus.Behaviours
             spoutCanvas.worldCamera = parentBhaviour._cam;
             parentBhaviour._cam.depthTextureMode |= DepthTextureMode.Depth;
 
+            spoutCanvas.gameObject.layer = Utilities.Layer.OnlyInThirdPerson;
+
             spoutCanvas.planeDistance = 1;
 
             CanvasScaler canvasScaler = spoutCanvas.gameObject.AddComponent<CanvasScaler>();

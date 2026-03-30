@@ -1,3 +1,6 @@
+# v7.7.2 Changes
+- Move SpoutScreen to Avatar Layer.  
+  
 # v7.7.1 Changes
 - Fixed an issue where calculations were incorrect when the vertical height of the CameraPlus window was shorter than the window itself.  
   
