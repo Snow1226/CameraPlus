@@ -1,3 +1,6 @@
+# v7.7.3 Changes
+- Changed VMCProtocol Sender to reset communication when Save is pressed.
+
 # v7.7.2 Changes
 - Move SpoutScreen to Avatar Layer.  
   

@@ -17,6 +17,7 @@ namespace CameraPlus.UI
         public enum MenuState
         {
             MenuTop,
+            CameraPlusSetting,
             CameraSetting,
             PreviewQuad,
             Layout,
@@ -222,6 +223,9 @@ namespace CameraPlus.UI
                             }
                         }
 
+                        if(MenuUI.Button(0,10,"CameraPlus Setting", 3, 3))
+                            _menuMode = MenuState.CameraPlusSetting;
+
                         if (MenuUI.Button(0, 13, "Camera Setting", 3, 3))
                             _menuMode = MenuState.CameraSetting;
                         if (MenuUI.Button(3, 13, "Preview Camera", 3, 3))
@@ -257,6 +261,17 @@ namespace CameraPlus.UI
                             _cameraPlus.Config.Save();
                         }
                         break;
+                    /////////////////////////////////////////////////////////////////////////////////////
+                    /*
+                    case MenuState.CameraPlusSetting:
+                        MenuUI.SetGrid(12, 36);
+                        if (MenuUI.Button(0, 36, "Back top menu", 12, 2))
+                        {
+                            _menuMode = MenuState.MenuTop;
+                            _cameraPlus.Config.Save();
+                        }
+                        break;
+                    */
                     /////////////////////////////////////////////////////////////////////////////////////
                     case MenuState.CameraSetting:
                         MenuUI.SetGrid(12, 38);
@@ -767,7 +782,11 @@ namespace CameraPlus.UI
                                             _cameraPlus.Config.vmcProtocol.port = result;
 
                                         if (MenuUI.Button(8, 7, "Save", 4, 2))
+                                        {
                                             _cameraPlus.Config.Save();
+                                            _cameraPlus.DestoryVMCProtocolObject();
+                                            _cameraPlus.InitExternalSender();
+                                        }
                                         break;
                                 }
                                 break;
