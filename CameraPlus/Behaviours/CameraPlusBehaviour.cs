@@ -280,6 +280,8 @@ namespace CameraPlus.Behaviours
                     AddMovementScript();
                 if (!Config.cameraExtensions.dontDrawDesktop)
                     Plugin.cameraController.ScreenCamera.RegistrationCamera(this);
+                if (Config.spout.reciverAutoConnect)
+                    CreateSpoutScreen();
             }
         }
 
@@ -288,6 +290,8 @@ namespace CameraPlus.Behaviours
             Plugin.cameraController.externalSender.RemoveTask(this);
             _initializeExternalSender = false;
             Plugin.cameraController.ScreenCamera.UnregistrationCamera(this);
+
+            DisableSpoutScreen();
         }
 
         protected virtual void OnDestroy()
@@ -516,14 +520,10 @@ namespace CameraPlus.Behaviours
                         if (turnToHeadHorizontal)
                         {
                             _cam.transform.localEulerAngles = new Vector3(_cam.transform.eulerAngles.x, lookRotation.eulerAngles.y, _cam.transform.eulerAngles.z);
-                            ThirdPersonPos = _cam.transform.position;
-                            ThirdPersonRot = _cam.transform.eulerAngles;
                         }
                         else
                         {
                             _cam.transform.localRotation = lookRotation;
-                            ThirdPersonPos = _cam.transform.position;
-                            ThirdPersonRot = _cam.transform.eulerAngles;
                         }
                         //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Config.cameraExtensions.rotationSmooth);
                         turnToTarget.transform.localPosition -= turnToHeadOffset;

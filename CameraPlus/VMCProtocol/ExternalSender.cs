@@ -21,12 +21,17 @@ namespace CameraPlus.VMCProtocol
 
         internal void AddSendTask(CameraPlusBehaviour camplus,string address = "127.0.0.1", int port = 39540)
         {
+            if (sendTasks.Find(x => x.parentBehaviour == camplus) != null)
+            {
+                Plugin.Log.Error($"Instance of OscClient for {camplus.name} Already Exists.");
+                return;
+            }
             SendTask sendTask = new SendTask();
             sendTask.parentBehaviour = camplus;
             sendTask.client = new OscClient(address, port);
             if (sendTask.client != null)
             {
-                Plugin.Log.Notice($"Instance of OscClient {address}:{port} Starting.");
+                Plugin.Log.Notice($"Instance of OscClient {camplus.name} : {address}:{port} Starting.");
                 sendTasks.Add(sendTask);
             }
             else
@@ -37,8 +42,11 @@ namespace CameraPlus.VMCProtocol
         {
             foreach(SendTask sendTask in sendTasks)
             {
-                if (sendTask.parentBehaviour.name == camplus.name)
+                if (sendTask.parentBehaviour == camplus)
                 {
+#if DEBUG
+                    Plugin.Log.Notice($"Instance of OscClient {sendTask.parentBehaviour.name} Stopping.");
+#endif
                     sendTasks.Remove(sendTask);
                     break;
                 }
@@ -52,8 +60,8 @@ namespace CameraPlus.VMCProtocol
                 {
                     foreach(SendTask sendTask in sendTasks)
                     {
-                        position = Quaternion.Inverse(RoomAdjustPatch.rotation) * (sendTask.parentBehaviour.ThirdPersonPos - RoomAdjustPatch.position);
-                        rotation = Quaternion.Inverse(RoomAdjustPatch.rotation) * Quaternion.Euler(sendTask.parentBehaviour.ThirdPersonRot);
+                        position = Quaternion.Inverse(RoomAdjustPatch.rotation) * (sendTask.parentBehaviour._cam.transform.localPosition - RoomAdjustPatch.position);
+                        rotation = Quaternion.Inverse(RoomAdjustPatch.rotation) * sendTask.parentBehaviour._cam.transform.rotation;
 
                         sendTask.client.Send("/VMC/Ext/Cam", "Camera", new float[] {
                             position.x, position.y, position.z,

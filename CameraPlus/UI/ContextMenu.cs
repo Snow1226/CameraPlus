@@ -222,10 +222,10 @@ namespace CameraPlus.UI
                                 _configList = CameraUtilities.CameraSettingList(Plugin.cameraController.CurrentProfile);
                             }
                         }
-
+                        /*
                         if(MenuUI.Button(0,10,"CameraPlus Setting", 3, 3))
                             _menuMode = MenuState.CameraPlusSetting;
-
+                        */
                         if (MenuUI.Button(0, 13, "Camera Setting", 3, 3))
                             _menuMode = MenuState.CameraSetting;
                         if (MenuUI.Button(3, 13, "Preview Camera", 3, 3))
@@ -262,7 +262,6 @@ namespace CameraPlus.UI
                         }
                         break;
                     /////////////////////////////////////////////////////////////////////////////////////
-                    /*
                     case MenuState.CameraPlusSetting:
                         MenuUI.SetGrid(12, 36);
                         if (MenuUI.Button(0, 36, "Back top menu", 12, 2))
@@ -271,7 +270,6 @@ namespace CameraPlus.UI
                             _cameraPlus.Config.Save();
                         }
                         break;
-                    */
                     /////////////////////////////////////////////////////////////////////////////////////
                     case MenuState.CameraSetting:
                         MenuUI.SetGrid(12, 38);

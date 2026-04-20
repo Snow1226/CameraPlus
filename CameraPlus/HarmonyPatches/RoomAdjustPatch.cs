@@ -20,8 +20,10 @@ namespace CameraPlus.HarmonyPatches
 		[HarmonyTargetMethods]
 		static IEnumerable<MethodBase> TargetMethods()
 		{
-			yield return AccessTools.Method(typeof(VRCenterAdjust), "Start");
-			yield return AccessTools.Method(typeof(VRCenterAdjust), "SetRoomTransformOffset");
-		}
-	}
+            yield return AccessTools.Method(typeof(VRCenterAdjust), "OnEnable");
+            yield return AccessTools.Method(typeof(VRCenterAdjust), "Start");
+            yield return AccessTools.Method(typeof(VRCenterAdjust), "SetRoomTransformOffset");
+            yield return AccessTools.Method(typeof(VRCenterAdjust), "ResetRoom");
+        }
+    }
 }
