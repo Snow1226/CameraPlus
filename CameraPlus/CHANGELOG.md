@@ -1,3 +1,7 @@
+# v7.7.4 Changes
+- Fixed a bug that occurred when the position was moved in Vivify.
+- Fixed an issue where the UI was still under development.
+  
 # v7.7.3 Changes
 - Changed VMCProtocol Sender to reset communication when Save is pressed.
 
