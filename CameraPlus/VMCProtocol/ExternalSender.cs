@@ -76,7 +76,7 @@ namespace CameraPlus.VMCProtocol
             });
         }
 
-        private void LateUpdate()
+        private void Update()
         {
          　Task.Run(() => SendData());
         }
