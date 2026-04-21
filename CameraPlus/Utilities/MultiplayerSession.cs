@@ -34,7 +34,7 @@ namespace CameraPlus.Utilities
 #else
         internal static void Init(BeatSaberConnectedPlayerManager playerManager)
         {
-            connectedPlayers = new List<IConnectedPlayer>();
+            ConnectedPlayers = new List<IConnectedPlayer>();
             LobbyAvatarPlaceList = new List<Transform>();
             ConnectedMultiplay = false;
             MultiplayManager = playerManager;
