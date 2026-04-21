@@ -835,9 +835,9 @@ namespace CameraPlus.Behaviours
         }
         void OnGUI()
         {
-            if (MultiplayerSession.connectedPlayers != null && Config.multiplayer.displayPlayerInfo)
+            if (MultiplayerSession.ConnectedPlayers != null && Config.multiplayer.displayPlayerInfo)
             {
-                foreach (IConnectedPlayer connectedPlayer in MultiplayerSession.connectedPlayers)
+                foreach (IConnectedPlayer connectedPlayer in MultiplayerSession.ConnectedPlayers)
                 {
                     if (Config.multiplayer.targetPlayerNumber - 1 == connectedPlayer.sortIndex)
                     {

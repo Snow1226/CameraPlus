@@ -81,7 +81,7 @@ namespace CameraPlus.Behaviours
                     MultiplayerConnectedPlayerFacade player = null;
                     bool TryPlayerFacade;
                     if (MultiplayerPlayersManagerPatch.Instance && _cameraPlus.Config.multiplayer.targetPlayerNumber != 0)
-                        foreach (IConnectedPlayer connectedPlayer in MultiplayerSession.connectedPlayers)
+                        foreach (IConnectedPlayer connectedPlayer in MultiplayerSession.ConnectedPlayers)
                             if (_cameraPlus.Config.multiplayer.targetPlayerNumber - 1 == connectedPlayer.sortIndex)
                             {
                                 TryPlayerFacade = MultiplayerPlayersManagerPatch.Instance.TryGetConnectedPlayerController(connectedPlayer.userId, out player);

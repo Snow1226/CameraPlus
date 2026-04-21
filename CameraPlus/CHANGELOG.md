@@ -1,3 +1,6 @@
+# v7.7.5 Changes
+- Switched work environment from Visual Studio to JetBrains Rider.  
+
 # v7.7.4 Changes
 - Fixed a bug that occurred when the position was moved in Vivify.
 - Fixed an issue where the UI was still under development.
@@ -176,7 +179,7 @@
   Also, CameraPlus v6.2.0 is not compatible with game version 1.18.x or earlier.
   Please pay attention to the version you use.
  - Support for the fpfc option has been restored to match the changes in SiraUtil.
-Å@You can still use SiraUtil's fpfcToggle to control CameraPlus.
+ÔøΩ@You can still use SiraUtil's fpfcToggle to control CameraPlus.
 
 # v6.1.2 Changes
 - Fixed a force close when moving the camera window, again.

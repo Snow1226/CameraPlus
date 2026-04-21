@@ -6,7 +6,7 @@ using CameraPlus.HarmonyPatches;
 
 namespace CameraPlus.HarmonyPatches
 {
-    [HarmonyPatch(typeof(LevelSelectionNavigationController), nameof(LevelSelectionNavigationController.HandleLevelCollectionNavigationControllerDidChangeLevelDetailContent))]
+    [HarmonyPatch(typeof(LevelSelectionNavigationController), "HandleLevelCollectionNavigationControllerDidChangeLevelDetailContent")]
     internal static class SongScriptBeatmapPatch
     {
         private static string _customLevelRoot = CustomLevelPathHelper.customLevelsDirectoryPath;
@@ -15,11 +15,11 @@ namespace CameraPlus.HarmonyPatches
         public static string customLevelPath = string.Empty;
         static void Postfix(LevelSelectionNavigationController __instance)
         {
-            if(CustomLevelLoaderPatch.Instance._loadedBeatmapSaveData != null && __instance.beatmapLevel != null)
+            if(CustomLevelLoaderPatch.LoadedData != null && __instance.beatmapLevel != null)
             {
-                if (CustomLevelLoaderPatch.Instance._loadedBeatmapSaveData.ContainsKey(__instance.beatmapLevel.levelID))
+                if (CustomLevelLoaderPatch.LoadedData.ContainsKey(__instance.beatmapLevel.levelID))
                 {
-                    string currentLevelPath = CustomLevelLoaderPatch.Instance._loadedBeatmapSaveData[__instance.beatmapLevel.levelID].customLevelFolderInfo.folderPath;
+                    string currentLevelPath = CustomLevelLoaderPatch.LoadedData[__instance.beatmapLevel.levelID].customLevelFolderInfo.folderPath;
                     if (currentLevelPath != _latestSelectedLevelPath)
                     {
                         _latestSelectedLevelPath = currentLevelPath;

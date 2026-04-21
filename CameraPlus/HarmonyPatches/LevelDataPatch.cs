@@ -6,7 +6,7 @@ using HarmonyLib;
 
 namespace CameraPlus.HarmonyPatches
 {
-    [HarmonyPatch(typeof(LevelSelectionNavigationController), nameof(LevelSelectionNavigationController.HandleLevelCollectionNavigationControllerDidPressActionButton))]
+    [HarmonyPatch(typeof(LevelSelectionNavigationController), "HandleLevelCollectionNavigationControllerDidPressActionButton")]
     internal class LevelDataPatch
 	{
         public static bool is360Level = false;

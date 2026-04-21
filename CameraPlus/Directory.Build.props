@@ -1,8 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- This file contains project properties used by the build. -->
 <Project>
-	<PropertyGroup>
-		<ImportBSMTTargets>True</ImportBSMTTargets>
-		<BSMTProjectType>BSIPA</BSMTProjectType>
-	</PropertyGroup>
+
+  <!-- Plugin Metadata -->
+  <PropertyGroup>
+    <PluginId>CameraPlus</PluginId>
+    <PluginName>CameraPlus</PluginName>
+    <Authors>Various Modders</Authors>
+    <Version>7.7.5</Version>
+    <GameVersion>1.40.0</GameVersion>
+    <Description>CameraPlus is a Beat Saber mod that allows for multiple wide FOV cameras with smoothed movement.</Description>
+    <!--<PluginIcon></PluginIcon>-->
+    <!--<ProjectSource></ProjectSource>-->
+    <!--<ProjectHome></ProjectHome>-->
+    <!--<DonateUrl></DonateUrl>-->
+  </PropertyGroup>
+
+  <!-- Plugin Dependencies -->
+  <ItemGroup>
+    <DependsOn Include="BSIPA" Version="^4.3.0"/>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <BSMTProjectType>BSIPA</BSMTProjectType>
+    <GenerateManifest>true</GenerateManifest>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+    <DisableZipRelease>true</DisableZipRelease>
+  </PropertyGroup>
+  
 </Project>

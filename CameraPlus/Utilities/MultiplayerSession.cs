@@ -8,47 +8,64 @@ namespace CameraPlus.Utilities
 {
     internal static class MultiplayerSession
     {
-        //internal static BeatSaberMultiplayerSessionManager SessionManager { get; private set; }
-        internal static BeatSaberConnectedPlayerManager ConnectedPlayerManager { get; private set; }
+    #if v1_40_8
+        internal static MultiplayerSessionManager MultiplayManager { get; private set; }
+    #else
+        internal static BeatSaberConnectedPlayerManager MultiplayManager { get; private set; }
+    #endif
 
-        internal static List<IConnectedPlayer> connectedPlayers;
+        internal static List<IConnectedPlayer> ConnectedPlayers;
         internal static bool ConnectedMultiplay;
-        internal static MultiplayerPlayersManager playersManager = null;
         internal static List<Transform> LobbyAvatarPlaceList;
+
+#if v1_40_8
+        internal static void Init(MultiplayerSessionManager sessionManager)
+        {
+            ConnectedPlayers = new List<IConnectedPlayer>();
+            LobbyAvatarPlaceList = new List<Transform>();
+            ConnectedMultiplay = false;
+            MultiplayManager = sessionManager;
+
+            MultiplayManager.connectedEvent += OnSessionConnected;
+            MultiplayManager.disconnectedEvent += OnSessionDisconnected;
+            MultiplayManager.playerConnectedEvent += OnSessionPlayerConnected;
+            MultiplayManager.playerDisconnectedEvent += OnSessionPlayerDisconnected;
+        }
+#else
         internal static void Init(BeatSaberConnectedPlayerManager playerManager)
         {
             connectedPlayers = new List<IConnectedPlayer>();
             LobbyAvatarPlaceList = new List<Transform>();
             ConnectedMultiplay = false;
-            ConnectedPlayerManager = playerManager;
+            MultiplayManager = playerManager;
 
-            ConnectedPlayerManager.connectedEvent += OnSessionConnected;
-            ConnectedPlayerManager.disconnectedEvent += OnSessionDisconnected;
-            ConnectedPlayerManager.playerConnectedEvent += OnSessionPlayerConnected;
-            ConnectedPlayerManager.playerDisconnectedEvent += OnSessionPlayerDisconnected;
+            MultiplayManager.connectedEvent += OnSessionConnected;
+            MultiplayManager.disconnectedEvent += OnSessionDisconnected;
+            MultiplayManager.playerConnectedEvent += OnSessionPlayerConnected;
+            MultiplayManager.playerDisconnectedEvent += OnSessionPlayerDisconnected;
         }
-
+#endif
         internal static void Close()
         {
             ConnectedMultiplay = false;
-            if (ConnectedPlayerManager != null)
+            if (MultiplayManager != null)
             {
-                ConnectedPlayerManager.connectedEvent -= OnSessionConnected;
-                ConnectedPlayerManager.disconnectedEvent -= OnSessionDisconnected;
-                ConnectedPlayerManager.playerConnectedEvent -= OnSessionPlayerConnected;
-                ConnectedPlayerManager.playerDisconnectedEvent -= OnSessionPlayerDisconnected;
+                MultiplayManager.connectedEvent -= OnSessionConnected;
+                MultiplayManager.disconnectedEvent -= OnSessionDisconnected;
+                MultiplayManager.playerConnectedEvent -= OnSessionPlayerConnected;
+                MultiplayManager.playerDisconnectedEvent -= OnSessionPlayerDisconnected;
             }
         }
 
         private static void OnSessionConnected()
         {
             ConnectedMultiplay = true;
-            connectedPlayers.Clear();
-            connectedPlayers.Add(ConnectedPlayerManager.localPlayer);
+            ConnectedPlayers.Clear();
+            ConnectedPlayers.Add(MultiplayManager.localPlayer);
 #if DEBUG
             Plugin.Log.Info($"ConnectedPlayer---------------");
-            for (int i = 0; i < connectedPlayers.Count; i++)
-                Plugin.Log.Info($"ConnectedPlayer {connectedPlayers[i].userName},{connectedPlayers[i].sortIndex}");
+            for (int i = 0; i < ConnectedPlayers.Count; i++)
+                Plugin.Log.Info($"ConnectedPlayer {ConnectedPlayers[i].userName},{ConnectedPlayers[i].sortIndex}");
 #endif
             if (PluginConfig.Instance.MultiplayerProfile != "" && PluginConfig.Instance.ProfileSceneChange)
                 CameraUtilities.ProfileChange(PluginConfig.Instance.MultiplayerProfile);
@@ -57,7 +74,7 @@ namespace CameraPlus.Utilities
         private static void OnSessionDisconnected(DisconnectedReason reason)
         {
             ConnectedMultiplay = false;
-            connectedPlayers.Clear();
+            ConnectedPlayers.Clear();
             LobbyAvatarPlaceList.Clear();
             Plugin.Log.Info($"SessionManager Disconnected {reason}");
             if (PluginConfig.Instance.MenuProfile != "" && PluginConfig.Instance.ProfileSceneChange)
@@ -65,22 +82,22 @@ namespace CameraPlus.Utilities
         }
         private static void OnSessionPlayerConnected(IConnectedPlayer player)
         {
-            connectedPlayers.Add(player);
-            connectedPlayers = connectedPlayers.OrderBy(pl => pl.sortIndex)
+            ConnectedPlayers.Add(player);
+            ConnectedPlayers = ConnectedPlayers.OrderBy(pl => pl.sortIndex)
                     .ToList();
 #if DEBUG
             Plugin.Log.Info($"ConnectedPlayer---------------");
-            for (int i = 0; i < connectedPlayers.Count; i++)
-                Plugin.Log.Info($"ConnectedPlayer {connectedPlayers[i].userName},{connectedPlayers[i].sortIndex}");
+            for (int i = 0; i < ConnectedPlayers.Count; i++)
+                Plugin.Log.Info($"ConnectedPlayer {ConnectedPlayers[i].userName},{ConnectedPlayers[i].sortIndex}");
 #endif
         }
         private static void OnSessionPlayerDisconnected(IConnectedPlayer player)
         {
-            foreach (IConnectedPlayer p in connectedPlayers.ToArray())
+            foreach (IConnectedPlayer p in ConnectedPlayers.ToArray())
             {
                 if (p.userId == player.userId)
                 {
-                    connectedPlayers.Remove(p);
+                    ConnectedPlayers.Remove(p);
                     break;
                 }
             }
@@ -91,23 +108,23 @@ namespace CameraPlus.Utilities
         {
             try
             {
-                Transform LobbyOffset;
+                Transform lobbyOffset;
                 LobbyAvatarPlaceList.Clear();
                 if (!MultiplayerLobbyAvatarPlaceManagerPatch.Instance) return;
                 LobbyAvatarPlaceList.Add(MultiplayerLobbyAvatarPlaceManagerPatch.Instance.transform);
                 foreach (MultiplayerLobbyAvatarPlace multiLobbyAvatarPlace in MultiplayerLobbyAvatarPlaceManagerPatch.LobbyAvatarPlaces)
                 {
-                    LobbyOffset = multiLobbyAvatarPlace.transform;
-                    LobbyAvatarPlaceList.Add(LobbyOffset);
+                    lobbyOffset = multiLobbyAvatarPlace.transform;
+                    LobbyAvatarPlaceList.Add(lobbyOffset);
                 }
                 if (LobbyAvatarPlaceList.Count <= 1)
                 {
                     LobbyAvatarPlaceList.Clear();
                     return;
                 }
-                List<Transform> Tr = ShiftLobbyPositionList(LocalPlayerSortIndex());
-                if (Tr != null)
-                    LobbyAvatarPlaceList = Tr;
+                List<Transform> tr = ShiftLobbyPositionList(LocalPlayerSortIndex());
+                if (tr != null)
+                    LobbyAvatarPlaceList = tr;
                 else
                     Plugin.Log.Info($"LobbyAvatarPlace SortError");
                 for (int i = 0; i < LobbyAvatarPlaceList.Count; i++)
@@ -121,7 +138,7 @@ namespace CameraPlus.Utilities
         private static int LocalPlayerSortIndex()
         {
             int result = 0;
-            foreach (IConnectedPlayer player in connectedPlayers)
+            foreach (IConnectedPlayer player in ConnectedPlayers)
             {
                 if (player.isMe)
                 {

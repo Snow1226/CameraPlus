@@ -5,6 +5,19 @@ using CameraPlus.Utilities;
 
 namespace CameraPlus.HarmonyPatches
 {
+#if v1_40_8
+    [HarmonyPatch(typeof(MultiplayerSessionManager), "Start")]
+    internal class MultiplayerSessionManagerPatch
+    {
+        public static MultiplayerSessionManager Instance { get; private set; }
+        static void Postfix(MultiplayerSessionManager __instance)
+        {
+            Instance = __instance;
+            MultiplayerSession.Init(Instance);
+            Plugin.Log.Info($"Success Find SessionManager");
+        }
+    }
+#else
     [HarmonyPatch(typeof(BeatSaberConnectedPlayerManager), nameof(BeatSaberConnectedPlayerManager.SetLocalPlayerAvatar))]
     internal class BeatSaberConnectedPlayerManagerPatch
     {
@@ -14,6 +27,7 @@ namespace CameraPlus.HarmonyPatches
             MultiplayerSession.Init(__instance);
         }
     }
+#endif
 
     [HarmonyPatch(typeof(MultiplayerLobbyAvatarPlaceManager), nameof(MultiplayerLobbyAvatarPlaceManager.Activate))]
     internal class MultiplayerLobbyAvatarPlaceManagerPatch
