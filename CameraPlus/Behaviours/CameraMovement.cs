@@ -234,6 +234,17 @@ namespace CameraPlus.Behaviours
                         if (InputEffect.EndGlitchEffect.glitchFrequency != null) cameraEffects[1].glitchFrequency = System.Convert.ToSingle(InputEffect.EndGlitchEffect.glitchFrequency);
                         if (InputEffect.EndGlitchEffect.glitchScale != null) cameraEffects[1].glitchScale = System.Convert.ToSingle(InputEffect.EndGlitchEffect.glitchScale);
                     }
+
+                    if(InputEffect.enableGlitchEffect != null) cameraEffects[0].enableDot = cameraEffects[1].enableDot = System.Convert.ToBoolean(InputEffect.enableGlitchEffect);
+                    if (InputEffect.StartDotEffect != null)
+                    {
+                        if (InputEffect.StartDotEffect.DotEffectPixcelSize != null) cameraEffects[0].pixelSize = System.Convert.ToInt32(InputEffect.StartDotEffect.DotEffectPixcelSize);
+                    }
+
+                    if (InputEffect.EndDotEffect != null)
+                    {
+                        if (InputEffect.EndDotEffect.DotEffectPixcelSize != null) cameraEffects[1].pixelSize = System.Convert.ToInt32(InputEffect.EndDotEffect.DotEffectPixcelSize);
+                    }
                 }
                 return cameraEffects;
             }

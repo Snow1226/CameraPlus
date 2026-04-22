@@ -83,6 +83,11 @@ namespace CameraPlus.Configuration
         public string glitchScale { get; set; }
     }
 
+    public class DotEffectParamsElements
+    {
+        public string DotEffectPixcelSize { get; set; }
+    }
+
     public class EffectObject
     {
         public string enableDoF { get; set; }
@@ -102,6 +107,9 @@ namespace CameraPlus.Configuration
         public GlitchParmsElements StartGlitchEffect { get; set; }
         public GlitchParmsElements EndGlitchEffect { get; set; }
 
+        public string enableDotEffect { get; set; }
+        public DotEffectParamsElements StartDotEffect { get; set; }
+        public DotEffectParamsElements EndDotEffect { get; set; }
     }
 
     [JsonObject("Movements")]
