@@ -66,5 +66,17 @@ namespace CameraPlus.Utilities
                 cameraPlus.effectElements.wipeType == "Top" ? 3 : 4);
         }
 
+        public static void Dot(CameraPlusBehaviour cameraPlus, RenderTexture renderTexture, Material material)
+        {
+            if (cameraPlus == null) return;
+            if (material == null) material = new Material(Plugin.cameraController.Shaders["Effect/DotEffect"]);
+            if (cameraPlus._cam.depthTextureMode != (DepthTextureMode.Depth))
+                cameraPlus._cam.depthTextureMode = DepthTextureMode.Depth;
+
+            material.SetInt(ShaderPropertyID.PixelSize, cameraPlus.effectElements.pixelSize);
+
+            Graphics.Blit(renderTexture, renderTexture, material);
+        }
+
     }
 }

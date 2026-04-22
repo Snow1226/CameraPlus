@@ -30,5 +30,7 @@ namespace CameraPlus.Utilities
         public static int ChromaKeyColor = Shader.PropertyToID("_ChromaKeyColor");
         public static int ChromaKeyHueRange = Shader.PropertyToID("_ChromaKeyHueRange");
         public static int ChromaKeyBrightnessRange = Shader.PropertyToID("_ChromaKeyBrightnessRange");
+        
+        public static int PixelSize = Shader.PropertyToID("_PixelSize");
     }
 }

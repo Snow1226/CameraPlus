@@ -235,6 +235,10 @@ namespace CameraPlus.Configuration
         public float GlitchFrequency { get => _cameraEffect.glitchFrequency; set { _cameraEffect.glitchFrequency = value; } }
         public float GlitchScale { get => _cameraEffect.glitchScale; set { _cameraEffect.glitchScale = value; } }
         public float[] GlitchValue { get => _cameraEffect.glitchValue; set { _cameraEffect.glitchValue = value; } }
+        
+        public bool DotEnable { get => _cameraEffect.enableDot; set { _cameraEffect.enableDot = value; } }
+        public int DotEffectPixelSize { get => cameraEffect.pixelSize; set { _cameraEffect.pixelSize = value; } }
+
         public bool PreviewCamera
         {
             get => _cameraExtensions.previewCamera;
@@ -1093,5 +1097,8 @@ namespace CameraPlus.Configuration
                 glitchScale = value[5];
             }
         }
+
+        [JsonProperty("DotEnable")] public bool enableDot;
+        [JsonProperty("PixelSize")] public int pixelSize;
     }
 }

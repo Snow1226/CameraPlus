@@ -20,6 +20,7 @@ namespace CameraPlus.Behaviours
         private Material _wipeMaterial = null;
         private Material _outlineMaterial = null;
         private Material _glitchMaterial = null;
+        private Material _dotMateial = null;
 
         private Rect _screenRect;
         public void SetLayer(int layer)
@@ -98,6 +99,7 @@ namespace CameraPlus.Behaviours
                     if (c.effectElements.enableDOF) PostEffect.DepthOfField(c, c._camRenderTexture, _dofMaterial);
                     if (c.effectElements.enableGlitch) PostEffect.Glitch(c, c._camRenderTexture, _glitchMaterial);
                     if (c.effectElements.enableOutline) PostEffect.Outline(c, c._camRenderTexture, _outlineMaterial);
+                    if (c.effectElements.enableDot) PostEffect.Dot(c, c._camRenderTexture, _dotMateial);
                     if (c.effectElements.wipeProgress > 0)
                         PostEffect.Wipe(c, c._camRenderTexture, dest, _wipeMaterial);
                     else

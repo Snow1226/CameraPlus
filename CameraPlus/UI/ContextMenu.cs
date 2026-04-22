@@ -51,7 +51,8 @@ namespace CameraPlus.UI
             DoF,
             Wipe,
             Outline,
-            Glitch
+            Glitch,
+            Dot
         }
 
         private bool _showMenu;
@@ -1045,6 +1046,16 @@ namespace CameraPlus.UI
                                 MenuUI.Label(0, 18, "Scale", 6, 2);
                                 if (MenuUI.SpinBox(0, 20, ref glitchValue[5], 1, 1, 10, 0, 6, 2))
                                     _cameraPlus.Config.GlitchScale = _cameraPlus.effectElements.glitchScale = glitchValue[5];
+                                break;
+                            case EffectSettingState.Dot:
+                                if (MenuUI.ToggleSwitch(0, 3, "Dot effect", _cameraPlus.Config.DotEnable, 6, 2, 1.5f))
+                                    _cameraPlus.Config.DotEnable = _cameraPlus.effectElements.enableDot = !_cameraPlus.Config.DotEnable;
+                                
+                                MenuUI.Box(0, 6, $"Dot PixelSize : {_cameraPlus.effectElements.pixelSize.ToString("F0")}", 12, 4);
+                                float pixel = _cameraPlus.Config.DotEffectPixelSize;
+                                if (MenuUI.DoubleSpinBox(0, 8, ref pixel, 1, 10, 1f, 128, 1, 12, 2))
+                                    _cameraPlus.Config.DotEffectPixelSize = _cameraPlus.effectElements.pixelSize = (int)pixel;
+
                                 break;
                         }
                         if (MenuUI.Button(0, 32, "Back top menu", 12, 2))
