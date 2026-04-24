@@ -1,6 +1,6 @@
 # v7.7.6 Changes
 - Add Dot Effect.
-
+- Changed SpoutCamera's position synchronization method from VMCProtocol to MemoryMappedFile.  
 # v7.7.5 Changes
 - Switched work environment from Visual Studio to JetBrains Rider.  
 

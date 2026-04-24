@@ -2,9 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine.UI;
 using UnityEngine;
 using Klak.Spout;
@@ -13,13 +15,19 @@ namespace CameraPlus.Behaviours
 {
     internal class SpoutReceiverScreen : MonoBehaviour
     {
+        private const int MemoryMappedCapacity = 4096;
+
         //internal RawImage rawImage;
         internal Canvas spoutCanvas = null;
         private RectTransform _rect;
         private Material _rawMaterial = new Material(Plugin.cameraController.Shaders["BeatSaber/Unlit/Transparent"]);
 
+        private CameraPlusBehaviour _parentBhaviour;
         private SpoutReceiver _spoutReceiver;
         private RenderTexture _renderTexture;
+        private MemoryMappedFile _memoryMappedFile;
+        private MemoryMappedViewAccessor _memoryMappedViewAccessor;
+        private string _memoryMappedFileName;
 
         private SpoutResources _spoutResources;
         private void Update()
@@ -28,8 +36,19 @@ namespace CameraPlus.Behaviours
                 spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position);
         }
 
+        private void OnDestroy()
+        {
+            _memoryMappedViewAccessor?.Dispose();
+            _memoryMappedViewAccessor = null;
+
+            _memoryMappedFile?.Dispose();
+            _memoryMappedFile = null;
+        }
+
         internal void AddSpoutScreen(string spoutName, CameraPlusBehaviour parentBhaviour)
         {
+            _parentBhaviour = parentBhaviour;
+            _memoryMappedFileName = $"VMCSpout.Camera.{spoutName}";
 
             _spoutResources = SpoutResources.CreateInstance<SpoutResources>();
             _spoutResources.blitShader = Plugin.cameraController.Shaders["Hidden/Klak/Spout/Blit"];
@@ -87,5 +106,54 @@ namespace CameraPlus.Behaviours
             _rect.localScale = new Vector3(scl, scl, 1);
         }
 
+        public void WriteMemoryMappedData()
+        {
+            if (_parentBhaviour == null || _parentBhaviour._cam == null || !this.gameObject.activeInHierarchy || !this.gameObject.activeSelf)
+                return;
+
+            try
+            {
+                if (_memoryMappedViewAccessor == null)
+                {
+                    _memoryMappedFile = MemoryMappedFile.CreateOrOpen(_memoryMappedFileName, MemoryMappedCapacity, MemoryMappedFileAccess.ReadWrite);
+                    _memoryMappedViewAccessor = _memoryMappedFile.CreateViewAccessor(0, MemoryMappedCapacity, MemoryMappedFileAccess.ReadWrite);
+                }
+
+                Camera camera = _parentBhaviour._cam;
+                SpoutCameraData cameraData = new SpoutCameraData(camera.name, camera.transform.position, camera.transform.rotation, camera.fieldOfView);
+                byte[] payload = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(cameraData));
+
+                if (payload.Length + sizeof(int) > MemoryMappedCapacity)
+                {
+                    Plugin.Log.Error($"Memory mapped payload too large: {payload.Length}");
+                    return;
+                }
+
+                _memoryMappedViewAccessor.Write(0, payload.Length);
+                _memoryMappedViewAccessor.WriteArray(sizeof(int), payload, 0, payload.Length);
+                _memoryMappedViewAccessor.Flush();
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.Error($"WriteMemoryMappedData failed: {ex}");
+            }
+
+        }
+
+    }
+
+    public struct SpoutCameraData
+    {
+        public string Name;
+        public float Fov;
+        public float[] Position;
+        public float[] Rotation;
+        public SpoutCameraData(string name, Vector3 pos, Quaternion rot, float fov)
+        {
+            this.Name = name;
+            this.Position = new float[] { pos.x, pos.y, pos.z };
+            this.Rotation = new float[] { rot.x, rot.y, rot.z, rot.w };
+            this.Fov = fov;
+        }
     }
 }

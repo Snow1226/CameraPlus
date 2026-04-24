@@ -528,6 +528,8 @@ namespace CameraPlus.Behaviours
                         //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Config.cameraExtensions.rotationSmooth);
                         turnToTarget.transform.localPosition -= turnToHeadOffset;
                     }
+                    if(spoutReceiverScreen)
+                        spoutReceiverScreen?.WriteMemoryMappedData();
                     return;
                 }
                 _cam.transform.position = Vector3.Lerp(_cam.transform.position, camera.position + Config.FirstPersonPositionOffset,
@@ -537,12 +539,13 @@ namespace CameraPlus.Behaviours
                     _cam.transform.rotation = Quaternion.Slerp(_cam.transform.rotation, camera.rotation * Quaternion.Euler(Config.FirstPersonRotationOffset),
                         Config.cameraExtensions.rotationSmooth * Time.unscaledDeltaTime);
                 else
-
                 {
                     Quaternion rot = Quaternion.Slerp(_cam.transform.rotation, camera.rotation * Quaternion.Euler(Config.FirstPersonRotationOffset),
                         Config.cameraExtensions.rotationSmooth * Time.unscaledDeltaTime);
                     _cam.transform.rotation = rot * Quaternion.Euler(0, 0, -(rot.eulerAngles.z));
                 }
+                if(spoutReceiverScreen)
+                    spoutReceiverScreen?.WriteMemoryMappedData();
             }
             catch(Exception ex)
             {

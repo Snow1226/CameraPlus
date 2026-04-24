@@ -7,7 +7,7 @@
     <PluginId>CameraPlus</PluginId>
     <PluginName>CameraPlus</PluginName>
     <Authors>Various Modders</Authors>
-    <Version>7.7.5</Version>
+    <Version>7.7.6</Version>
     <GameVersion>1.40.0</GameVersion>
     <Description>CameraPlus is a Beat Saber mod that allows for multiple wide FOV cameras with smoothed movement.</Description>
     <!--<PluginIcon></PluginIcon>-->
