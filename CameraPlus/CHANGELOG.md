@@ -1,3 +1,6 @@
+# v7.7.7 Changes
+- Added an on/off switch for the connected SpoutCamera.
+
 # v7.7.6 Changes
 - Add Dot Effect.
 - Changed SpoutCamera's position synchronization method from VMCProtocol to MemoryMappedFile.  

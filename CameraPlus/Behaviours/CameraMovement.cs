@@ -352,6 +352,8 @@ namespace CameraPlus.Behaviours
             _cameraPlus.turnToHeadOffset = LerpVector3(StartHeadOffset, EndHeadOffset, Ease(movePerc));
             _cameraPlus.FOV=Mathf.Lerp(StartFOV,EndFOV,Ease(movePerc));
 
+            if(_cameraPlus.spoutReceiverScreen)
+                _cameraPlus.spoutReceiverScreen?.WriteMemoryMappedDataMovementScript(LerpVector3(StartPos, EndPos, Ease(movePerc)), Quaternion.Euler(LerpVector3Angle(StartRot, EndRot, Ease(movePerc))), Mathf.Lerp(StartFOV,EndFOV,Ease(movePerc)));
         }
 
         protected Vector2 LeapVector2(Vector2 from, Vector2 to, float percent)

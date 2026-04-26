@@ -528,7 +528,7 @@ namespace CameraPlus.Behaviours
                         //transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Config.cameraExtensions.rotationSmooth);
                         turnToTarget.transform.localPosition -= turnToHeadOffset;
                     }
-                    if(spoutReceiverScreen)
+                    if(spoutReceiverScreen && !_cameraMovement)
                         spoutReceiverScreen?.WriteMemoryMappedData();
                     return;
                 }

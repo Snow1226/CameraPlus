@@ -30,12 +30,27 @@ namespace CameraPlus.Behaviours
         private string _memoryMappedFileName;
 
         private SpoutResources _spoutResources;
+        
+        private bool _spoutCameraEnabled;
+        
         private void Update()
         {
             if (spoutCanvas && Camera.main != null)
                 spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position);
         }
 
+        private void OnEnable()
+        {
+            _spoutCameraEnabled = true;
+            WriteMemoryMappedData();
+        }
+
+        private void OnDisable()
+        {
+            _spoutCameraEnabled = false;
+            WriteMemoryMappedData();
+        }
+        
         private void OnDestroy()
         {
             _memoryMappedViewAccessor?.Dispose();
@@ -59,7 +74,7 @@ namespace CameraPlus.Behaviours
             spoutCanvas.worldCamera = parentBhaviour._cam;
             parentBhaviour._cam.depthTextureMode |= DepthTextureMode.Depth;
 
-            spoutCanvas.gameObject.layer = Utilities.Layer.OnlyInThirdPerson;
+            spoutCanvas.gameObject.layer = Layer.OnlyInThirdPerson;
 
             spoutCanvas.planeDistance = 1;
 
@@ -108,7 +123,7 @@ namespace CameraPlus.Behaviours
 
         public void WriteMemoryMappedData()
         {
-            if (_parentBhaviour == null || _parentBhaviour._cam == null || !this.gameObject.activeInHierarchy || !this.gameObject.activeSelf)
+            if (_parentBhaviour == null)
                 return;
 
             try
@@ -119,8 +134,7 @@ namespace CameraPlus.Behaviours
                     _memoryMappedViewAccessor = _memoryMappedFile.CreateViewAccessor(0, MemoryMappedCapacity, MemoryMappedFileAccess.ReadWrite);
                 }
 
-                Camera camera = _parentBhaviour._cam;
-                SpoutCameraData cameraData = new SpoutCameraData(camera.name, camera.transform.position, camera.transform.rotation, camera.fieldOfView);
+                SpoutCameraData cameraData = new SpoutCameraData(_spoutCameraEnabled, _memoryMappedFileName, _parentBhaviour._cam.transform.position, _parentBhaviour._cam.transform.rotation, _parentBhaviour._cam.fieldOfView);
                 byte[] payload = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(cameraData));
 
                 if (payload.Length + sizeof(int) > MemoryMappedCapacity)
@@ -137,19 +151,53 @@ namespace CameraPlus.Behaviours
             {
                 Plugin.Log.Error($"WriteMemoryMappedData failed: {ex}");
             }
-
         }
+        
+        public void WriteMemoryMappedDataMovementScript(Vector3 pos, Quaternion rot, float fov)
+        {
+            if (_parentBhaviour == null)
+                return;
 
+            try
+            {
+                if (_memoryMappedViewAccessor == null)
+                {
+                    _memoryMappedFile = MemoryMappedFile.CreateOrOpen(_memoryMappedFileName, MemoryMappedCapacity, MemoryMappedFileAccess.ReadWrite);
+                    _memoryMappedViewAccessor = _memoryMappedFile.CreateViewAccessor(0, MemoryMappedCapacity, MemoryMappedFileAccess.ReadWrite);
+                }
+
+                SpoutCameraData cameraData = new SpoutCameraData(_spoutCameraEnabled, _memoryMappedFileName, pos, rot, fov);
+                byte[] payload = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(cameraData));
+
+                if (payload.Length + sizeof(int) > MemoryMappedCapacity)
+                {
+                    Plugin.Log.Error($"Memory mapped payload too large: {payload.Length}");
+                    return;
+                }
+
+                _memoryMappedViewAccessor.Write(0, payload.Length);
+                _memoryMappedViewAccessor.WriteArray(sizeof(int), payload, 0, payload.Length);
+                _memoryMappedViewAccessor.Flush();
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.Error($"WriteMemoryMappedData failed: {ex}");
+            }
+        }
     }
 
     public struct SpoutCameraData
     {
+        public string DataVersion;
+        public bool CameraEnabled;
         public string Name;
         public float Fov;
         public float[] Position;
         public float[] Rotation;
-        public SpoutCameraData(string name, Vector3 pos, Quaternion rot, float fov)
+        public SpoutCameraData(bool cameraEnabled,string name, Vector3 pos, Quaternion rot, float fov)
         {
+            this.DataVersion = "1.0";
+            this.CameraEnabled = cameraEnabled;
             this.Name = name;
             this.Position = new float[] { pos.x, pos.y, pos.z };
             this.Rotation = new float[] { rot.x, rot.y, rot.z, rot.w };
