@@ -278,12 +278,21 @@ namespace CameraPlus.Behaviours
 
         protected void Update()
         {
-            if (!dataLoaded || _paused) return;
+            if (!dataLoaded || _paused)
+            {
+                if(_cameraPlus.spoutReceiverScreen)
+                    _cameraPlus.spoutReceiverScreen?.WriteMemoryMappedData();
+                return;
+            }
 
             if (_cameraPlus.Config.movementScript.useAudioSync)
             {
                 if (AudioTimeSyncControllerPatch.Instance == null)
+                {
+                    if(_cameraPlus.spoutReceiverScreen)
+                        _cameraPlus.spoutReceiverScreen?.WriteMemoryMappedData();
                     return;
+                }
                 while (movementNextStartTime <= AudioTimeSyncControllerPatch.Instance.songTime)
                     UpdatePosAndRot();
 

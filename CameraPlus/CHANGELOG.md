@@ -1,3 +1,6 @@
+# v7.7.6 Changes
+- Fixed an issue where communication with SpoutScreen was not possible when MovementScript was set in the menu.
+
 # v7.7.7 Changes
 - Added an on/off switch for the connected SpoutCamera.
 
