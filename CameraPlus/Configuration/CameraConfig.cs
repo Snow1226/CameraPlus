@@ -866,10 +866,10 @@ namespace CameraPlus.Configuration
         public bool orthographicMode = false;
         [JsonProperty("OrthographicSize")]
         public float orthographicSize = 1.0f;
-        [JsonProperty("NearClip")]
+        [JsonProperty("NearClipPlane")]
         public float nearClip = 0.1f;
-        [JsonProperty("FarClip")]
-        public float farClip = 1000.0f;
+        [JsonProperty("FarClipPlane")]
+        public float farClip = 5000.0f;
 
         [JsonProperty("PositionSmooth")]
         public float positionSmooth = 10.0f;
