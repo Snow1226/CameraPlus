@@ -28,6 +28,22 @@ namespace CameraPlus.Configuration
         public virtual float CameraCubeSize { get; set; } = 1.0f;
         [NonNullable]
         public virtual bool CameraQuadStretch { get; set; } = true;
+        
+        [NonNullable]
+        public virtual float SpoutCameraAlpha { get; set; } = 0.99f;
+        
+        [NonNullable]
+        public virtual bool AvatarSpoutAutoConnect { get; set; } = false;
+        [NonNullable]
+        public virtual string AvatarSpoutName { get; set; } = string.Empty;
+        [NonNullable]
+        public virtual float AvatarSpoutPositionOffsetX { get; set; } = 0.0f;
+        [NonNullable]
+        public virtual float AvatarSpoutPositionOffsetY { get; set; } = 0.0f;
+        [NonNullable]
+        public virtual bool AvatarSpoutInMenu { get; set; } = false;
+        [NonNullable]
+        public virtual bool AvatarSpoutInGame { get; set; } = false;
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
         /// </summary>

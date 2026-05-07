@@ -6,6 +6,7 @@ using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CameraPlus.Configuration;
 using Newtonsoft.Json;
 using UnityEngine.UI;
 using UnityEngine;
@@ -36,7 +37,10 @@ namespace CameraPlus.Behaviours
         private void Update()
         {
             if (spoutCanvas && Camera.main != null)
+            {
+                ChangeMaterialTransparent(PluginConfig.Instance.SpoutCameraAlpha);
                 spoutCanvas.planeDistance = Vector3.Distance(spoutCanvas.worldCamera.transform.position, Camera.main.transform.position);
+            }
         }
 
         private void OnEnable()
@@ -88,8 +92,7 @@ namespace CameraPlus.Behaviours
             raw.transform.localPosition = Vector3.zero;
             raw.transform.localEulerAngles = Vector3.zero;
 
-            _rawMaterial.SetFloat("_DepthWriteThreshold", 0.9f);
-            _rawMaterial.SetFloat("_AlphaClearThreshold", 0.9f);
+            _rawMaterial.SetFloat("_Threshold", 1f);
             raw.material = _rawMaterial;
 
             _rect = raw.GetComponent<RectTransform>();
@@ -113,6 +116,12 @@ namespace CameraPlus.Behaviours
             _spoutReceiver.targetTexture = _renderTexture;
             _spoutReceiver.targetMaterialProperty = "_MainTex";
             raw.texture = _renderTexture;
+        }
+
+        internal void ChangeMaterialTransparent(float alpha)
+        {
+            if (_rawMaterial != null)
+                _rawMaterial.SetFloat("_Threshold", alpha);
         }
 
         internal void ChangeSpoutRectScale(int screenHeight)

@@ -78,10 +78,11 @@ namespace CameraPlus
         }
         private void Start()
         {
+            ShaderLoad();
+
             ScreenCamera = new GameObject("Screen Camera").AddComponent<ScreenCameraBehaviour>();
             ScreenCamera.transform.SetParent(transform);
 
-            ShaderLoad();
             _cameraMovePointer = this.gameObject.AddComponent<CameraMoverPointer>();
 
             CameraUtilities.AddNewCamera(Plugin.MainCamera);

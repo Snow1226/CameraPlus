@@ -20,11 +20,6 @@ SubShader {
         static const float _FloorPriorityY = 0.01;
         fixed _Threshold;
 
-        inline bool UsesTextureAlpha()
-        {
-            return _Threshold < 1;
-        }
-
         inline bool IsZeroPixel(fixed4 col)
         {
             return col.r == 0 && col.g == 0 && col.b == 0 && col.a == 0;
@@ -71,11 +66,7 @@ SubShader {
             {
                 clip(_FloorPriorityY - i.worldY);
                 fixed4 col = tex2D(_MainTex, i.texcoord);
-                if (UsesTextureAlpha())
-                {
-                    clip(col.a - _Threshold);
-                }
-                else if (IsZeroPixel(col))
+                if (IsZeroPixel(col))
                 {
                     clip(-1);
                 }
@@ -98,11 +89,7 @@ SubShader {
             {
                 clip(i.worldY - _FloorPriorityY);
                 fixed4 col = tex2D(_MainTex, i.texcoord);
-                if (UsesTextureAlpha())
-                {
-                    clip(col.a - _Threshold);
-                }
-                else if (IsZeroPixel(col))
+                if (IsZeroPixel(col))
                 {
                     clip(-1);
                 }
@@ -127,11 +114,7 @@ SubShader {
             {
                 clip(_FloorPriorityY - i.worldY);
                 fixed4 col = tex2D(_MainTex, i.texcoord);
-                if (UsesTextureAlpha())
-                {
-                    clip(col.a - _Threshold);
-                }
-                else if (IsZeroPixel(col))
+                if (IsZeroPixel(col))
                 {
                     clip(-1);
                 }
@@ -157,11 +140,7 @@ SubShader {
             {
                 clip(i.worldY - _FloorPriorityY);
                 fixed4 col = tex2D(_MainTex, i.texcoord);
-                if (UsesTextureAlpha())
-                {
-                    clip(col.a - _Threshold);
-                }
-                else if (IsZeroPixel(col))
+                if (IsZeroPixel(col))
                 {
                     clip(-1);
                 }
@@ -187,7 +166,7 @@ SubShader {
             {
                 clip(_FloorPriorityY - i.worldY);
                 fixed4 col = tex2D(_MainTex, i.texcoord);
-                col.a = UsesTextureAlpha() ? col.a : (IsZeroPixel(col) ? 0 : 1);
+                col.a = IsZeroPixel(col) ? 0 : 1;
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
@@ -209,7 +188,7 @@ SubShader {
             {
                 clip(i.worldY - _FloorPriorityY);
                 fixed4 col = tex2D(_MainTex, i.texcoord);
-                col.a = UsesTextureAlpha() ? col.a : (IsZeroPixel(col) ? 0 : 1);
+                col.a = IsZeroPixel(col) ? 0 : 1;
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }

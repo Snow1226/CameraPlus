@@ -28,6 +28,11 @@ namespace CameraPlus.UI
             ExternalLink,
             ChromaKey
         }
+        public enum CameraPlusSettingState
+        {
+            Settings,
+            AvatarSpout,
+        }
         public enum CameraSettingState
         {
             Setting,
@@ -74,6 +79,7 @@ namespace CameraPlus.UI
         }
 
         private MenuState _menuMode = MenuState.MenuTop;
+        private CameraPlusSettingState _cameraPlusSettingState = CameraPlusSettingState.Settings;
         private CameraSettingState _settingState = CameraSettingState.Setting;
         private LayoutState _layoutState = LayoutState.Layout;
         private ExternalLinkState _externalLinkState = ExternalLinkState.VMCProtocol;
@@ -223,10 +229,9 @@ namespace CameraPlus.UI
                                 _configList = CameraUtilities.CameraSettingList(Plugin.cameraController.CurrentProfile);
                             }
                         }
-                        /*
                         if(MenuUI.Button(0,10,"CameraPlus Setting", 3, 3))
                             _menuMode = MenuState.CameraPlusSetting;
-                        */
+
                         if (MenuUI.Button(0, 13, "Camera Setting", 3, 3))
                             _menuMode = MenuState.CameraSetting;
                         if (MenuUI.Button(3, 13, "Preview Camera", 3, 3))
@@ -265,6 +270,52 @@ namespace CameraPlus.UI
                     /////////////////////////////////////////////////////////////////////////////////////
                     case MenuState.CameraPlusSetting:
                         MenuUI.SetGrid(12, 36);
+                        _cameraPlusSettingState = (CameraPlusSettingState)Enum.ToObject(typeof(CameraPlusSettingState), MenuUI.Toolbar(0, 0, (int)_cameraPlusSettingState, Enum.GetNames(typeof(CameraPlusSettingState)), 12, 2));
+                        switch (_cameraPlusSettingState)
+                        {
+                            case CameraPlusSettingState.Settings:
+                                MenuUI.Label(0, 3, "SpoutScreenAlpha", 6, 2);
+                                var a = PluginConfig.Instance.SpoutCameraAlpha;
+                                if (MenuUI.DoubleSpinBox(0, 5, ref a, 0.01f, 0.1f, 0, 1, 2, 6, 2))
+                                    PluginConfig.Instance.SpoutCameraAlpha = a;
+                                
+                                break;
+                            case CameraPlusSettingState.AvatarSpout:
+                                _selectedSpoutReceiver = MenuUI.SelectionGrid(0, 3, _selectedSpoutReceiver, ref _currentSpoutReceiverPage, _spoutReceiverList, PluginConfig.Instance.AvatarSpoutName, 8, 10);
+
+                                if (MenuUI.ToggleSwitch(8, 3, "Auto\nConnect", PluginConfig.Instance.AvatarSpoutAutoConnect, 4, 3, 1.5f))
+                                    PluginConfig.Instance.AvatarSpoutAutoConnect = !PluginConfig.Instance.AvatarSpoutAutoConnect;
+                                if (!Plugin.cameraController.ScreenCamera.ScreenSpoutReceiver)
+                                {
+                                    if (MenuUI.Button(8, 6, "Connect", 4, 3))
+                                    {
+                                        PluginConfig.Instance.AvatarSpoutName = _spoutReceiverList[_selectedSpoutReceiver];
+                                        Plugin.cameraController.ScreenCamera.CreateSpoutScreen(PluginConfig.Instance.AvatarSpoutName);
+                                    }
+                                }
+                                else
+                                {
+                                    if (MenuUI.Button(8, 6, "Disconnect", 4, 3))
+                                        Plugin.cameraController.ScreenCamera.DisposeSpoutScreen();
+                                }
+                                if (MenuUI.ToggleSwitch(0, 14, "SpoutAvatar Display In Menu", PluginConfig.Instance.AvatarSpoutInMenu, 12, 3, 1.5f))
+                                    PluginConfig.Instance.AvatarSpoutInMenu = !PluginConfig.Instance.AvatarSpoutInMenu;
+                                if (MenuUI.ToggleSwitch(0, 17, "SpoutAvatar Display In Game", PluginConfig.Instance.AvatarSpoutInGame, 12, 3, 1.5f))
+                                    PluginConfig.Instance.AvatarSpoutInGame = !PluginConfig.Instance.AvatarSpoutInGame;
+
+                                /*
+                                MenuUI.Label(0, 21, "Position X", 6, 2);
+                                var x = PluginConfig.Instance.AvatarSpoutPositionOffsetX;
+                                if (MenuUI.DoubleSpinBox(0, 15, ref x, 1, 10, -Screen.width, Screen.width, 0, 6, 2))
+                                    PluginConfig.Instance.AvatarSpoutPositionOffsetX =x;
+
+                                MenuUI.Label(6, 21, "Position Y", 6, 2);
+                                var y = PluginConfig.Instance.AvatarSpoutPositionOffsetY;
+                                if (MenuUI.DoubleSpinBox(6, 15, ref y, 1, 10, -Screen.height, Screen.height, 0, 6, 2))
+                                    PluginConfig.Instance.AvatarSpoutPositionOffsetY =y;
+                                */
+                                break;
+                        }
                         if (MenuUI.Button(0, 36, "Back top menu", 12, 2))
                         {
                             _menuMode = MenuState.MenuTop;

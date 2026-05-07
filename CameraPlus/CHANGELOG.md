@@ -1,3 +1,7 @@
+# v7.8.0 Changes
+- Added a SpoutScreen at the very top that displays only the avatar. You can choose whether to display it in the menu and in the game.
+- Change the transparency of the Spout screen.
+   
 # v7.7.8 Changes
 - Fixed an issue where communication with SpoutScreen was not possible when MovementScript was set in the menu.
 
