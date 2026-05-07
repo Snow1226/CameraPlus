@@ -1,6 +1,7 @@
 # v7.8.1 Changes
 - Added position offset to avatar screen.
-- 
+- Change far clip 1000 to 5000  
+
 # v7.8.0 Changes
 - Added a SpoutScreen at the very top that displays only the avatar. You can choose whether to display it in the menu and in the game.
 - Change the transparency of the Spout screen.
