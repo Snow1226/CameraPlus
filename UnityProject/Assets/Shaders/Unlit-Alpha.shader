@@ -3,6 +3,7 @@ Shader "BeatSaber/Unlit/Transparent" {
 Properties {
     _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
     _Threshold ("Threshold", Range(0,1)) = 0.9
+    _Offset ("Offset", Vector) = (0,0,0,0)
 }
 
 SubShader {
@@ -17,6 +18,7 @@ SubShader {
 
         sampler2D _MainTex;
         float4 _MainTex_ST;
+        float4 _Offset;
         static const float _FloorPriorityY = 0.01;
         fixed _Threshold;
 
@@ -28,6 +30,19 @@ SubShader {
         inline bool IsZeroPixel(fixed4 col)
         {
             return col.r == 0 && col.g == 0 && col.b == 0 && col.a == 0;
+        }
+
+        inline float2 GetScrolledUv(float2 uv)
+        {
+            return uv + _Offset.xy;
+        }
+
+        inline void ClipScrolledUv(float2 uv)
+        {
+            clip(uv.x);
+            clip(uv.y);
+            clip(1 - uv.x);
+            clip(1 - uv.y);
         }
 
         struct appdata_t {
@@ -70,7 +85,9 @@ SubShader {
             fixed4 fragDepthFloorPriority (v2f i) : SV_Target
             {
                 clip(_FloorPriorityY - i.worldY);
-                fixed4 col = tex2D(_MainTex, i.texcoord);
+                float2 uv = GetScrolledUv(i.texcoord);
+                ClipScrolledUv(uv);
+                fixed4 col = tex2D(_MainTex, uv);
                 if (UsesTextureAlpha())
                 {
                     clip(col.a - _Threshold);
@@ -97,7 +114,9 @@ SubShader {
             fixed4 fragDepth (v2f i) : SV_Target
             {
                 clip(i.worldY - _FloorPriorityY);
-                fixed4 col = tex2D(_MainTex, i.texcoord);
+                float2 uv = GetScrolledUv(i.texcoord);
+                ClipScrolledUv(uv);
+                fixed4 col = tex2D(_MainTex, uv);
                 if (UsesTextureAlpha())
                 {
                     clip(col.a - _Threshold);
@@ -126,7 +145,9 @@ SubShader {
             fixed4 fragAlphaClearFloorPriority (v2f i) : SV_Target
             {
                 clip(_FloorPriorityY - i.worldY);
-                fixed4 col = tex2D(_MainTex, i.texcoord);
+                float2 uv = GetScrolledUv(i.texcoord);
+                ClipScrolledUv(uv);
+                fixed4 col = tex2D(_MainTex, uv);
                 if (UsesTextureAlpha())
                 {
                     clip(col.a - _Threshold);
@@ -156,7 +177,9 @@ SubShader {
             fixed4 fragAlphaClear (v2f i) : SV_Target
             {
                 clip(i.worldY - _FloorPriorityY);
-                fixed4 col = tex2D(_MainTex, i.texcoord);
+                float2 uv = GetScrolledUv(i.texcoord);
+                ClipScrolledUv(uv);
+                fixed4 col = tex2D(_MainTex, uv);
                 if (UsesTextureAlpha())
                 {
                     clip(col.a - _Threshold);
@@ -186,7 +209,9 @@ SubShader {
             fixed4 fragFloorPriority (v2f i) : SV_Target
             {
                 clip(_FloorPriorityY - i.worldY);
-                fixed4 col = tex2D(_MainTex, i.texcoord);
+                float2 uv = GetScrolledUv(i.texcoord);
+                ClipScrolledUv(uv);
+                fixed4 col = tex2D(_MainTex, uv);
                 col.a = UsesTextureAlpha() ? col.a : (IsZeroPixel(col) ? 0 : 1);
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
@@ -208,7 +233,9 @@ SubShader {
             fixed4 frag (v2f i) : SV_Target
             {
                 clip(i.worldY - _FloorPriorityY);
-                fixed4 col = tex2D(_MainTex, i.texcoord);
+                float2 uv = GetScrolledUv(i.texcoord);
+                ClipScrolledUv(uv);
+                fixed4 col = tex2D(_MainTex, uv);
                 col.a = UsesTextureAlpha() ? col.a : (IsZeroPixel(col) ? 0 : 1);
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

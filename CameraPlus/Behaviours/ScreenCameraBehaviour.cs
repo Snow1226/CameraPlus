@@ -151,8 +151,11 @@ namespace CameraPlus.Behaviours
                     _cam.pixelRect = _screenRect;
 
                     _spoutMaterial.SetFloat("_Threshold", PluginConfig.Instance.SpoutCameraAlpha);
-                    _spoutScreenOffset.x = PluginConfig.Instance.AvatarSpoutPositionOffsetX / Screen.width;
-                    _spoutScreenOffset.y = PluginConfig.Instance.AvatarSpoutPositionOffsetY / Screen.height;
+                    _spoutScreenOffset.x = Mathf.Clamp(-PluginConfig.Instance.AvatarSpoutPositionOffsetX / Screen.width, -1f, 1f);
+                    _spoutScreenOffset.y = Mathf.Clamp(PluginConfig.Instance.AvatarSpoutPositionOffsetY / Screen.height,  -1f, 1f);
+
+                    _spoutMaterial.SetVector("_Offset", _spoutScreenOffset);
+
                     Graphics.Blit(_spoutTexture, dest, _spoutMaterial);
                 }
             }

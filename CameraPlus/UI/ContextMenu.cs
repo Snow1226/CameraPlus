@@ -303,17 +303,15 @@ namespace CameraPlus.UI
                                 if (MenuUI.ToggleSwitch(0, 17, "SpoutAvatar Display In Game", PluginConfig.Instance.AvatarSpoutInGame, 12, 3, 1.5f))
                                     PluginConfig.Instance.AvatarSpoutInGame = !PluginConfig.Instance.AvatarSpoutInGame;
 
-                                /*
-                                MenuUI.Label(0, 21, "Position X", 6, 2);
+                                MenuUI.Label(0, 21, "Avatar Screen Offset X", 6, 2);
                                 var x = PluginConfig.Instance.AvatarSpoutPositionOffsetX;
-                                if (MenuUI.DoubleSpinBox(0, 15, ref x, 1, 10, -Screen.width, Screen.width, 0, 6, 2))
+                                if (MenuUI.DoubleSpinBox(0, 23, ref x, 1, 10, -Screen.width, Screen.width, 0, 6, 2))
                                     PluginConfig.Instance.AvatarSpoutPositionOffsetX =x;
 
-                                MenuUI.Label(6, 21, "Position Y", 6, 2);
+                                MenuUI.Label(6, 21, "Avatar Screen Offset Y", 6, 2);
                                 var y = PluginConfig.Instance.AvatarSpoutPositionOffsetY;
-                                if (MenuUI.DoubleSpinBox(6, 15, ref y, 1, 10, -Screen.height, Screen.height, 0, 6, 2))
+                                if (MenuUI.DoubleSpinBox(6, 23, ref y, 1, 10, -Screen.height, Screen.height, 0, 6, 2))
                                     PluginConfig.Instance.AvatarSpoutPositionOffsetY =y;
-                                */
                                 break;
                         }
                         if (MenuUI.Button(0, 36, "Back top menu", 12, 2))
