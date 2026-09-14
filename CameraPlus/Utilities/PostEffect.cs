@@ -73,7 +73,7 @@ namespace CameraPlus.Utilities
             if (cameraPlus._cam.depthTextureMode != (DepthTextureMode.Depth))
                 cameraPlus._cam.depthTextureMode = DepthTextureMode.Depth;
 
-            material.SetInt(ShaderPropertyID.PixelSize, cameraPlus.effectElements.pixelSize);
+            material.SetFloat(ShaderPropertyID.PixelSize, cameraPlus.effectElements.pixelSize);
 
             Graphics.Blit(renderTexture, renderTexture, material);
         }

@@ -97,6 +97,13 @@
           "GlitchFrameRate": 15.0,
           "GlitchFrequency": 0.1,
           "GlitchScale": 1.0
+        },
+        "enableDotEffect": true,
+        "StartDotEffect": {
+          "DotEffectPixcelSize": 1
+        },
+        "EndDotEffect": {
+          "DotEffectPixcelSize": 32
         }
       },
       "TurnToHead": false,

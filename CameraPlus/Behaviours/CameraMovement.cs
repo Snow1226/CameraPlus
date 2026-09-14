@@ -235,7 +235,7 @@ namespace CameraPlus.Behaviours
                         if (InputEffect.EndGlitchEffect.glitchScale != null) cameraEffects[1].glitchScale = System.Convert.ToSingle(InputEffect.EndGlitchEffect.glitchScale);
                     }
 
-                    if(InputEffect.enableGlitchEffect != null) cameraEffects[0].enableDot = cameraEffects[1].enableDot = System.Convert.ToBoolean(InputEffect.enableGlitchEffect);
+                    if(InputEffect.enableDotEffect != null) cameraEffects[0].enableDot = cameraEffects[1].enableDot = System.Convert.ToBoolean(InputEffect.enableDotEffect);
                     if (InputEffect.StartDotEffect != null)
                     {
                         if (InputEffect.StartDotEffect.DotEffectPixcelSize != null) cameraEffects[0].pixelSize = System.Convert.ToInt32(InputEffect.StartDotEffect.DotEffectPixcelSize);
@@ -334,6 +334,9 @@ namespace CameraPlus.Behaviours
             _cameraPlus.effectElements.glitchFrameRate = Mathf.Lerp(CameraEffect[0].glitchFrameRate, CameraEffect[1].glitchFrameRate, Ease(movePerc));
             _cameraPlus.effectElements.glitchFrequency = Mathf.Lerp(CameraEffect[0].glitchFrequency, CameraEffect[1].glitchFrequency, Ease(movePerc));
             _cameraPlus.effectElements.glitchScale = Mathf.Lerp(CameraEffect[0].glitchScale, CameraEffect[1].glitchScale, Ease(movePerc));
+            
+            _cameraPlus.effectElements.enableDot = CameraEffect[0].enableDot;
+            _cameraPlus.effectElements.pixelSize = Mathf.Lerp(CameraEffect[0].pixelSize, CameraEffect[1].pixelSize, Ease(movePerc));
 
             // Window Control
             if (_cameraPlus._isMainCamera && WindowControl != null)

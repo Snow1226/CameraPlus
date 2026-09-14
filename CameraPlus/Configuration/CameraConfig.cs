@@ -237,7 +237,7 @@ namespace CameraPlus.Configuration
         public float[] GlitchValue { get => _cameraEffect.glitchValue; set { _cameraEffect.glitchValue = value; } }
         
         public bool DotEnable { get => _cameraEffect.enableDot; set { _cameraEffect.enableDot = value; } }
-        public int DotEffectPixelSize { get => cameraEffect.pixelSize; set { _cameraEffect.pixelSize = value; } }
+        public float DotEffectPixelSize { get => cameraEffect.pixelSize; set { _cameraEffect.pixelSize = value; } }
 
         public bool PreviewCamera
         {
@@ -810,7 +810,10 @@ namespace CameraPlus.Configuration
                 enableOutline = cameraEffect.enableOutline,
                 outlineOnly = cameraEffect.outlineOnly,
                 outlineColor = cameraEffect.outlineColor,
-                outlineBGColor = cameraEffect.outlineBGColor
+                outlineBGColor = cameraEffect.outlineBGColor,
+                
+                enableDot = cameraEffect.enableDot,
+                pixelSize =  cameraEffect.pixelSize
             };
             return cameraEffectStruct;
         }
@@ -1099,6 +1102,6 @@ namespace CameraPlus.Configuration
         }
 
         [JsonProperty("DotEnable")] public bool enableDot;
-        [JsonProperty("PixelSize")] public int pixelSize;
+        [JsonProperty("PixelSize")] public float pixelSize;
     }
 }

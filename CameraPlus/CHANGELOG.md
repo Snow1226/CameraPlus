@@ -1,3 +1,6 @@
+# v7.8.2 Changes
+- Fixed an issue where the MovementScript Dot effect was not being applied. (Issue #34)  
+
 # v7.8.1 Changes
 - Added position offset to avatar screen.
 - Change far clip 1000 to 5000  
